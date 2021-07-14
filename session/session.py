@@ -62,8 +62,7 @@ class Session(commands.Cog):
     async def delay(self, ctx, seconds: int):
         """Sets interval of random status switch.
         Must be 20 or superior."""
-        if seconds < 20:
-            seconds = 20
+        seconds = max(seconds, 20)
         await self.config.delay.set(seconds)
         await ctx.send(f"Interval set to {seconds} seconds.")
 
@@ -76,7 +75,7 @@ class Session(commands.Cog):
         2 = Listening
         3 = Watching
         5 = Competing"""
-        if 0 == status_type or status_type == 2 or status_type == 3 or status_type == 5:
+        if status_type in {0, 2, 3, 5}:
             rnd_type = {0: "playing", 2: "listening", 3: "watching", 5: "competing"}
             await self.config.type.set(status_type)
             await self.presence_updater()

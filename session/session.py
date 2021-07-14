@@ -33,7 +33,7 @@ class Session(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.last_change = None
-        self.config = Config.get_conf(self, 2529865439862, force_registration=True)
+        self.config = Config.get_conf(self, 25298865439862, force_registration=True)
         self.commands = {}
         super(Session, self).__init__()
 
@@ -136,8 +136,6 @@ class Session(commands.Cog):
         if botstats:
 
             def find_sum(s):
-                # Regular Expression that matches
-                # digits in between a string
                 return sum(map(int, re.findall('\d+', s)))
 
             message = "\n".join(

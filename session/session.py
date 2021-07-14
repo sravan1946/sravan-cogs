@@ -33,7 +33,7 @@ class Session(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.last_change = None
-        self.config = Config.get_conf(self, 2752521001, force_registration=True)
+        self.config = Config.get_conf(self, 2529865439862, force_registration=True)
         self.commands = {}
         super(Session, self).__init__()
 

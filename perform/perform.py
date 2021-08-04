@@ -31,6 +31,17 @@ async def api_call(call_uri, returnObj=False):
                 return response
     await session.close()
 
+async def api_call2(call_uri, returnObj=False):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f"{call_uri}") as response:
+            response = await response.json()
+            if returnObj == False:
+                return response["response"]
+            elif returnObj == True:
+                return response
+    await session.close()
+
+
 
 class Perform(commands.Cog):
     """Perform different actions, like cuddle, poke etc."""
@@ -39,20 +50,6 @@ class Perform(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=8423644625413)
         default_global = {
-            "highfive": [
-                "https://media1.tenor.com/images/0ae4995e4eb27e427454526c05b2e3dd/tenor.gif?itemid=12376992",
-                "https://media1.tenor.com/images/7b1f06eac73c36721912edcaacddf666/tenor.gif?itemid=10559431",
-                "https://media1.tenor.com/images/c3263b8196afc25ddc1d53a4224347cd/tenor.gif?itemid=9443275",
-                "https://media1.tenor.com/images/56d6725009312574e4798c732cebc5fe/tenor.gif?itemid=12312526",
-                "https://media1.tenor.com/images/e96d2396570a2fadd9c83e284a1ca675/tenor.gif?itemid=5390726",
-                "https://media1.tenor.com/images/106c8e64e864230341b59cc892b5a980/tenor.gif?itemid=5682921",
-                "https://media1.tenor.com/images/b714d7680f8b49d69b07bc2f1e052e72/tenor.gif?itemid=13400356",
-                "https://media1.tenor.com/images/0c23b320822afd5b1ce3faf01c2b9b69/tenor.gif?itemid=14137078",
-                "https://media1.tenor.com/images/e2f299d05a7b1832314ec7a331440d4e/tenor.gif?itemid=5374033",
-                "https://media1.tenor.com/images/16267f3a34efb42598bd822effaccd11/tenor.gif?itemid=14137081",
-                "https://media1.tenor.com/images/9730876547cb3939388cf79b8a641da9/tenor.gif?itemid=8073516",
-                "https://media1.tenor.com/images/ce85a2843f52309b85515f56a0a49d06/tenor.gif?itemid=14137077",
-            ],
             "feed": [
                 "https://media1.tenor.com/images/93c4833dbcfd5be9401afbda220066ee/tenor.gif?itemid=11223742",
                 "https://media1.tenor.com/images/33cfd292d4ef5e2dc533ff73a102c2e6/tenor.gif?itemid=12165913",
@@ -86,32 +83,6 @@ class Perform(commands.Cog):
                 "https://media1.tenor.com/images/6f086e496d3e2650603caa21cc22046d/tenor.gif?itemid=18105116",
                 "https://media1.tenor.com/images/4587f9a7c71519cb86fcdda746c434ed/tenor.gif?itemid=9583397",
                 "https://media1.tenor.com/images/cbb47488c390edbddfe299d18d2909ae/tenor.gif?itemid=12178033"
-            ],
-            "facepalm":[
-                "https://media1.tenor.com/images/bc3f3842afb1edcba095f9bf766405b2/tenor.gif?itemid=17778269",
-                "https://media1.tenor.com/images/76d2ec47ec76fa36b2fce913331ba7e3/tenor.gif?itemid=5533025",
-                "https://media1.tenor.com/images/be96db9b9acfd04fd2f5d890e2c51781/tenor.gif?itemid=14355381",
-                "https://media1.tenor.com/images/5e29a1db9149211728b22bfd01f88771/tenor.gif?itemid=10336271",
-                "https://media1.tenor.com/images/2e69f243490dedfdfc15c4a9aa52364c/tenor.gif?itemid=15580787",
-                "https://media1.tenor.com/images/480cdeb59d3d5d50dd206283a944b8e1/tenor.gif?itemid=16327659",
-                "https://media1.tenor.com/images/1aa0aa009ad5176e9bec54fe0e784323/tenor.gif?itemid=10405345",
-                "https://media1.tenor.com/images/fce5aa9f4825a2adabfc9c91686167bc/tenor.gif?itemid=16842960",
-                "https://media1.tenor.com/images/5b378a7894bc420954616a61eeb7f8c7/tenor.gif?itemid=21256762",
-                "https://media1.tenor.com/images/04ce28c62c8cfeb102b3ac2a9bf28050/tenor.gif?itemid=12411417",
-                "https://media1.tenor.com/images/2b8e5a43989d6fb81776267d1efba103/tenor.gif?itemid=21833649",
-                "https://media1.tenor.com/images/5bbe44f124365864b1537f686d0a77f5/tenor.gif?itemid=20556956"            
-            ],
-            "kill":[
-                "https://media1.tenor.com/images/55507aea306782b916659085fc062909/tenor.gif?itemid=8932977",
-                "https://media1.tenor.com/images/2c945adbbc31699861f411f86ce8058f/tenor.gif?itemid=5459053",
-                "https://media1.tenor.com/images/c3cbe5b795cd40c0b51d02711f6e3978/tenor.gif?itemid=17223062",
-                "https://media1.tenor.com/images/28c19622e8d7362ccc140bb24e4089ec/tenor.gif?itemid=9363668",
-                "https://media1.tenor.com/images/a80b2bf31635899ac0900ea6281a41f6/tenor.gif?itemid=5535365",
-                "https://media1.tenor.com/images/15cd532af605deec12a680f7e6d17181/tenor.gif?itemid=13961185",
-                "https://media1.tenor.com/images/e4db2e0888c2c85a042ea9e54fc4d771/tenor.gif?itemid=16079109",
-                "https://media1.tenor.com/images/2706b52a7bf7b34cfe43d7f49381ee85/tenor.gif?itemid=13617665",
-                "https://media1.tenor.com/images/b73f2fb18d2dcc2ea7fa0ac20830f91f/tenor.gif?itemid=11409825",
-                "https://media1.tenor.com/images/9df97f1c83c532cc29ab8d9ec099acf5/tenor.gif?itemid=10616092"               
             ],
         }
         self.config.register_global(**default_global)
@@ -403,29 +374,6 @@ class Perform(commands.Cog):
                 await ctx.reply(embed=em, mention_author=False)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
-    @commands.command(name="highfive")
-    @commands.bot_has_permissions(embed_links=True)
-    async def highfive(self, ctx, user: discord.Member):
-        """Highfives a user!"""
-
-        author = ctx.message.author
-        images = await self.config.highfive()
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        em = discord.Embed(
-            colour=discord.Colour.random(),
-            description=f"**{ctx.author.mention}** highfives {f'**{str(user.mention)}**' if user else 'themselves'}!",
-        )
-        em.set_footer(
-            text=f"Requested by: {str(ctx.author)}",
-            icon_url=ctx.author.avatar_url,
-        )
-        em.set_image(url=images[i])
-        await ctx.reply(embed=em, mention_author=False)
-
-    @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="feed")
     @commands.bot_has_permissions(embed_links=True)
     async def feed(self, ctx, user: discord.Member):
@@ -467,49 +415,549 @@ class Perform(commands.Cog):
                 em.set_image(url=res["url"])
                 await ctx.reply(embed=em, mention_author=False)
 
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="confuse", aliases=["confused"])
+    @commands.guild_only()
+    async def confuse(self, ctx):
+        """Act confused!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is confused!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/confused/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="amazed", aliases=["amazing"])
+    @commands.guild_only()
+    async def amazed(self, ctx):
+        """Act amazed!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is amazed!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/amazing/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command()
+    @commands.guild_only()
+    async def highfive(self, ctx, user: discord.Member):
+        """Highfive a user!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** highfived {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/highfive/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="plead", aliases=["ask"])
+    @commands.guild_only()
+    async def plead(self, ctx, user: discord.Member):
+        """Asks a user!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is begging {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/ask/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="clap")
+    @commands.guild_only()
+    async def clap(self, ctx):
+        """Clap for someone!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is clapping!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/clap/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="facepalm")
-    @commands.bot_has_permissions(embed_links=True)
-    async def facepalm(self, ctx):
+    @commands.guild_only()
+    async def faceplam(self, ctx):
         """Do a facepalm!"""
-
-        author = ctx.message.author
-        images = await self.config.facepalm()
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-        
-        em = discord.Embed(
-            colour=discord.Colour.random(),
-            description=f"**{ctx.author.mention}** is facepalming!",
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is faceplaming!",
+            color=discord.Colour.random(),
         )
-        em.set_footer(
-            text=f"Requested by: {str(ctx.author)}",
-            icon_url=ctx.author.avatar_url,
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
         )
-        em.set_image(url=images[i])
-        await ctx.reply(embed=em, mention_author=False)
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/facepalm/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
-    @commands.command(name="kill")
-    @commands.bot_has_permissions(embed_links=True)
+    @commands.command(name="headdesk", aliases=["facedesk"])
+    @commands.guild_only()
+    async def faceplam(self, ctx):
+        """Do a facedesk!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is facedesking!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/facedesk/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command()
+    @commands.guild_only()
     async def kill(self, ctx, user: discord.Member):
-        """Kills a user!"""
-
-        author = ctx.message.author
-        images = await self.config.kill()
-
-        mn = len(images)
-        i = randint(0, mn - 1)
-
-        em = discord.Embed(
-            colour=discord.Colour.random(),
-            description=f"**{ctx.author.mention}** kills {f'**{str(user.mention)}**' if user else 'themselves'}!",
+        """Kill a user!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** killed {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            color=discord.Colour.random(),
         )
-        em.set_footer(
-            text=f"Requested by: {str(ctx.author)}",
-            icon_url=ctx.author.avatar_url,
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
         )
-        em.set_image(url=images[i])
-        await ctx.reply(embed=em, mention_author=False)
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/kill/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command()
+    @commands.guild_only()
+    async def love(self, ctx, user: discord.Member):
+        """Love a user!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** loves {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/love/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="hide")
+    @commands.guild_only()
+    async def hide(self, ctx):
+        """Hide yourself!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is hiding!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/hide/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="laugh")
+    @commands.guild_only()
+    async def laugh(self, ctx):
+        """Start laughing!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is laughing!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/laugh/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="peek", aliases=["lurk"])
+    @commands.guild_only()
+    async def lurk(self, ctx):
+        """Start lurking!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is lurking!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/peek/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command()
+    @commands.guild_only()
+    async def bite(self, ctx, user: discord.Member):
+        """Bite a user!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is biting {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/bite/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="dance")
+    @commands.guild_only()
+    async def lurk(self, ctx):
+        """Start dancing!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is dancing!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/dance/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command()
+    @commands.guild_only()
+    async def yeet(self, ctx, user: discord.Member):
+        """Yeet someone!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** yeeted {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/yeet/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="dodge")
+    @commands.guild_only()
+    async def dodge(self, ctx):
+        """Dodge something!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is dodging!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/dodge/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="happy")
+    @commands.guild_only()
+    async def happy(self, ctx):
+        """Act happy!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is happy!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/happy/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="cute")
+    @commands.guild_only()
+    async def cute(self, ctx):
+        """Act cute!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is acting cute!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/cute/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="lonely", aliases=["alone"])
+    @commands.guild_only()
+    async def lonely(self, ctx):
+        """Act lonely!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is lonely!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/lonely/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="mad", aliases=["angry"])
+    @commands.guild_only()
+    async def mad(self, ctx):
+        """Act angry!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is angry!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/mad/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="nosebleed")
+    @commands.guild_only()
+    async def nosebleed(self, ctx):
+        """Start bleeding from nose!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}**'s nose is bleeding!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/nosebleed/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)

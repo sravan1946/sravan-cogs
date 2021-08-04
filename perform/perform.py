@@ -89,7 +89,7 @@ class Perform(commands.Cog):
 
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "3.0.0"
+    __version__ = "4.0.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """Thanks Sinbad!"""

@@ -1065,3 +1065,81 @@ class Perform(commands.Cog):
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="scream")
+    @commands.guild_only()
+    async def scream(self, ctx):
+        """Start screaming!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is screaming!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/scream/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="stare")
+    @commands.guild_only()
+    async def stare(self, ctx):
+        """Stare someone!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is staring!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/stare/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(aliases=["welcome"])
+    @commands.guild_only()
+    async def wave(self, ctx, user: discord.Member):
+        """Wave to someone!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is waving {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/wave/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)

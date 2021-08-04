@@ -961,3 +961,107 @@ class Perform(commands.Cog):
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command()
+    @commands.guild_only()
+    async def protect(self, ctx, user: discord.Member):
+        """Protech someone!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is protecting {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/protect/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="run")
+    @commands.guild_only()
+    async def run(self, ctx):
+        """Start running!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is running!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/run/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="scared")
+    @commands.guild_only()
+    async def scared(self, ctx):
+        """Act scared!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is scared!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/scared/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="shrug")
+    @commands.guild_only()
+    async def shrug(self, ctx):
+        """Start shrugging!"""
+        embed = discord.Embed(
+            description=f"**{ctx.author.mention}** is shrugging!",
+            color=discord.Colour.random(),
+        )
+
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name=self.bot.user.display_name,
+                icon_url=self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/shrug/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)

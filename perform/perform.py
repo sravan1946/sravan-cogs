@@ -65,24 +65,17 @@ class Perform(commands.Cog):
             ],
             "spank":[
                 "https://media1.tenor.com/images/ef5f040254c2fbf91232088b91fe2341/tenor.gif?itemid=13569259",
-                "https://media1.tenor.com/images/d0f32f61c2964999b344c6846b30e1d6/tenor.gif?itemid=13665166",
-                "https://media1.tenor.com/images/b51750728709353206263f0407f0be96/tenor.gif?itemid=16173937",
-                "https://media1.tenor.com/images/1235505dc4abd822a7f540ad00e24a17/tenor.gif?itemid=15788982",
-                "https://media1.tenor.com/images/996159e911ae816c153bfa523e18d7c4/tenor.gif?itemid=17299734",
+                "https://media1.tenor.com/images/fa2472b2cca1e4a407b7772b329eafb4/tenor.gif?itemid=21468457",
                 "https://media1.tenor.com/images/2eb222b142f24be14ea2da5c84a92b08/tenor.gif?itemid=15905904",
-                "https://media1.tenor.com/images/c9b1fa86a103a3bf878ab1741d0bfdfe/tenor.gif?itemid=19349444",
-                "https://media1.tenor.com/images/a7ed1e6575b047ae219c8bdef3cdb799/tenor.gif?itemid=16082139", 
-                "https://media1.tenor.com/images/0d202a5b98b413a88a4611feae8cd855/tenor.gif?itemid=16910479f",
-                "https://media1.tenor.com/images/5250cae3a499250ee32627109c4cec0b/tenor.gif?itemid=19431854",
-                "https://media1.tenor.com/images/02e7e815066e728e721a44eb3e1118d3/tenor.gif?itemid=16055441",
-                "https://media1.tenor.com/images/d7d63622652099676fd345d1ad0589b7/tenor.gif?itemid=18714058",
-                "https://media1.tenor.com/images/051be15e85edb4cf90e639b986ad861d/tenor.gif?itemid=17314327",
-                "https://media1.tenor.com/images/64a98f91d57957204c7e57b374912af0/tenor.gif?itemid=21371415",
-                "https://media1.tenor.com/images/693afd5812160c00a1fa8582de15a83e/tenor.gif?itemid=5458569",
                 "https://media1.tenor.com/images/86b5a47d495c0e8c5c3a085641a91aa4/tenor.gif?itemid=15964704",
-                "https://media1.tenor.com/images/6f086e496d3e2650603caa21cc22046d/tenor.gif?itemid=18105116",
-                "https://media1.tenor.com/images/4587f9a7c71519cb86fcdda746c434ed/tenor.gif?itemid=9583397",
-                "https://media1.tenor.com/images/cbb47488c390edbddfe299d18d2909ae/tenor.gif?itemid=12178033"
+                "https://media1.tenor.com/images/31d58e53313dc9bbd6435d824d2a5933/tenor.gif?itemid=11756736",
+                "https://media1.tenor.com/images/97624764cb41414ad2c60d2028c19394/tenor.gif?itemid=16739345",
+                "https://media1.tenor.com/images/f21c5c56e36ce0dfcdfe7c7993578c46/tenor.gif?itemid=21371415",
+                "https://media1.tenor.com/images/58f5dcc2123fc73e8fb6b76f149441bc/tenor.gif?itemid=12086277",
+                "https://media1.tenor.com/images/eafb13b900645ddf3b30cf9cc28e9f91/tenor.gif?itemid=4603671",
+                "https://media1.tenor.com/images/be2bb9db1c8b8dc2194ec6a1b3d96b89/tenor.gif?itemid=18811244",
+                "https://media.giphy.com/media/OoCuLoM6iEhYk/giphy.gif",
+                "https://media.giphy.com/media/Qo3qovmbqaKT6/giphy.gif"
             ],
         }
         self.config.register_global(**default_global)

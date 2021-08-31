@@ -429,7 +429,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/confused/token={}"
+                "https://kawaii.red/api/gif/confused/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -455,7 +455,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/amazing/token={}"
+                "https://kawaii.red/api/gif/amazing/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -481,7 +481,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/highfive/token={}"
+                "https://kawaii.red/api/gif/highfive/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -507,7 +507,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/ask/token={}"
+                "https://kawaii.red/api/gif/ask/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -533,7 +533,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/clap/token={}"
+                "https://kawaii.red/api/gif/clap/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -559,7 +559,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/facepalm/token={}"
+                "https://kawaii.red/api/gif/facepalm/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -585,7 +585,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/facedesk/token={}"
+                "https://kawaii.red/api/gif/facedesk/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -611,7 +611,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/kill/token={}"
+                "https://kawaii.red/api/gif/kill/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -637,7 +637,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/love/token={}"
+                "https://kawaii.red/api/gif/love/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -664,7 +664,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/hide/token={}"
+                "https://kawaii.red/api/gif/hide/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -690,7 +690,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/laugh/token={}"
+                "https://kawaii.red/api/gif/laugh/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -716,7 +716,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/peek/token={}"
+                "https://kawaii.red/api/gif/peek/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -742,7 +742,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/bite/token={}"
+                "https://kawaii.red/api/gif/bite/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -768,7 +768,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/dance/token={}"
+                "https://kawaii.red/api/gif/dance/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -794,7 +794,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/yeet/token={}"
+                "https://kawaii.red/api/gif/yeet/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -820,7 +820,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/dodge/token={}"
+                "https://kawaii.red/api/gif/dodge/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -846,7 +846,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/happy/token={}"
+                "https://kawaii.red/api/gif/happy/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -872,7 +872,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/cute/token={}"
+                "https://kawaii.red/api/gif/cute/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -898,7 +898,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/lonely/token={}"
+                "https://kawaii.red/api/gif/lonely/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -924,7 +924,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/mad/token={}"
+                "https://kawaii.red/api/gif/mad/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -950,7 +950,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/nosebleed/token={}"
+                "https://kawaii.red/api/gif/nosebleed/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -976,7 +976,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/protect/token={}"
+                "https://kawaii.red/api/gif/protect/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1002,7 +1002,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/run/token={}"
+                "https://kawaii.red/api/gif/run/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1028,7 +1028,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/scared/token={}"
+                "https://kawaii.red/api/gif/scared/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1054,7 +1054,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/shrug/token={}"
+                "https://kawaii.red/api/gif/shrug/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1080,7 +1080,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/scream/token={}"
+                "https://kawaii.red/api/gif/scream/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1106,7 +1106,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/stare/token={}"
+                "https://kawaii.red/api/gif/stare/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1132,7 +1132,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/wave/token={}"
+                "https://kawaii.red/api/gif/wave/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
             )
         )
         await ctx.reply(embed=embed, mention_author=False)

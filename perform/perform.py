@@ -413,6 +413,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def confuse(self, ctx):
         """Act confused!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is confused!",
             color=discord.Colour.random(),
@@ -429,7 +432,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/confused/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/confused/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -439,6 +442,10 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def amazed(self, ctx):
         """Act amazed!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
+
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is amazed!",
             color=discord.Colour.random(),
@@ -455,7 +462,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/amazing/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/amazing/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -465,6 +472,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def highfive(self, ctx, user: discord.Member):
         """Highfive a user!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** highfived {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -481,7 +491,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/highfive/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/highfive/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -491,6 +501,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def plead(self, ctx, user: discord.Member):
         """Asks a user!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is begging {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -507,7 +520,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/ask/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/ask/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -517,6 +530,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def clap(self, ctx):
         """Clap for someone!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is clapping!",
             color=discord.Colour.random(),
@@ -533,7 +549,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/clap/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/clap/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -543,6 +559,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def faceplam(self, ctx):
         """Do a facepalm!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is faceplaming!",
             color=discord.Colour.random(),
@@ -559,7 +578,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/facepalm/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/facepalm/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -569,6 +588,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def faceplam(self, ctx):
         """Do a facedesk!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is facedesking!",
             color=discord.Colour.random(),
@@ -585,7 +607,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/facedesk/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/facedesk/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -595,6 +617,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def kill(self, ctx, user: discord.Member):
         """Kill a user!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** killed {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -611,7 +636,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/kill/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/kill/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -621,6 +646,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def love(self, ctx, user: discord.Member):
         """Love a user!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** loves {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -637,7 +665,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/love/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/love/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -648,6 +676,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def hide(self, ctx):
         """Hide yourself!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is hiding!",
             color=discord.Colour.random(),
@@ -664,7 +695,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/hide/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/hide/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -674,6 +705,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def laugh(self, ctx):
         """Start laughing!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is laughing!",
             color=discord.Colour.random(),
@@ -690,7 +724,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/laugh/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/laugh/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -700,6 +734,10 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def lurk(self, ctx):
         """Start lurking!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
+
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is lurking!",
             color=discord.Colour.random(),
@@ -716,7 +754,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/peek/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/peek/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -726,6 +764,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def bite(self, ctx, user: discord.Member):
         """Bite a user!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is biting {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -742,7 +783,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/bite/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/bite/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -752,6 +793,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def lurk(self, ctx):
         """Start dancing!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is dancing!",
             color=discord.Colour.random(),
@@ -768,7 +812,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/dance/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/dance/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -778,6 +822,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def yeet(self, ctx, user: discord.Member):
         """Yeet someone!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** yeeted {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -794,7 +841,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/yeet/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/yeet/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -804,6 +851,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def dodge(self, ctx):
         """Dodge something!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is dodging!",
             color=discord.Colour.random(),
@@ -820,7 +870,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/dodge/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/dodge/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -830,6 +880,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def happy(self, ctx):
         """Act happy!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is happy!",
             color=discord.Colour.random(),
@@ -846,7 +899,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/happy/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/happy/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -856,6 +909,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def cute(self, ctx):
         """Act cute!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is acting cute!",
             color=discord.Colour.random(),
@@ -872,7 +928,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/cute/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/cute/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -882,6 +938,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def lonely(self, ctx):
         """Act lonely!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is lonely!",
             color=discord.Colour.random(),
@@ -898,7 +957,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/lonely/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/lonely/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -908,6 +967,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def mad(self, ctx):
         """Act angry!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is angry!",
             color=discord.Colour.random(),
@@ -924,7 +986,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/mad/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/mad/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -934,6 +996,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def nosebleed(self, ctx):
         """Start bleeding from nose!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}**'s nose is bleeding!",
             color=discord.Colour.random(),
@@ -950,7 +1015,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/nosebleed/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/nosebleed/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -960,6 +1025,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def protect(self, ctx, user: discord.Member):
         """Protech someone!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is protecting {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -976,7 +1044,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/protect/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/protect/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -986,6 +1054,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def run(self, ctx):
         """Start running!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is running!",
             color=discord.Colour.random(),
@@ -1002,7 +1073,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/run/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/run/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1012,6 +1083,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def scared(self, ctx):
         """Act scared!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is scared!",
             color=discord.Colour.random(),
@@ -1028,7 +1102,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/scared/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/scared/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1038,6 +1112,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def shrug(self, ctx):
         """Start shrugging!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is shrugging!",
             color=discord.Colour.random(),
@@ -1054,7 +1131,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/shrug/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/shrug/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1064,6 +1141,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def scream(self, ctx):
         """Start screaming!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is screaming!",
             color=discord.Colour.random(),
@@ -1080,7 +1160,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/scream/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/scream/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1090,6 +1170,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def stare(self, ctx):
         """Stare someone!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is staring!",
             color=discord.Colour.random(),
@@ -1106,7 +1189,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/stare/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/stare/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)
@@ -1116,6 +1199,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def wave(self, ctx, user: discord.Member):
         """Wave to someone!"""
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is waving {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -1132,7 +1218,7 @@ class Perform(commands.Cog):
 
         embed.set_image(
             url=await api_call2(
-                "https://kawaii.red/api/gif/wave/token=468386640155508737.m2glPraTYnRPNMdEzW8K"
+                "https://kawaii.red/api/gif/wave/token=" + api_key
             )
         )
         await ctx.reply(embed=embed, mention_author=False)

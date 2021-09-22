@@ -474,7 +474,7 @@ class Perform(commands.Cog):
         """Highfive a user!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** highfived {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),

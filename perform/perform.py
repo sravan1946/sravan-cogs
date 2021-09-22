@@ -1227,9 +1227,6 @@ class Perform(commands.Cog):
     @commands.command()
     async def performapi(self, ctx):
         """Steps to get the API token needed for few commands."""
-        embed=discord.Embed(title="How to set API for perform cog")
-        embed.add_field(name="1. Go to https://kawaii.red/", value=" ", inline=False)
-        embed.add_field(name="2. Login using your discord account", value=" ", inline=False)
-        embed.add_field(name="3. Click on dashboard and copy your token", value=" ", inline=False)
-        embed.add_field(name="4. Use `[p]set api perform api_key <token>`", value=" ", inline=False)
+        embed=discord.Embed(title="How to set API for perform cog", description="1. Go to https://kawaii.red/\n2. Login using your discord account\n3. Click on dashboard and copy your token\n4. Use `[p]set api perform api_key <token>`")
+    #    embed.description(")
         await ctx.send(embed=embed)

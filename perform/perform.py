@@ -415,7 +415,7 @@ class Perform(commands.Cog):
         """Act confused!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is confused!",
             color=discord.Colour.random(),
@@ -444,7 +444,7 @@ class Perform(commands.Cog):
         """Act amazed!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API.")
 
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is amazed!",
@@ -503,7 +503,7 @@ class Perform(commands.Cog):
         """Asks a user!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is begging {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -532,7 +532,7 @@ class Perform(commands.Cog):
         """Clap for someone!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is clapping!",
             color=discord.Colour.random(),
@@ -561,7 +561,7 @@ class Perform(commands.Cog):
         """Do a facepalm!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is faceplaming!",
             color=discord.Colour.random(),
@@ -590,7 +590,7 @@ class Perform(commands.Cog):
         """Do a facedesk!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is facedesking!",
             color=discord.Colour.random(),
@@ -619,7 +619,7 @@ class Perform(commands.Cog):
         """Kill a user!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** killed {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -648,7 +648,7 @@ class Perform(commands.Cog):
         """Love a user!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** loves {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -678,7 +678,7 @@ class Perform(commands.Cog):
         """Hide yourself!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is hiding!",
             color=discord.Colour.random(),
@@ -707,7 +707,7 @@ class Perform(commands.Cog):
         """Start laughing!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is laughing!",
             color=discord.Colour.random(),
@@ -736,7 +736,7 @@ class Perform(commands.Cog):
         """Start lurking!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
 
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is lurking!",
@@ -766,7 +766,7 @@ class Perform(commands.Cog):
         """Bite a user!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is biting {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -795,7 +795,7 @@ class Perform(commands.Cog):
         """Start dancing!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is dancing!",
             color=discord.Colour.random(),
@@ -824,7 +824,7 @@ class Perform(commands.Cog):
         """Yeet someone!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** yeeted {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -853,7 +853,7 @@ class Perform(commands.Cog):
         """Dodge something!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is dodging!",
             color=discord.Colour.random(),
@@ -882,7 +882,7 @@ class Perform(commands.Cog):
         """Act happy!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is happy!",
             color=discord.Colour.random(),
@@ -911,7 +911,7 @@ class Perform(commands.Cog):
         """Act cute!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is acting cute!",
             color=discord.Colour.random(),
@@ -940,7 +940,7 @@ class Perform(commands.Cog):
         """Act lonely!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is lonely!",
             color=discord.Colour.random(),
@@ -969,7 +969,7 @@ class Perform(commands.Cog):
         """Act angry!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is angry!",
             color=discord.Colour.random(),
@@ -998,7 +998,7 @@ class Perform(commands.Cog):
         """Start bleeding from nose!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}**'s nose is bleeding!",
             color=discord.Colour.random(),
@@ -1027,7 +1027,7 @@ class Perform(commands.Cog):
         """Protech someone!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is protecting {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
@@ -1056,7 +1056,7 @@ class Perform(commands.Cog):
         """Start running!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is running!",
             color=discord.Colour.random(),
@@ -1085,7 +1085,7 @@ class Perform(commands.Cog):
         """Act scared!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is scared!",
             color=discord.Colour.random(),
@@ -1114,7 +1114,7 @@ class Perform(commands.Cog):
         """Start shrugging!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is shrugging!",
             color=discord.Colour.random(),
@@ -1143,7 +1143,7 @@ class Perform(commands.Cog):
         """Start screaming!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is screaming!",
             color=discord.Colour.random(),
@@ -1172,7 +1172,7 @@ class Perform(commands.Cog):
         """Stare someone!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is staring!",
             color=discord.Colour.random(),
@@ -1201,7 +1201,7 @@ class Perform(commands.Cog):
         """Wave to someone!"""
         api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
         if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use [p]performapi to see how to add the api If you are the bot owner, then use [p]performapi to see how to add the api")
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API.")
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** is waving {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),

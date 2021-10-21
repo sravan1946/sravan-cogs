@@ -15,10 +15,11 @@ limitations under the License.
 """
 
 
+from random import randint
+
 import aiohttp
 import discord
-from redbot.core import commands, Config
-from random import randint
+from redbot.core import Config, commands
 
 
 async def api_call(call_uri, returnObj=False):
@@ -41,11 +42,80 @@ async def api_call2(call_uri, returnObj=False):
                 return response
     await session.close()
 
+async def nekosembed(self, ctx, user, action: str, endpoint: str):
+    embed = discord.Embed(
+        description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
+        color=discord.Colour.random(),
+    )
+    embed.set_footer(
+        text=f"Requested by {ctx.message.author.display_name}",
+        icon_url=ctx.message.author.avatar_url,
+    )
+    embed.set_author(
+            name=self.bot.user.display_name,
+            icon_url=self.bot.user.avatar_url
+        )
+    embed.set_image(
+        url=await api_call(
+            "https://nekos.life/api/v2/img/" + endpoint
+        )
+    )
+    await ctx.reply(embed=embed, mention_author=False)
+
+async def shiroembed(self, ctx, action: str, endpoint: str, user = None):
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get("https://shiro.gg/api/images/" + endpoint) as r:
+            res = await r.json()
+            if user is None:
+                em = discord.Embed(
+                    colour=discord.Colour.random(),
+                    description=f"**{ctx.author.mention}** " + action,
+                )
+            else: 
+                em = discord.Embed(
+                    colour=discord.Colour.random(),
+                    description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
+                )
+            em.set_footer(
+                text=f"Requested by: {str(ctx.author)}",
+                icon_url=ctx.author.avatar_url,
+            )
+            em.set_image(url=res["url"])
+            await ctx.reply(embed=em, mention_author=False)
+
+async def kawaiiembed(self, ctx, action: str, endpoint: str, user = None):
+        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
+        if not api_key:
+            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API.")
+        if user is None:
+            embed = discord.Embed(
+                description=f"**{ctx.author.mention}** {action}",
+                color=discord.Colour.random(),
+            )
+        else:
+            embed = discord.Embed(
+                description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
+                color=discord.Colour.random(),
+            )
+        embed.set_footer(
+            text=f"Requested by {ctx.message.author.display_name}",
+            icon_url=ctx.message.author.avatar_url,
+        )
+        embed.set_author(
+                name = self.bot.user.display_name,
+                icon_url = self.bot.user.avatar_url
+            )
+
+        embed.set_image(
+            url=await api_call2(
+                "https://kawaii.red/api/gif/"+ endpoint + "/token=" + api_key
+            )
+        )
+        await ctx.reply(embed=embed, mention_author=False)
 
 
 class Perform(commands.Cog):
     """Perform different actions, like cuddle, poke etc."""
-
     def __init__(self, bot):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=8423644625413)
@@ -63,7 +133,7 @@ class Perform(commands.Cog):
                 "https://media1.tenor.com/images/fd3616d34ade61e1ac5cd0975c25a917/tenor.gif?itemid=13653906",
                 "https://imgur.com/v7jsPrv",
             ],
-            "spank":[
+            "spank": [
                 "https://media1.tenor.com/images/ef5f040254c2fbf91232088b91fe2341/tenor.gif?itemid=13569259",
                 "https://media1.tenor.com/images/fa2472b2cca1e4a407b7772b329eafb4/tenor.gif?itemid=21468457",
                 "https://media1.tenor.com/images/2eb222b142f24be14ea2da5c84a92b08/tenor.gif?itemid=15905904",
@@ -82,7 +152,7 @@ class Perform(commands.Cog):
 
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "4.0.0"
+    __version__ = "5.0.0" #idk what im doing with version
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """Thanks Sinbad!"""
@@ -94,216 +164,76 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def cuddle(self, ctx, user: discord.Member):
         """Cuddle a user!"""
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** cuddled {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call(
-                "https://nekos.life/api/v2/img/cuddle"
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await nekosembed(self, ctx, user, "cuddled", "cuddle")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="poke")
     @commands.bot_has_permissions(embed_links=True)
     async def poke(self, ctx, user: discord.Member):
         """Poke a user!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/poke") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** poked {f'**{str(user.mention)}**' if user else 'themselves'}!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "poked", "poke", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="kiss")
     @commands.bot_has_permissions(embed_links=True)
     async def kiss(self, ctx, user: discord.Member):
         """Kiss a user!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/kiss") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** just kissed {f'**{str(user.mention)}**' if user else 'themselves'}!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
-
+        await shiroembed(self, ctx, "just kissed", "kiss", user)
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="hug")
     @commands.bot_has_permissions(embed_links=True)
     async def hug(self, ctx, user: discord.Member):
         """Hugs a user!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/hug") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** just hugged {f'**{str(user.mention)}**' if user else 'themselves'}!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "just hugged", "hug", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="pat")
     @commands.bot_has_permissions(embed_links=True)
     async def pat(self, ctx, user: discord.Member):
         """Pats a user!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/pat") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** just patted {f'**{str(user.mention)}**' if user else 'themselves'}!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "just patted", "pat", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="tickle")
     @commands.bot_has_permissions(embed_links=True)
     async def tickle(self, ctx, user: discord.Member):
         """Tickles a user!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/tickle") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** just tickled {f'**{str(user.mention)}**' if user else 'themselves'}!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "just tickled", "tickle", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="smug")
     @commands.bot_has_permissions(embed_links=True)
     async def smug(self, ctx):
         """Be smug towards someone!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/smug") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** is acting so smug!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "is acting so smug!", "smug")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="lick")
     @commands.bot_has_permissions(embed_links=True)
     async def lick(self, ctx, user: discord.Member):
         """Licks a user!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/lick") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** just licked {f'**{str(user.mention)}**' if user else 'themselves'}!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(seld, ctx, "just licked", "lick", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="slap")
     @commands.bot_has_permissions(embed_links=True)
     async def slap(self, ctx, user: discord.Member):
         """Slaps a user!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/slap") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** just slapped {f'**{str(user.mention)}**' if user else 'themselves'}!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "just slapped", "slap", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="cry")
     @commands.bot_has_permissions(embed_links=True)
     async def cry(self, ctx):
         """Start crying!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/cry") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** is crying!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "is crying!", "cry")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="sleep")
     @commands.bot_has_permissions(embed_links=True)
     async def sleep(self, ctx):
         """Act sleepy!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/sleep") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** is sleepy!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "is sleepy!, sleep")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="spank")
@@ -311,7 +241,6 @@ class Perform(commands.Cog):
     async def spank(self, ctx, user: discord.Member):
         """Spanks a user!"""
 
-        author = ctx.message.author
         images = await self.config.spank()
 
         mn = len(images)
@@ -333,38 +262,14 @@ class Perform(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     async def pout(self, ctx):
         """Act pout!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/pout") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** is acting pout!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "is acting pout!", "pout")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="blush")
     @commands.bot_has_permissions(embed_links=True)
     async def blush(self, ctx):
         """Act blush!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/blush") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** is blushing!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "is blushing!", "blush")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="feed")
@@ -372,7 +277,6 @@ class Perform(commands.Cog):
     async def feed(self, ctx, user: discord.Member):
         """Feeds a user!"""
 
-        author = ctx.message.author
         images = await self.config.feed()
 
         mn = len(images)
@@ -394,834 +298,203 @@ class Perform(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     async def punch(self, ctx, user: discord.Member):
         """Punch a user!"""
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://shiro.gg/api/images/punch") as r:
-                res = await r.json()
-                em = discord.Embed(
-                    colour=discord.Colour.random(),
-                    description=f"**{ctx.author.mention}** just punched {f'**{str(user.mention)}**' if user else 'themselves'}!",
-                )
-                em.set_footer(
-                    text=f"Requested by: {str(ctx.author)}",
-                    icon_url=ctx.author.avatar_url,
-                )
-                em.set_image(url=res["url"])
-                await ctx.reply(embed=em, mention_author=False)
+        await shiroembed(self, ctx, "just punched", "punch", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="confuse", aliases=["confused"])
     @commands.guild_only()
     async def confuse(self, ctx):
         """Act confused!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API.")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is confused!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/confused/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is confused!", "confused")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="amazed", aliases=["amazing"])
     @commands.guild_only()
     async def amazed(self, ctx):
         """Act amazed!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API.")
-
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is amazed!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/amazing/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is amazed!", "amazing")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command()
     @commands.guild_only()
     async def highfive(self, ctx, user: discord.Member):
         """Highfive a user!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** highfived {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/highfive/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "highfived", "highfive", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="plead", aliases=["ask"])
     @commands.guild_only()
     async def plead(self, ctx, user: discord.Member):
         """Asks a user!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is begging {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/ask/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is pleading", "ask", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="clap")
     @commands.guild_only()
     async def clap(self, ctx):
         """Clap for someone!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is clapping!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/clap/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is clapping!", "clap")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="facepalm")
     @commands.guild_only()
     async def faceplam(self, ctx):
         """Do a facepalm!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is faceplaming!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/facepalm/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is facepalming!", "facepalm")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="headdesk", aliases=["facedesk"])
     @commands.guild_only()
     async def faceplam(self, ctx):
         """Do a facedesk!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is facedesking!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/facedesk/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is facedesking!", "facedesk")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command()
     @commands.guild_only()
     async def kill(self, ctx, user: discord.Member):
         """Kill a user!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** killed {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/kill/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "killed", "kill", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command()
     @commands.guild_only()
     async def love(self, ctx, user: discord.Member):
         """Love a user!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** loves {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/love/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
-
+        await kawaiiembed(self, ctx, "loves", "love", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="hide")
     @commands.guild_only()
     async def hide(self, ctx):
         """Hide yourself!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is hiding!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/hide/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is hideing!", "hide")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="laugh")
     @commands.guild_only()
     async def laugh(self, ctx):
         """Start laughing!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is laughing!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/laugh/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is laughing!", "laugh")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="peek", aliases=["lurk"])
     @commands.guild_only()
     async def lurk(self, ctx):
         """Start lurking!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is lurking!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/peek/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is lurking!", "peek")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command()
     @commands.guild_only()
     async def bite(self, ctx, user: discord.Member):
         """Bite a user!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is biting {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/bite/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is biting", "bite", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="dance")
     @commands.guild_only()
-    async def lurk(self, ctx):
+    async def dance(self, ctx):
         """Start dancing!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is dancing!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/dance/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is dancing", "dance")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command()
     @commands.guild_only()
     async def yeet(self, ctx, user: discord.Member):
         """Yeet someone!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** yeeted {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/yeet/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "yeeted", "yeet", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="dodge")
     @commands.guild_only()
     async def dodge(self, ctx):
         """Dodge something!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is dodging!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/dodge/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is dodging!", "dodge")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="happy")
     @commands.guild_only()
     async def happy(self, ctx):
         """Act happy!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is happy!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/happy/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is happy!", "happy")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="cute")
     @commands.guild_only()
     async def cute(self, ctx):
         """Act cute!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is acting cute!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/cute/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is acting cute!", "facepalm")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="lonely", aliases=["alone"])
     @commands.guild_only()
     async def lonely(self, ctx):
         """Act lonely!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is lonely!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/lonely/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is lonely!", "lonely")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="mad", aliases=["angry"])
     @commands.guild_only()
     async def mad(self, ctx):
         """Act angry!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is angry!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/mad/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is angry!", "mad")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="nosebleed")
     @commands.guild_only()
     async def nosebleed(self, ctx):
         """Start bleeding from nose!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}**'s nose is bleeding!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/nosebleed/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "'s nose is bleeding!", "nosebleed")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command()
     @commands.guild_only()
     async def protect(self, ctx, user: discord.Member):
         """Protech someone!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is protecting {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/protect/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is protecting!", "protect", user)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="run")
     @commands.guild_only()
     async def run(self, ctx):
         """Start running!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is running!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/run/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is running!", "run")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="scared")
     @commands.guild_only()
     async def scared(self, ctx):
         """Act scared!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is scared!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/scared/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is scared!", "scared")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="shrug")
     @commands.guild_only()
     async def shrug(self, ctx):
         """Start shrugging!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is shrugging!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/shrug/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is shrugging!", "shrug")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="scream")
     @commands.guild_only()
     async def scream(self, ctx):
         """Start screaming!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is screaming!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/scream/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is screaming!", "scream")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="stare")
     @commands.guild_only()
     async def stare(self, ctx):
         """Stare someone!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is staring!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/stare/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is stareing!", "stare")
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(aliases=["welcome"])
     @commands.guild_only()
     async def wave(self, ctx, user: discord.Member):
         """Wave to someone!"""
-        api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
-        if not api_key:
-            return await ctx.send("Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API.")
-        embed = discord.Embed(
-            description=f"**{ctx.author.mention}** is waving {f'**{str(user.mention)}**' if user else 'themselves'}!",
-            color=discord.Colour.random(),
-        )
-
-        embed.set_footer(
-            text=f"Requested by {ctx.message.author.display_name}",
-            icon_url=ctx.message.author.avatar_url,
-        )
-        embed.set_author(
-                name=self.bot.user.display_name,
-                icon_url=self.bot.user.avatar_url
-            )
-
-        embed.set_image(
-            url=await api_call2(
-                "https://kawaii.red/api/gif/wave/token=" + api_key
-            )
-        )
-        await ctx.reply(embed=embed, mention_author=False)
+        await kawaiiembed(self, ctx, "is waving", "wave", user)
 
     @commands.is_owner()
     @commands.command()

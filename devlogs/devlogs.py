@@ -42,7 +42,7 @@ class DevLogs(commands.Cog):
         if content.startswith("```"):
             content = content.replace("```", "")
         else:
-            content = "```\n" + content + "\n```"
+            content = "```py\n" + content + "\n```"
         embed = discord.Embed(
             title=f"{ctx.command.name.upper()} Logs",
             description=content,

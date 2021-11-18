@@ -5,6 +5,7 @@ from discord.embeds import Embed
 from redbot.core import commands, bot
 from redbot.core.bot import Red
 from redbot.core.config import Config
+from redbot.core.utils.chat_formatting import box
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
@@ -41,11 +42,9 @@ class DevLogs(commands.Cog):
         content = ctx.message.content.replace("```", "")
         if content.startswith("```"):
             content = content.replace("```", "")
-        else:
-            content = "```py\n" + content + "\n```"
         embed = discord.Embed(
             title=f"{ctx.command.name.upper()} Logs",
-            description=content,
+            description=box(content, lang="py"),
             color=await self.bot.get_embed_color(self.bot.user.colour),
         )
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)

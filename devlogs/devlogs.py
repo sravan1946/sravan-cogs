@@ -32,13 +32,12 @@ class DevLogs(commands.Cog):
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
-    async def log_eval(self, ctx) -> None:
+    async def send_log(self, ctx) -> None:
         """sends a embed in the channel and also returns DM if the command was ran in Dms"""
         partialchannel = await self.config.default_channel()
         if partialchannel is None:
             return
         embed = discord.Embed(
-            # eval or debug in title based on what command was ran
             title=f"{ctx.command.name.upper()} Logs",
             description=f"```py\n{ctx.message.content}```",
             color=await self.bot.get_embed_color(self.bot.user.colour),
@@ -113,5 +112,5 @@ class DevLogs(commands.Cog):
         async with self.config.bypass() as bypass:
             if ctx.author.id in bypass:
                 return
-        if ctx.command.name == "eval":
-            await self.log_eval(ctx)
+        if ctx.command.name in ["eval", "debug"]:
+            await self.send_log(ctx)

@@ -38,11 +38,11 @@ class DevLogs(commands.Cog):
         if partialchannel is None:
             return
         #remove the codeblock in the message if it exists or add a codeblock if it doesn't
-        content = ctx.message.content
-        if content.startswith("```") and content.endswith("```"):
-            content = content[3:-3]
+        content = ctx.message.content.replace("```", "")
+        if content.startswith("```"):
+            content = content.replace("```", "")
         else:
-            content = "```" + content + "```"
+            content = "```\n" + content + "\n```"
         embed = discord.Embed(
             title=f"{ctx.command.name.upper()} Logs",
             description=content,

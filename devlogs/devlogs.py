@@ -37,9 +37,15 @@ class DevLogs(commands.Cog):
         partialchannel = await self.config.default_channel()
         if partialchannel is None:
             return
+        #remove the codeblock in the message if it exists or add a codeblock if it doesn't
+        content = ctx.message.content
+        if content.startswith("```") and content.endswith("```"):
+            content = content[3:-3]
+        else:
+            content = f"```py\n{content}\n```"
         embed = discord.Embed(
             title=f"{ctx.command.name.upper()} Logs",
-            description=f"```py\n{ctx.message.content}```",
+            description=content,
             color=await self.bot.get_embed_color(self.bot.user.colour),
         )
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)

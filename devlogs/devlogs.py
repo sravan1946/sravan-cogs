@@ -39,7 +39,7 @@ class DevLogs(commands.Cog):
             return
         embed = discord.Embed(
             # eval or debug in title based on what command was ran
-            title=f"{ctx.command.name.upper} Logs",
+            title=f"{ctx.command.name.upper()} Logs",
             description=f"```py\n{ctx.message.content}```",
             color=await self.bot.get_embed_color(self.bot.user.colour),
         )

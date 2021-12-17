@@ -1,0 +1,16 @@
+{
+    "name": "DontPingStaff",
+    "short": "just dont!",
+    "description": "rekt the users who pings",
+    "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
+    "install_msg": "ty for installing",
+    "author": [
+        "sravan"
+    ],
+    "required_cogs": {},
+    "requirements": [],
+    "min_bot_version": "3.3.10",
+    "hidden": false,
+    "disabled": false,
+    "type": "COG"
+}

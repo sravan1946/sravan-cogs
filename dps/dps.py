@@ -319,11 +319,11 @@ class DontPingStaff(commands.Cog):
                             else:
                                 if now - self.cache[author.id]["time"] > timedelta(seconds=self.config_cache[guild.id]["per"]):
                                     self.cache[author.id] = {"count": 1, "time": now}
-                                    await ctx.channel.send(mes)
+                                    await ctx.reply(mes)
                                     return
                                 self.cache[author.id]["count"] += 1
                                 if self.cache[author.id]["count"] < self.config_cache[guild.id]["amount"]:
-                                    await ctx.channel.send(mes)
+                                    await ctx.reply(mes)
                                 else:
                                     self.cache[author.id]["count"] = 0
                                     if action is None:
@@ -344,22 +344,22 @@ class DontPingStaff(commands.Cog):
             return await ctx.send("No muted role set")
         try:
             await ctx.author.add_roles(guild.get_role(muted_role))
-            await ctx.channel.send(f"{ctx.author.mention} has been muted")
+            await ctx.reply(f"{ctx.author.mention} has been muted")
         except discord.Forbidden:
-            return await ctx.channel.send("I don't have permission to mute this user")
+            return await ctx.reply("I don't have permission to mute this user")
 
     async def kick(self, ctx):
         """kick a member"""
         try:
             await ctx.message.author.kick()
-            await ctx.channel.send(f"{ctx.message.author.mention} has been kicked")
+            await ctx.reply(f"{ctx.message.author.mention} has been kicked")
         except discord.Forbidden:
-            return await ctx.channel.send("I don't have permission to kick this user")
+            return await ctx.reply("I don't have permission to kick this user")
 
     async def ban(self, ctx):
         """ban a member"""
         try:
             await ctx.message.author.ban()
-            await ctx.channel.send(f"{ctx.message.author.mention} has been banned")
+            await ctx.reply(f"{ctx.message.author.mention} has been banned")
         except discord.Forbidden:
-            return await ctx.channel.send("I don't have permission to ban this user")
+            return await ctx.reply("I don't have permission to ban this user")

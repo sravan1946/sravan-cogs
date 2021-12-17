@@ -334,7 +334,7 @@ class DontPingStaff(commands.Cog):
                                         await self.kick(ctx)
                                     elif action == "ban":
                                         await self.ban(ctx)
-                    break
+                            break
 
     async def mute(self, ctx):
         """mute a member"""

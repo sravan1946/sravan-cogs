@@ -316,6 +316,7 @@ class DontPingStaff(commands.Cog):
                         if role.id in staff_role:
                             if author.id not in self.cache:
                                 self.cache[author.id] = {"count": 1, "time": now}
+                                await ctx.reply(mes)
                             else:
                                 if now - self.cache[author.id]["time"] > timedelta(seconds=self.config_cache[guild.id]["per"]):
                                     self.cache[author.id] = {"count": 1, "time": now}

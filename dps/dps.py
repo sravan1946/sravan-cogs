@@ -1,8 +1,5 @@
 from typing import Literal, Optional
-import asyncio
 import logging
-import re
-import time
 from datetime import datetime, timedelta
 
 import discord
@@ -306,36 +303,37 @@ class DontPingStaff(commands.Cog):
         staff_role = await self.config.guild(guild).staff_role()
         mes = await self.config.guild(guild).message()
         action = await self.config.guild(guild).action()
-        if re.search(r"<@!?\d+>", ctx.content):
-                pings_ids = re.findall(r"\d+", ctx.content)
-                for ping in pings_ids:
-                    member = guild.get_member(int(ping))
-                    if member.id == ctx.author.id:
-                        return
-                    for role in member.roles:
-                        if role.id in staff_role:
-                            if author.id not in self.cache:
+        for mentions in ctx.mentions:
+            pings = [mentions.id]
+            for ping in pings:
+                member = guild.get_member(int(ping))
+                if member.id == ctx.author.id:
+                    return
+                for role in member.roles:
+                    if role.id in staff_role:
+                        if author.id not in self.cache:
+                            self.cache[author.id] = {"count": 1, "time": now}
+                            await ctx.reply(mes)
+                        else:
+                            if now - self.cache[author.id]["time"] > timedelta(seconds=self.config_cache[guild.id]["per"]):
                                 self.cache[author.id] = {"count": 1, "time": now}
                                 await ctx.reply(mes)
+                                return
+                            self.cache[author.id]["count"] += 1
+                            if self.cache[author.id]["count"] < self.config_cache[guild.id]["amount"]:
+                                await ctx.reply(mes)
                             else:
-                                if now - self.cache[author.id]["time"] > timedelta(seconds=self.config_cache[guild.id]["per"]):
-                                    self.cache[author.id] = {"count": 1, "time": now}
-                                    await ctx.reply(mes)
+                                self.cache[author.id]["count"] = 0
+                                if action is None:
                                     return
-                                self.cache[author.id]["count"] += 1
-                                if self.cache[author.id]["count"] < self.config_cache[guild.id]["amount"]:
-                                    await ctx.reply(mes)
-                                else:
-                                    self.cache[author.id]["count"] = 0
-                                    if action is None:
-                                        return
-                                    elif action == "mute":
-                                        await self.mute(ctx)
-                                    elif action == "kick":
-                                        await self.kick(ctx)
-                                    elif action == "ban":
-                                        await self.ban(ctx)
-                            break
+                                elif action == "mute":
+                                    await self.mute(ctx)
+                                elif action == "kick":
+                                    await self.kick(ctx)
+                                elif action == "ban":
+                                    await self.ban(ctx)
+                        break
+            break
 
     async def mute(self, ctx):
         """mute a member"""

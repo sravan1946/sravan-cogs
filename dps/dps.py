@@ -247,6 +247,7 @@ class DontPingStaff(commands.Cog):
         embed.add_field(name="Message", value=message)
         embed.add_field(name="Per", value=per)
         embed.add_field(name="Amount", value=amount)
+        embed.add_field(name="enabled", value=str(await self.config.guild(guild).enabled()))
         await ctx.send(embed=embed)
         
     @dps.command(name="per")

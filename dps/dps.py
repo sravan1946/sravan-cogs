@@ -341,7 +341,7 @@ class DontPingStaff(commands.Cog):
         guild = ctx.guild
         muted_role = await self.config.guild(guild).muted_role()
         if muted_role is None:
-            return await ctx.send("No muted role set")
+            return await ctx.message.send("No muted role set")
         try:
             await ctx.author.add_roles(guild.get_role(muted_role))
             await ctx.reply(f"{ctx.author.mention} has been muted")

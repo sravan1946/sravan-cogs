@@ -1,0 +1,20 @@
+{
+    "name": "GuessTheNumber",
+    "short": "a simple gtn game",
+    "description": "a guess the number game which you can play in discord",
+    "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
+    "install_msg": "ty for installing my cog",
+    "author": [
+        "sravan"
+    ],
+    "required_cogs": {},
+    "requirements": [],
+    "tags": [
+        "fun",
+        "game"
+    ],
+    "min_bot_version": "3.3.10",
+    "hidden": false,
+    "disabled": false,
+    "type": "COG"
+}

@@ -56,7 +56,7 @@ class GuessTheNumber(commands.Cog):
             await user.send("You took too long to enter a number")
             await ctx.channel.send("Could not start the gtn event")
             return
-        if int(number) <= low or int(number) >= high:
+        if int(number) < low or int(number) > high:
             await user.send("The number is not in the range")
             await ctx.channel.send("Could not start the gtn event")
             return

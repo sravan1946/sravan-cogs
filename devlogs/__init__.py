@@ -13,7 +13,10 @@ try:
 except ImportError:
     CogLoadError = RuntimeError
 
+
 async def setup(bot: Red) -> None:
     if "Dev" not in bot.cogs:
-        raise CogLoadError("This cog requires the bot to be started with the `--dev` flag.")
+        raise CogLoadError(
+            "This cog requires the bot to be started with the `--dev` flag."
+        )
     bot.add_cog(DevLogs(bot))

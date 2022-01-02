@@ -13,8 +13,8 @@ RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
 log = logging.getLogger("red.sravan.dps")
 
-#thanks to epic for letting me annoy him with this
-#and the code from flare's antispam cog
+# thanks to epic for letting me annoy him with this
+# and the code from flare's antispam cog
 class DontPingStaff(commands.Cog):
     """
     just dont!
@@ -52,7 +52,7 @@ class DontPingStaff(commands.Cog):
         Dont ping staff
         """
         pass
-    
+
     @dps.command()
     async def toggle(self, ctx: commands.Context) -> None:
         """
@@ -104,7 +104,9 @@ class DontPingStaff(commands.Cog):
             await ctx.send("Role added to whitelist")
 
     @add.command(name="channel")
-    async def whitelist_channel(self, ctx: commands.Context, channel: discord.TextChannel) -> None:
+    async def whitelist_channel(
+        self, ctx: commands.Context, channel: discord.TextChannel
+    ) -> None:
         """add a channel to the whitelist"""
         guild = ctx.guild
         channel_id = channel.id
@@ -122,7 +124,9 @@ class DontPingStaff(commands.Cog):
         pass
 
     @remove.command(name="user")
-    async def whitelist_user_remove(self, ctx: commands.Context, user: discord.User) -> None:
+    async def whitelist_user_remove(
+        self, ctx: commands.Context, user: discord.User
+    ) -> None:
         """remove a user from the whitelist"""
         guild = ctx.guild
         user_id = user.id
@@ -135,7 +139,9 @@ class DontPingStaff(commands.Cog):
             await ctx.send("User removed from whitelist")
 
     @remove.command(name="role")
-    async def whitelist_role_remove(self, ctx: commands.Context, role: discord.Role) -> None:
+    async def whitelist_role_remove(
+        self, ctx: commands.Context, role: discord.Role
+    ) -> None:
         """remove a role from the whitelist"""
         guild = ctx.guild
         role_id = role.id
@@ -148,7 +154,9 @@ class DontPingStaff(commands.Cog):
             await ctx.send("Role removed from whitelist")
 
     @remove.command(name="channel")
-    async def whitelist_channel_remove(self, ctx: commands.Context, channel: discord.TextChannel) -> None:
+    async def whitelist_channel_remove(
+        self, ctx: commands.Context, channel: discord.TextChannel
+    ) -> None:
         """remove a channel from the whitelist"""
         guild = ctx.guild
         channel_id = channel.id
@@ -190,7 +198,7 @@ class DontPingStaff(commands.Cog):
             return
         await self.config.guild(guild).action.set(action)
         await ctx.send("Action set to `{}`".format(action))
-        
+
     @dps.group(name="staffrole")
     async def staff_role(self, ctx: commands.Context) -> None:
         """command for manageing the staff role"""
@@ -210,7 +218,9 @@ class DontPingStaff(commands.Cog):
             await ctx.send("Role added as staff role")
 
     @staff_role.command(name="remove")
-    async def staff_role_remove(self, ctx: commands.Context, role: discord.Role) -> None:
+    async def staff_role_remove(
+        self, ctx: commands.Context, role: discord.Role
+    ) -> None:
         """remove a role from the staff role"""
         guild = ctx.guild
         role_id = role.id
@@ -222,7 +232,7 @@ class DontPingStaff(commands.Cog):
                 staff_role.remove(role_id)
             await ctx.send("Role removed as staff role")
 
-    #TODO: the embed stuff is messed up.
+    # TODO: the embed stuff is messed up.
     @dps.command(name="settings")
     async def settings(self, ctx: commands.Context) -> None:
         """show the current settings"""
@@ -230,26 +240,42 @@ class DontPingStaff(commands.Cog):
         await self.gen_cache()
         muted_role = await self.config.guild(guild).muted_role()
         ignored_users = await self.config.guild(guild).ignored_users()
-        ignored_roles = await self.config.guild(guild).ignored_roles() 
+        ignored_roles = await self.config.guild(guild).ignored_roles()
         ignored_channels = await self.config.guild(guild).ignored_channels()
-        staff_role = await self.config.guild(guild).staff_role() 
+        staff_role = await self.config.guild(guild).staff_role()
         per = await self.config.guild(guild).per()
         amount = await self.config.guild(guild).amount()
         action = await self.config.guild(guild).action() or "Not set"
         message = await self.config.guild(guild).message() or "Not set"
         embed = discord.Embed(title="Settings")
-        embed.add_field(name="Muted Role", value=f"<@&{muted_role}>" if muted_role else "Not set")
-        embed.add_field(name="Ignored Users", value=", ".join(str(f"<@!{user}>") for user in ignored_users)) if ignored_users else "None"
-        embed.add_field(name="Ignored Roles", value=", ".join(str(f"<@&{role}>") for role in ignored_roles)) if ignored_roles else "None"
-        embed.add_field(name="Ignored Channels", value=", ".join(str(f"<#{channel}>") for channel in ignored_channels)) if ignored_channels else "None"
-        embed.add_field(name="Staff Role", value=", ".join(str(f"<@&{role}>") for role in staff_role)) if staff_role else "None"
+        embed.add_field(
+            name="Muted Role", value=f"<@&{muted_role}>" if muted_role else "Not set"
+        )
+        embed.add_field(
+            name="Ignored Users",
+            value=", ".join(str(f"<@!{user}>") for user in ignored_users),
+        ) if ignored_users else "None"
+        embed.add_field(
+            name="Ignored Roles",
+            value=", ".join(str(f"<@&{role}>") for role in ignored_roles),
+        ) if ignored_roles else "None"
+        embed.add_field(
+            name="Ignored Channels",
+            value=", ".join(str(f"<#{channel}>") for channel in ignored_channels),
+        ) if ignored_channels else "None"
+        embed.add_field(
+            name="Staff Role",
+            value=", ".join(str(f"<@&{role}>") for role in staff_role),
+        ) if staff_role else "None"
         embed.add_field(name="Action", value=action)
         embed.add_field(name="Message", value=message)
         embed.add_field(name="Per", value=per)
         embed.add_field(name="Amount", value=amount)
-        embed.add_field(name="enabled", value=str(await self.config.guild(guild).enabled()))
+        embed.add_field(
+            name="enabled", value=str(await self.config.guild(guild).enabled())
+        )
         await ctx.send(embed=embed)
-        
+
     @dps.command(name="per")
     async def per(self, ctx: commands.Context, *, time: TimedeltaConverter) -> None:
         """set how long to wait between actions"""
@@ -258,7 +284,9 @@ class DontPingStaff(commands.Cog):
             return await ctx.send("Invalid time")
         seconds = time.total_seconds()
         await self.config.guild(guild).per.set(seconds)
-        await ctx.send(f"I will wait {humanize_timedelta(seconds=seconds).rstrip('s')} between actions")
+        await ctx.send(
+            f"I will wait {humanize_timedelta(seconds=seconds).rstrip('s')} between actions"
+        )
         await self.gen_cache()
 
     @dps.command(name="amount")
@@ -290,17 +318,19 @@ class DontPingStaff(commands.Cog):
             return
         await self.check_ping(ctx)
 
-    async def red_delete_data_for_user(self, *, requester: RequestType, user_id: int) -> None:
+    async def red_delete_data_for_user(
+        self, *, requester: RequestType, user_id: int
+    ) -> None:
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
-# All of the cache stuff was taken from the antispam cog by flare.
-#TODO: bot doesnt send the mes after the first ping after a load/reload.
+    # All of the cache stuff was taken from the antispam cog by flare.
+    # TODO: bot doesnt send the mes after the first ping after a load/reload.
     async def check_ping(self, ctx: commands.Context):
         """check for pings in a message. to be used in the listener"""
         guild = ctx.guild
         author = ctx.author
-        now  = datetime.now()
+        now = datetime.now()
         staff_role = await self.config.guild(guild).staff_role()
         mes = await self.config.guild(guild).message()
         action = await self.config.guild(guild).action()
@@ -316,12 +346,17 @@ class DontPingStaff(commands.Cog):
                             self.cache[author.id] = {"count": 1, "time": now}
                             await ctx.reply(mes)
                         else:
-                            if now - self.cache[author.id]["time"] > timedelta(seconds=self.config_cache[guild.id]["per"]):
+                            if now - self.cache[author.id]["time"] > timedelta(
+                                seconds=self.config_cache[guild.id]["per"]
+                            ):
                                 self.cache[author.id] = {"count": 1, "time": now}
                                 await ctx.reply(mes)
                                 return
                             self.cache[author.id]["count"] += 1
-                            if self.cache[author.id]["count"] < self.config_cache[guild.id]["amount"]:
+                            if (
+                                self.cache[author.id]["count"]
+                                < self.config_cache[guild.id]["amount"]
+                            ):
                                 await ctx.reply(mes)
                             else:
                                 self.cache[author.id]["count"] = 0

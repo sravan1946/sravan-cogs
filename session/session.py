@@ -22,12 +22,13 @@ IGNORE_ERRORS_TYPE = (
 
 log = logging.getLogger("red.sravan.session")
 
+
 class Session(commands.Cog):
     """Shows how many commands are invoked in a session
-     (resets on reboot)"""
+    (resets on reboot)"""
 
     async def red_delete_data_for_user(self, **kwargs):
-        """ Nothing to delete """
+        """Nothing to delete"""
         return
 
     def __init__(self, bot):
@@ -36,7 +37,6 @@ class Session(commands.Cog):
         self.config = Config.get_conf(self, 25298865439862, force_registration=True)
         self.commands = {}
         super(Session, self).__init__()
-
 
         self.presence_task = asyncio.create_task(self.maybe_update_presence())
 
@@ -136,19 +136,21 @@ class Session(commands.Cog):
         if botstats:
 
             def find_sum(s):
-                return sum(map(int, re.findall('\d+', s)))
+                return sum(map(int, re.findall("\d+", s)))
 
             message = "\n".join(
-            "{count}".format(count=d[1]["count"])
-           for d in sorted(
-                self.commands.items(),
-                key=lambda infos: infos[1]["count"],
-                reverse=True,
+                "{count}".format(count=d[1]["count"])
+                for d in sorted(
+                    self.commands.items(),
+                    key=lambda infos: infos[1]["count"],
+                    reverse=True,
+                )
             )
-        )
             s = find_sum(message)
-            botstatus = f"{s} commands used in this session" #TODO: add how many commands errored?
-            await self.bot.change_presence(activity=discord.Activity(name=botstatus, type=_type), status=status)
+            botstatus = f"{s} commands used in this session"  # TODO: add how many commands errored?
+            await self.bot.change_presence(
+                activity=discord.Activity(name=botstatus, type=_type), status=status
+            )
 
     @commands.Cog.listener()
     async def on_command(self, ctx: commands.Context):
@@ -161,7 +163,9 @@ class Session(commands.Cog):
                 self.commands[command]["count"] += 1
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx: commands.Context, error: commands.CommandError):
+    async def on_command_error(
+        self, ctx: commands.Context, error: commands.CommandError
+    ):
         try:
             if isinstance(error, IGNORE_ERRORS_TYPE):
                 return

@@ -12,6 +12,7 @@ RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
 log = logging.getLogger("red.sravan.gtn")
 
+
 class GuessTheNumber(commands.Cog):
     """
     a simple gtn game
@@ -25,8 +26,6 @@ class GuessTheNumber(commands.Cog):
             force_registration=True,
         )
 
-    
-    
     @commands.command()
     @commands.guild_only()
     @commands.max_concurrency(1, commands.BucketType.channel)
@@ -34,13 +33,17 @@ class GuessTheNumber(commands.Cog):
         """start a gtn event"""
         user = ctx.author
         range = await self.get_vaules(ctx, user)
+
         def check(m):
             return m.author == ctx.author and m.channel == user.dm_channel
+
         if range is None:
             return
         low, high = int(range[0]), int(range[1])
         try:
-            await user.send("Do u want the bot to pick a random number in the range?(y/n)")
+            await user.send(
+                "Do u want the bot to pick a random number in the range?(y/n)"
+            )
             confirmation = await self.bot.wait_for("message", check=check, timeout=60)
             if confirmation.content.lower() in ["y", "yes"]:
                 number = random.randint(int(low), int(high))
@@ -61,37 +64,45 @@ class GuessTheNumber(commands.Cog):
             await ctx.channel.send("Could not start the gtn event")
             return
         await user.send(f"The number is {number}")
-        await ctx.channel.send(f"{user.mention} has started a gtn event for number between {low} and {high}. Host can say `cancel` to end the event.")
+        await ctx.channel.send(
+            f"{user.mention} has started a gtn event for number between {low} and {high}. Host can say `cancel` to end the event."
+        )
         started = True
         guesses = 1
         while started:
-            guess = await self.bot.wait_for("message", check=lambda m: m.channel == ctx.channel)
+            guess = await self.bot.wait_for(
+                "message", check=lambda m: m.channel == ctx.channel
+            )
             if guess.content.isdigit():
                 if int(guess.content) == int(number):
-                    await ctx.channel.send(f"{guess.author.mention} has guessed the number. It took {guesses} guesses")
+                    await ctx.channel.send(
+                        f"{guess.author.mention} has guessed the number. It took {guesses} guesses"
+                    )
                     started = False
                     break
                 else:
                     guesses += 1
-            if (
-                guess.content.lower() == "cancel"
-                and guess.author.id == ctx.author.id
-            ):
+            if guess.content.lower() == "cancel" and guess.author.id == ctx.author.id:
                 await ctx.channel.send(f"{user.mention} has cancelled the gtn event.")
                 started = False
                 break
 
-    async def red_delete_data_for_user(self, *, requester: RequestType, user_id: int) -> None:
+    async def red_delete_data_for_user(
+        self, *, requester: RequestType, user_id: int
+    ) -> None:
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
     async def get_vaules(self, ctx: commands.Context, user):
         """ask the range and the number to be guessed in the users DM"""
         await ctx.tick()
+
         def check(m):
             return m.author == ctx.author and m.channel == user.dm_channel
 
-        await user.send("Please enter the range of the number you want to guess. (e.g. 1-10, 1-100, 200-600)")
+        await user.send(
+            "Please enter the range of the number you want to guess. (e.g. 1-10, 1-100, 200-600)"
+        )
         try:
             _range = await self.bot.wait_for("message", check=check, timeout=60)
             # check if the range is a number and in the correct format
@@ -116,6 +127,6 @@ class GuessTheNumber(commands.Cog):
             await ctx.channel.send("Could not start the gtn event")
             return
         except Exception as e:
-            await user.send('Something went wrong, please try again')
+            await user.send("Something went wrong, please try again")
             await ctx.channel.send("Could not start the gtn event")
-            return 
+            return

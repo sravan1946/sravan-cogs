@@ -22,14 +22,13 @@ class DevLogs(commands.Cog):
             identifier=8573957264582037523,
             force_registration=True,
         )
-    
-        default_global = {
-            "default_channel": None,
-            "bypass": []
-        }
-        self.config.register_global(**default_global) 
-        
-    async def red_delete_data_for_user(self, *, requester: RequestType, user_id: int) -> None:
+
+        default_global = {"default_channel": None, "bypass": []}
+        self.config.register_global(**default_global)
+
+    async def red_delete_data_for_user(
+        self, *, requester: RequestType, user_id: int
+    ) -> None:
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
@@ -38,7 +37,7 @@ class DevLogs(commands.Cog):
         partialchannel = await self.config.default_channel()
         if partialchannel is None:
             return
-        #remove the codeblock in the message if it exists or add a codeblock if it doesn't
+        # remove the codeblock in the message if it exists or add a codeblock if it doesn't
         content = ctx.message.content.replace("```", "")
         if content.startswith("```"):
             content = content.replace("```", "")
@@ -66,7 +65,9 @@ class DevLogs(commands.Cog):
         pass
 
     @devset.command()
-    async def channel(self, ctx: commands.Context, channel: discord.TextChannel = None) -> None:
+    async def channel(
+        self, ctx: commands.Context, channel: discord.TextChannel = None
+    ) -> None:
         """
         Set the channel to log to.
         """
@@ -107,7 +108,6 @@ class DevLogs(commands.Cog):
                 await ctx.send(f"{user.mention} removed from the bypass list.")
             else:
                 await ctx.send("User is not in the bypass list.")
-
 
     @commands.Cog.listener()
     async def on_command(self, ctx: commands.Context) -> None:

@@ -61,17 +61,18 @@ class GuessTheNumber(commands.Cog):
             await ctx.channel.send("Could not start the gtn event")
             return
         await user.send(f"The number is {number}")
-        await ctx.channel.send(f"{user.mention} has started a gtn event for number between {low} and {high}")
+        await ctx.channel.send(f"{user.mention} has started a gtn event for number between {low} and {high}. Host can say `cancel` to end the event.")
         started = True
         guesses = 1
         while started:
             guess = await self.bot.wait_for("message", check=lambda m: m.channel == ctx.channel)
-            if guess.content.isdigit() and int(guess.content) == number:
-                await ctx.channel.send(f"{guess.author.mention} has guessed the number. It took {guesses} guesses")
-                started = False
-                break
-            else:
-                guesses += 1
+            if guess.content.isdigit():
+                if int(guess.content) == number:
+                    await ctx.channel.send(f"{guess.author.mention} has guessed the number. It took {guesses} guesses")
+                    started = False
+                    break
+                else:
+                    guesses += 1
             if (
                 guess.content.lower() == "cancel"
                 and guess.author.id == ctx.author.id

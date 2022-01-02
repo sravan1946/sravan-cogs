@@ -67,7 +67,7 @@ class GuessTheNumber(commands.Cog):
         while started:
             guess = await self.bot.wait_for("message", check=lambda m: m.channel == ctx.channel)
             if guess.content.isdigit():
-                if int(guess.content) == number:
+                if int(guess.content) == int(number):
                     await ctx.channel.send(f"{guess.author.mention} has guessed the number. It took {guesses} guesses")
                     started = False
                     break

@@ -1,6 +1,6 @@
-from typing import Literal, Optional
 import logging
 from datetime import datetime, timedelta
+from typing import Literal
 
 import discord
 from redbot.core import commands
@@ -51,7 +51,6 @@ class DontPingStaff(commands.Cog):
         """
         Dont ping staff
         """
-        pass
 
     @dps.command()
     async def toggle(self, ctx: commands.Context) -> None:
@@ -70,12 +69,10 @@ class DontPingStaff(commands.Cog):
     @dps.group(aliases=["ignore"])
     async def whitelist(self, ctx: commands.Context) -> None:
         """manage whitelist"""
-        pass
 
     @whitelist.group()
     async def add(self, ctx: commands.Context) -> None:
         """add users/roles/channels to the whitelist"""
-        pass
 
     @add.command(name="user")
     async def whitelist_user(self, ctx: commands.Context, user: discord.User) -> None:
@@ -121,7 +118,6 @@ class DontPingStaff(commands.Cog):
     @whitelist.group()
     async def remove(self, ctx: commands.Context) -> None:
         """remove users/roles/channels from the whitelist"""
-        pass
 
     @remove.command(name="user")
     async def whitelist_user_remove(
@@ -202,7 +198,6 @@ class DontPingStaff(commands.Cog):
     @dps.group(name="staffrole")
     async def staff_role(self, ctx: commands.Context) -> None:
         """command for manageing the staff role"""
-        pass
 
     @staff_role.command(name="add")
     async def staff_role_add(self, ctx: commands.Context, role: discord.Role) -> None:

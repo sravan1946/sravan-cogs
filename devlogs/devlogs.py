@@ -1,8 +1,7 @@
 from typing import Literal
 
 import discord
-from discord.embeds import Embed
-from redbot.core import commands, bot
+from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.config import Config
 from redbot.core.utils.chat_formatting import box
@@ -62,7 +61,6 @@ class DevLogs(commands.Cog):
         """
         Configure DevLogs settings.
         """
-        pass
 
     @devset.command()
     async def channel(
@@ -83,7 +81,6 @@ class DevLogs(commands.Cog):
         """
         Manage the bypass list.
         """
-        pass
 
     @bypass.command()
     async def add(self, ctx: commands.Context, user: discord.Member) -> None:

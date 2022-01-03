@@ -75,9 +75,18 @@ class GuessTheNumber(commands.Cog):
             )
             if guess.content.isdigit():
                 if int(guess.content) == int(number):
-                    await ctx.channel.send(
-                        f"{guess.author.mention} has guessed the number. It took {guesses} guesses"
+                    winem = discord.Embed()
+                    winem.set_author(
+                        name=f"{user.display_name} has won the gtn event",
+                        icon_url=user.avatar_url,
                     )
+                    winem.add_field(name="Number of guesses", value=guesses)
+                    winem.add_field(name="Number guessed", value=guess.content)
+                    winem.set_footer(
+                        text=f"Thanks for playing!",
+                    )
+                    started = False
+                    await guess.reply(embed=winem)
                     started = False
                     break
                 else:

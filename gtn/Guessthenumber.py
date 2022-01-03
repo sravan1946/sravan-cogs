@@ -64,9 +64,13 @@ class GuessTheNumber(commands.Cog):
             await ctx.channel.send("Could not start the gtn event")
             return
         await user.send(f"The number is {number}")
-        await ctx.channel.send(
-            f"{user.mention} has started a gtn event for number between {low} and {high}. Host can say `cancel` to end the event."
+        startem = discord.Embed(
+            title="Game started",
+            description=f"{user.mention} has started a game of guess the number",
+            colour=await ctx.embed_colour(),
         )
+        startem.add_field(name="Range", value=f"{low}-{high}")
+        await ctx.channel.send(embed=startem)
         started = True
         guesses = 1
         while started:

@@ -70,7 +70,7 @@ class GuessTheNumber(commands.Cog):
             colour=await ctx.embed_colour(),
         )
         startem.add_field(name="Range", value=f"{low}-{high}")
-        await ctx.channel.send(embed=startem)
+        await ctx.message.reply(embed=startem)
         started = True
         guesses = 1
         while started:

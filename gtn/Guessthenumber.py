@@ -80,6 +80,7 @@ class GuessTheNumber(commands.Cog):
                         name=f"{user.display_name} has won the gtn event",
                         icon_url=user.avatar_url,
                     )
+                    winem.color = await ctx.embed_colour()
                     winem.add_field(name="Number of guesses", value=guesses)
                     winem.add_field(name="Number guessed", value=guess.content)
                     winem.set_footer(

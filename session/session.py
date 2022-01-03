@@ -1,15 +1,13 @@
-import re
-import discord
-from redbot.core import Config, commands, checks
 import asyncio
 import logging
+import re
+
+import discord
+from discord.ext.commands.errors import (CommandNotFound, ConversionError,
+                                         MissingRequiredArgument,
+                                         NSFWChannelRequired)
+from redbot.core import Config, checks, commands
 from redbot.core.commands.errors import ConversionFailure
-from discord.ext.commands.errors import (
-    CommandNotFound,
-    ConversionError,
-    MissingRequiredArgument,
-    NSFWChannelRequired,
-)
 
 IGNORE_ERRORS_TYPE = (
     CommandNotFound,
@@ -56,7 +54,6 @@ class Session(commands.Cog):
     @checks.is_owner()
     async def session(self, ctx):
         """Session group commands."""
-        pass
 
     @session.command()
     async def delay(self, ctx, seconds: int):

@@ -2,6 +2,7 @@ import asyncio
 import logging
 import random
 from typing import Literal
+import discord
 
 from redbot.core import commands
 from redbot.core.bot import Red

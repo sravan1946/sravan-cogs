@@ -51,6 +51,7 @@ class DevLogs(commands.Cog):
             embed.add_field(name="Guild", value=f"{ctx.guild.name} \n ({ctx.guild.id})")
         except AttributeError:
             embed.add_field(name="Channel", value="DMs")
+        embed.add_field(name="Author", value=f"{ctx.author.name} \n ({ctx.author.id})")
         embed.timestamp = ctx.message.created_at
         await self.bot.get_channel(partialchannel).send(embed=embed)
 
@@ -114,5 +115,7 @@ class DevLogs(commands.Cog):
         async with self.config.bypass() as bypass:
             if ctx.author.id in bypass:
                 return
+        if ctx.author.id not in self.bot.owner_ids:
+            return
         if ctx.command.name in ["eval", "debug"]:
             await self.send_log(ctx)

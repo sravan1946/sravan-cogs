@@ -53,7 +53,7 @@ class DevLogs(commands.Cog):
             embed.add_field(name="Guild", value=f"{ctx.guild.name} \n ({ctx.guild.id})")
         except AttributeError:
             embed.add_field(name="Channel", value="DMs")
-        embed.add_field(name="Author", value=f"{ctx.author.name} \n ({ctx.author.id})")
+        embed.add_field(name="Author", value=f"{ctx.author.name} \n ({ctx.author.id})", inline=False)
         embed.timestamp = ctx.message.created_at
         await self.bot.get_channel(partialchannel).send(embed=embed)
 

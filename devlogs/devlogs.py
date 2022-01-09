@@ -47,7 +47,9 @@ class DevLogs(commands.Cog):
         )
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         try:
-            embed.add_field(name="Channel", value=f"{ctx.channel.mention} \n ({ctx.channel.id})")
+            embed.add_field(
+                name="Channel", value=f"{ctx.channel.mention} \n ({ctx.channel.id})"
+            )
             embed.add_field(name="Guild", value=f"{ctx.guild.name} \n ({ctx.guild.id})")
         except AttributeError:
             embed.add_field(name="Channel", value="DMs")

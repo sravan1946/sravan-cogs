@@ -3,20 +3,8 @@ import logging
 import re
 
 import discord
-from discord.ext.commands.errors import (CommandNotFound, ConversionError,
-                                         MissingRequiredArgument,
-                                         NSFWChannelRequired)
 from redbot.core import Config, checks, commands
-from redbot.core.commands.errors import ConversionFailure
 
-IGNORE_ERRORS_TYPE = (
-    CommandNotFound,
-    MissingRequiredArgument,
-    NSFWChannelRequired,
-    ConversionFailure,
-    commands.UserFeedbackCheckFailure,
-    ConversionError,
-)
 
 log = logging.getLogger("red.sravan.session")
 
@@ -144,7 +132,7 @@ class Session(commands.Cog):
                 )
             )
             s = find_sum(message)
-            botstatus = f"{s} commands used in this session"  # TODO: add how many commands errored?
+            botstatus = f"{s} commands used in this session"
             await self.bot.change_presence(
                 activity=discord.Activity(name=botstatus, type=_type), status=status
             )
@@ -155,23 +143,6 @@ class Session(commands.Cog):
             command = str(ctx.command)
             if command != "None":
                 if command not in self.commands:
-                    self.commands[command] = {"count": 1, "error": 0}
+                    self.commands[command] = {"count": 1}
                     return
                 self.commands[command]["count"] += 1
-
-    @commands.Cog.listener()
-    async def on_command_error(
-        self, ctx: commands.Context, error: commands.CommandError
-    ):
-        try:
-            if isinstance(error, IGNORE_ERRORS_TYPE):
-                return
-
-            if not ctx.message.author.bot:
-                command = str(ctx.command)
-                if command not in self.commands:
-                    self.commands[command] = {"count": 0, "error": 1}
-                    return
-                self.commands[command]["error"] += 1
-        except Exception:
-            pass

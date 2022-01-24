@@ -88,7 +88,7 @@ class DevLogs(commands.Cog):
         """
 
     @bypass.command()
-    async def add(self, ctx: commands.Context, user: discord.Member) -> None:
+    async def add(self, ctx: commands.Context, user: discord.User) -> None:
         """
         Add a user to the bypass list.
         """
@@ -100,7 +100,7 @@ class DevLogs(commands.Cog):
                 await ctx.send(f"{user.mention} added to the bypass list.")
 
     @bypass.command()
-    async def remove(self, ctx: commands.Context, user: discord.Member) -> None:
+    async def remove(self, ctx: commands.Context, user: discord.User) -> None:
         """
         Remove a user from the bypass list.
         """

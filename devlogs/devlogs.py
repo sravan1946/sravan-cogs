@@ -111,6 +111,28 @@ class DevLogs(commands.Cog):
             else:
                 await ctx.send("User is not in the bypass list.")
 
+    @bypass.command()
+    async def list(self, ctx: commands.Context) -> None:
+        """
+        list the users in the bypass list.
+        """
+        async with self.config.bypass() as bypass:
+            if len(bypass) == 0:
+                await ctx.send("There are no users in the bypass list.")
+            else:
+                embed = discord.Embed(
+                    title="Bypass List",
+                    description="A list of users that bypass the DevLogs module.",
+                    color=await self.bot.get_embed_color(ctx.author),
+                )
+                for user in bypass:
+                    try:
+                        user_obj = ctx.guild.get_member(user)
+                        embed.add_field(name=user_obj.name, value=user_obj.id)
+                    except AttributeError:
+                        embed.add_field(name=user, value=user)
+                await ctx.send(embed=embed)
+
     @commands.Cog.listener()
     async def on_command(self, ctx: commands.Context) -> None:
         """

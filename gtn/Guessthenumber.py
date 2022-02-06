@@ -90,8 +90,7 @@ class GuessTheNumber(commands.Cog):
                     winem.set_footer(
                         text=f"Thanks for playing!",
                     )
-                    started = False
-                    await guess.reply(embed=winem)
+                    await guess.reply(embed=winem, content=ctx.author.mention)
                     started = False
                     break
                 else:

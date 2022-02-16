@@ -371,7 +371,7 @@ class DontPingStaff(commands.Cog):
         guild = ctx.guild
         muted_role = await self.config.guild(guild).muted_role()
         if muted_role is None:
-            return await ctx.message.send("No muted role set")
+            return await ctx.send("No muted role set")
         try:
             await ctx.author.add_roles(guild.get_role(muted_role))
             await ctx.reply(f"{ctx.author.mention} has been muted")
@@ -382,7 +382,7 @@ class DontPingStaff(commands.Cog):
         """kick a member"""
         try:
             await ctx.author.kick()
-            await ctx.channel.send(f"{ctx.message.author.mention} has been kicked")
+            await ctx.channel.send(f"{ctx.author.mention} has been kicked")
         except discord.Forbidden:
             return await ctx.reply("I don't have permission to kick this user")
 
@@ -390,6 +390,6 @@ class DontPingStaff(commands.Cog):
         """ban a member"""
         try:
             await ctx.author.ban()
-            await ctx.channel.send(f"{ctx.message.author.mention} has been banned")
+            await ctx.channel.send(f"{ctx.author.mention} has been banned")
         except discord.Forbidden:
             return await ctx.reply("I don't have permission to ban this user")

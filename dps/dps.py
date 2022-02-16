@@ -381,7 +381,7 @@ class DontPingStaff(commands.Cog):
     async def kick(self, ctx):
         """kick a member"""
         try:
-            await ctx.message.author.kick()
+            await ctx.author.kick()
             await ctx.reply(f"{ctx.message.author.mention} has been kicked")
         except discord.Forbidden:
             return await ctx.reply("I don't have permission to kick this user")
@@ -389,7 +389,7 @@ class DontPingStaff(commands.Cog):
     async def ban(self, ctx):
         """ban a member"""
         try:
-            await ctx.message.author.ban()
+            await ctx.author.ban()
             await ctx.reply(f"{ctx.message.author.mention} has been banned")
         except discord.Forbidden:
             return await ctx.reply("I don't have permission to ban this user")

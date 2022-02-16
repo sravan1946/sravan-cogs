@@ -382,7 +382,7 @@ class DontPingStaff(commands.Cog):
         """kick a member"""
         try:
             await ctx.author.kick()
-            await ctx.send(f"{ctx.message.author.mention} has been kicked")
+            await ctx.channel.send(f"{ctx.message.author.mention} has been kicked")
         except discord.Forbidden:
             return await ctx.reply("I don't have permission to kick this user")
 
@@ -390,6 +390,6 @@ class DontPingStaff(commands.Cog):
         """ban a member"""
         try:
             await ctx.author.ban()
-            await ctx.send(f"{ctx.message.author.mention} has been banned")
+            await ctx.channel.send(f"{ctx.message.author.mention} has been banned")
         except discord.Forbidden:
             return await ctx.reply("I don't have permission to ban this user")

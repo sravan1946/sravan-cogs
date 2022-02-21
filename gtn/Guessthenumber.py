@@ -70,7 +70,8 @@ class GuessTheNumber(commands.Cog):
             colour=await ctx.embed_colour(),
         )
         startem.add_field(name="Range", value=f"{low}-{high}")
-        await ctx.message.reply(embed=startem)
+        starting_message = await ctx.message.reply(embed=startem)
+        await starting_message.pin()
         started = True
         guesses = 1
         while started:
@@ -91,12 +92,14 @@ class GuessTheNumber(commands.Cog):
                         text=f"Thanks for playing!",
                     )
                     await guess.reply(embed=winem, content=ctx.author.mention)
+                    await starting_message.unpin()
                     started = False
                     break
                 else:
                     guesses += 1
             if guess.content.lower() == "cancel" and guess.author.id == ctx.author.id:
                 await ctx.channel.send(f"{user.mention} has cancelled the gtn event.")
+                await starting_message.unpin()
                 started = False
                 break
 

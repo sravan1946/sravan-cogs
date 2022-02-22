@@ -71,7 +71,11 @@ class GuessTheNumber(commands.Cog):
         )
         startem.add_field(name="Range", value=f"{low}-{high}")
         starting_message = await ctx.message.reply(embed=startem)
-        await starting_message.pin()
+        try:
+            pinned = True
+            await starting_message.pin()
+        except discord.HTTPException:
+            await ctx.send("Could not pin the message due to too many pins")
         started = True
         guesses = 1
         while started:
@@ -92,14 +96,16 @@ class GuessTheNumber(commands.Cog):
                         text=f"Thanks for playing!",
                     )
                     await guess.reply(embed=winem, content=ctx.author.mention)
-                    await starting_message.unpin()
+                    if pinned:
+                        await starting_message.unpin()
                     started = False
                     break
                 else:
                     guesses += 1
             if guess.content.lower() == "cancel" and guess.author.id == ctx.author.id:
                 await ctx.channel.send(f"{user.mention} has cancelled the gtn event.")
-                await starting_message.unpin()
+                if pinned:
+                    await starting_message.unpin()
                 started = False
                 break
 

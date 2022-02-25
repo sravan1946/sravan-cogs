@@ -295,23 +295,23 @@ class DontPingStaff(commands.Cog):
         await self.gen_cache()
 
     @commands.Cog.listener()
-    async def on_message(self, ctx: commands.Context) -> None:
+    async def on_message(self, message) -> None:
         """checks for pings and acts accordingly"""
-        guild = ctx.guild
+        guild = message.guild
         if not guild:
             return
-        if ctx.author.bot:
+        if message.author.bot:
             return
-        if ctx.channel.id in await self.config.guild(guild).ignored_channels():
+        if message.channel.id in await self.config.guild(guild).ignored_channels():
             return
-        if ctx.author.id in await self.config.guild(guild).ignored_users():
+        if message.author.id in await self.config.guild(guild).ignored_users():
             return
-        for roles in ctx.author.roles:
+        for roles in message.author.roles:
             if roles.id in await self.config.guild(guild).ignored_roles():
                 return
         if await self.config.guild(guild).enabled() is False:
             return
-        await self.check_ping(ctx)
+        await self.check_ping(message)
 
     async def red_delete_data_for_user(
         self, *, requester: RequestType, user_id: int
@@ -321,75 +321,75 @@ class DontPingStaff(commands.Cog):
 
     # All of the cache stuff was taken from the antispam cog by flare.
     # TODO: bot doesnt send the mes after the first ping after a load/reload.
-    async def check_ping(self, ctx: commands.Context):
+    async def check_ping(self, message):
         """check for pings in a message. to be used in the listener"""
-        guild = ctx.guild
-        author = ctx.author
+        guild = message.guild
+        author = message.author
         now = datetime.now()
         staff_role = await self.config.guild(guild).staff_role()
         mes = await self.config.guild(guild).message()
         action = await self.config.guild(guild).action()
-        for mentions in ctx.mentions:
+        for mentions in message.mentions:
             pings = [mentions.id]
             for ping in pings:
                 member = guild.get_member(int(ping))
-                if member.id == ctx.author.id:
+                if member.id == message.author.id:
                     return
                 for role in member.roles:
                     if role.id in staff_role:
                         if author.id not in self.cache:
                             self.cache[author.id] = {"count": 1, "time": now}
-                            await ctx.reply(mes)
+                            await message.reply(mes)
                         else:
                             if now - self.cache[author.id]["time"] > timedelta(
                                 seconds=self.config_cache[guild.id]["per"]
                             ):
                                 self.cache[author.id] = {"count": 1, "time": now}
-                                await ctx.reply(mes)
+                                await message.reply(mes)
                                 return
                             self.cache[author.id]["count"] += 1
                             if (
                                 self.cache[author.id]["count"]
                                 < self.config_cache[guild.id]["amount"]
                             ):
-                                await ctx.reply(mes)
+                                await message.reply(mes)
                             else:
                                 self.cache[author.id]["count"] = 0
                                 if action is None:
                                     return
                                 elif action == "mute":
-                                    await self.mute(ctx)
+                                    await self.mute(message)
                                 elif action == "kick":
-                                    await self.kick(ctx)
+                                    await self.kick(message)
                                 elif action == "ban":
-                                    await self.ban(ctx)
+                                    await self.ban(message)
                         break
             break
 
-    async def mute(self, ctx):
+    async def mute(self, message):
         """mute a member"""
-        guild = ctx.guild
+        guild = message.guild
         muted_role = await self.config.guild(guild).muted_role()
         if muted_role is None:
-            return await ctx.send("No muted role set")
+            return await message.send("No muted role set")
         try:
-            await ctx.author.add_roles(guild.get_role(muted_role))
-            await ctx.reply(f"{ctx.author.mention} has been muted")
+            await message.author.add_roles(guild.get_role(muted_role))
+            await message.reply(f"{message.author.mention} has been muted")
         except discord.Forbidden:
-            return await ctx.reply("I don't have permission to mute this user")
+            return await message.reply("I don't have permission to mute this user")
 
-    async def kick(self, ctx):
+    async def kick(self, message):
         """kick a member"""
         try:
-            await ctx.author.kick(reason="Pinged too many times")
-            await ctx.channel.send(f"{ctx.author.mention} has been kicked")
+            await message.author.kick(reason="Pinged too many times")
+            await message.channel.send(f"{message.author.mention} has been kicked")
         except discord.Forbidden:
-            return await ctx.reply("I don't have permission to kick this user")
+            return await message.reply("I don't have permission to kick this user")
 
-    async def ban(self, ctx):
+    async def ban(self, message):
         """ban a member"""
         try:
-            await ctx.author.ban(reason="Pinged too much", delete_message_days=0)
-            await ctx.channel.send(f"{ctx.author.mention} has been banned")
+            await message.author.ban(reason="Pinged too much", delete_message_days=0)
+            await message.channel.send(f"{message.author.mention} has been banned")
         except discord.Forbidden:
-            return await ctx.reply("I don't have permission to ban this user")
+            return await message.reply("I don't have permission to ban this user")

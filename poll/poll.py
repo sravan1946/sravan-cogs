@@ -8,19 +8,7 @@ from redbot.core.config import Config
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
-EMOJIS = [ 
-    "None",
-    "1️⃣",
-    "2️⃣",
-    "3️⃣",
-    "4️⃣",
-    "5️⃣",
-    "6️⃣",
-    "7️⃣",
-    "8️⃣",
-    "9️⃣",
-    "🔟"
-]
+EMOJIS = ["None", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
 
 
 class Poll(commands.Cog):
@@ -36,7 +24,9 @@ class Poll(commands.Cog):
             force_registration=True,
         )
 
-    async def red_delete_data_for_user(self, *, requester: RequestType, user_id: int) -> None:
+    async def red_delete_data_for_user(
+        self, *, requester: RequestType, user_id: int
+    ) -> None:
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
@@ -63,7 +53,7 @@ class Poll(commands.Cog):
     async def poll(self, ctx, *, question: str):
         """
         Make a poll with multiple options
-        
+
         Each option must be seperated by a |.
         Maximum number options is 10.
         """
@@ -79,7 +69,7 @@ class Poll(commands.Cog):
             title=f"**{questions[0][1]}**",
         )
         embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
-        embed.description="\n".join([f"{i[0]} | {i[1]}" for i in questions[1:]])
+        embed.description = "\n".join([f"{i[0]} | {i[1]}" for i in questions[1:]])
         e = await ctx.send(embed=embed)
         for i in range(1, num):
             await e.add_reaction(EMOJIS[i])

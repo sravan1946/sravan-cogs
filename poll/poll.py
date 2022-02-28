@@ -37,7 +37,10 @@ class Poll(commands.Cog):
         """
         make a simple poll
         """
-        await ctx.message.delete()
+        try:
+            await ctx.message.delete()
+        except discord.Forbidden:
+            pass
         embed = discord.Embed(
             title=f"**{question}**",
         )
@@ -57,8 +60,11 @@ class Poll(commands.Cog):
         Each option must be seperated by a |.
         Maximum number options is 10.
         """
+        try:
+            await ctx.message.delete()
+        except discord.Forbidden:
+            pass
         questions = question.split("|")
-        await ctx.message.delete()
         questions = list(zip(EMOJIS, questions))
         num = len(questions)
         if num > 11:

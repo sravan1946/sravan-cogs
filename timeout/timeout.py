@@ -1,13 +1,12 @@
 import datetime
-from email.policy import default
-from typing import Literal, Optional
+from typing import Literal
 
 import discord
 from discord.http import Route
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.config import Config
 from redbot.core.commands.converter import TimedeltaConverter
+from redbot.core.config import Config
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
@@ -25,16 +24,25 @@ class Timeout(commands.Cog):
             force_registration=True,
         )
 
-    async def red_delete_data_for_user(self, *, requester: RequestType, user_id: int) -> None:
+    async def red_delete_data_for_user(
+        self, *, requester: RequestType, user_id: int
+    ) -> None:
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
     async def timeout_user(self, ctx, member, time, reason: str = None):
-        r = Route('PATCH', '/guilds/{guild_id}/members/{user_id}', guild_id=ctx.guild.id, user_id=member.id)
+        r = Route(
+            "PATCH",
+            "/guilds/{guild_id}/members/{user_id}",
+            guild_id=ctx.guild.id,
+            user_id=member.id,
+        )
         payload = {
-            "communication_disabled_until": str(datetime.datetime.utcnow() + time) if time else None
+            "communication_disabled_until": str(datetime.datetime.utcnow() + time)
+            if time
+            else None
         }
-        
+
         await ctx.bot.http.request(r, json=payload, reason=reason)
 
     @commands.command()
@@ -50,7 +58,7 @@ class Timeout(commands.Cog):
             maximum=datetime.timedelta(days=28),
             default_unit="minutes",
             allowed_units=["minutes", "seconds", "hours", "days"],
-            ) = datetime.timedelta(seconds=60),
+        ) = datetime.timedelta(seconds=60),
         *,
         reason: str = None,
     ):

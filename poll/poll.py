@@ -69,7 +69,7 @@ class Poll(commands.Cog):
         num = len(questions)
         if num > 11:
             return await ctx.send("You can only have 10 options in a poll")
-        if num < 2:
+        if num < 3:
             return await ctx.send("You need at least 2 options to make a poll")
         embed = discord.Embed(
             title=f"**{questions[0][1]}**",

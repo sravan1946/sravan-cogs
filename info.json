@@ -1,0 +1,8 @@
+{
+    "author" : ["sravan"],
+    "install_msg" : "Thanks for installing my repo! DM me (sravan#0001) or ping me in #support_othercogs if you have any questions or suggestions.",
+    "name" : "sravan-cogs",
+    "short" : "General cogs.",
+    "description" : "Just some cogs which I made for fun.",
+    "tags" : ["utility", "fun"]
+}

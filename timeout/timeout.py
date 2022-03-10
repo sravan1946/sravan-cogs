@@ -64,9 +64,7 @@ class Timeout(commands.Cog):
     ):
         check = await is_allowed_by_hierarchy(ctx.bot, ctx.author, member)
         if not check:
-            return await ctx.send(
-                "You cannot timeout this user due to hierarchy."
-            )
+            return await ctx.send("You cannot timeout this user due to hierarchy.")
         if member.permissions_in(ctx.channel).administrator:
             return await ctx.send("You can't timeout an administrator.")
         await self.timeout_user(ctx, member, time, reason)
@@ -88,8 +86,13 @@ class Timeout(commands.Cog):
         await self.timeout_user(ctx, member, None, reason)
         await ctx.send(f"Removed timeout from {member.mention}")
 
+
 # https://github.com/phenom4n4n/phen-cogs/blob/8727d6ee74b40709c7eb9300713dc22b88a17915/roleutils/utils.py#L34
-async def is_allowed_by_hierarchy(bot: Red, user: discord.Member, member: discord.Member) -> bool:
+async def is_allowed_by_hierarchy(
+    bot: Red, user: discord.Member, member: discord.Member
+) -> bool:
     return (
-        user.guild.owner_id == user.id or user.top_role >= member.top_role or await bot.is_owner(user)
+        user.guild.owner_id == user.id
+        or user.top_role >= member.top_role
+        or await bot.is_owner(user)
     )

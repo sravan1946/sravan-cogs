@@ -1,7 +1,8 @@
+from typing import Optional
+
 import discord
 from redbot.core import commands
 from redbot.core.bot import Red
-from typing import Optional
 
 
 class HidePing(commands.Cog):

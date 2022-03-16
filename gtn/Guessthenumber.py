@@ -122,9 +122,12 @@ class GuessTheNumber(commands.Cog):
         def check(m):
             return m.author == ctx.author and m.channel == user.dm_channel
 
-        await user.send(
-            "Please enter the range of the number you want to guess. (e.g. 1-10, 1-100, 200-600)"
-        )
+        try:
+            await user.send(
+                "Please enter the range of the number you want to guess. (e.g. 1-10, 1-100, 200-600)"
+            )
+        except discord.Forbidden:
+            return await ctx.channel.send("Could not send DM to user")
         try:
             _range = await self.bot.wait_for("message", check=check, timeout=60)
             # check if the range is a number and in the correct format

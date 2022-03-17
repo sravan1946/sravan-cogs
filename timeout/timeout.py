@@ -93,6 +93,6 @@ async def is_allowed_by_hierarchy(
 ) -> bool:
     return (
         user.guild.owner_id == user.id
-        or user.top_role >= member.top_role
+        or user.top_role > member.top_role
         or await bot.is_owner(user)
     )

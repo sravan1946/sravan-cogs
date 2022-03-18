@@ -151,7 +151,3 @@ class GuessTheNumber(commands.Cog):
             await user.send("You took too long to enter a range")
             await ctx.channel.send("Could not start the gtn event")
             return
-        except Exception as e:
-            await user.send("Something went wrong, please try again")
-            await ctx.channel.send("Could not start the gtn event")
-            return

@@ -10,9 +10,8 @@
     "required_cogs": {},
     "requirements": [],
     "tags": [
-        "tag1",
-        "tag2",
-        "tag3"
+        "mod",
+        "timeout"
     ],
     "min_bot_version": "3.3.10",
     "hidden": false,

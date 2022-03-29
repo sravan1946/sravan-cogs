@@ -1,7 +1,7 @@
 {
     "name": "DontPingStaff",
-    "short": "just dont!",
-    "description": "rekt the users who pings",
+    "short": "Take actions on users who ping",
+    "description": "Punish the users who ping others with a certain role",
     "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
     "install_msg": "ty for installing",
     "author": [

@@ -3,7 +3,7 @@
     "short": "Keep a log of all that evals and debugs",
     "description": "Logs all the Dev commands in a channel",
     "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
-    "install_msg": "should be mostly broken stuff",
+    "install_msg": "ty for installing!",
     "author": [
         "sravan"
     ],

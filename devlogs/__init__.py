@@ -19,4 +19,4 @@ async def setup(bot: Red) -> None:
         raise CogLoadError(
             "This cog requires the bot to be started with the `--dev` flag."
         )
-    await bot.add_cog(DevLogs(bot))
+    bot.add_cog(DevLogs(bot))

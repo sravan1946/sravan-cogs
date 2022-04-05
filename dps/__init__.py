@@ -12,4 +12,4 @@ with open(Path(__file__).parent / "info.json") as fp:
 async def setup(bot: Red) -> None:
     cog = DontPingStaff(bot)
     await cog.gen_cache()
-    await bot.add_cog(cog)
+    bot.add_cog(cog)

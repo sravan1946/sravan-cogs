@@ -320,7 +320,6 @@ class DontPingStaff(commands.Cog):
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
     # All of the cache stuff was taken from the antispam cog by flare.
-    # TODO: bot doesnt send the mes after the first ping after a load/reload.
     async def check_ping(self, message):
         """check for pings in a message. to be used in the listener"""
         guild = message.guild

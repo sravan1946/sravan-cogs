@@ -58,12 +58,11 @@ async def kawaiiembed(self, ctx, action: str, endpoint: str, user=None):
     embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
 
     embed.set_image(
-        url=await api_call2(
-            f"https://kawaii.red/api/gif/{endpoint}/token={api_key}"
-        )
+        url=await api_call2(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
     )
 
     return embed
+
 
 # Thanks epic
 async def get_hook(self, ctx):
@@ -105,9 +104,7 @@ async def print_it(self, ctx, embed, user=None, retried=False):
                 embed=embed,
             )
     except discord.NotFound:
-        if (
-            retried
-        ):  # This is an edge case, just a hack to prevent infinite loops
+        if retried:  # This is an edge case, just a hack to prevent infinite loops
             return await ctx.send("I can't find the webhook, sorry.")
         self.cache.pop(ctx.channel.id)
         await print_it(self, ctx, embed, retried=True)

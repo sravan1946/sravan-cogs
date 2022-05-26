@@ -15,17 +15,13 @@ limitations under the License.
 """
 
 
-
-import contextlib
 import logging
 from random import randint
 
 import discord
 from redbot.core import Config, commands
-from redbot.core.utils.chat_formatting import box
-from tabulate import tabulate
 
-from .utils import get_hook, kawaiiembed, nekosembed, print_it
+from .utils import kawaiiembed, nekosembed, print_it
 
 log = logging.getLogger("red.onii.perform")
 
@@ -179,9 +175,7 @@ class Perform(commands.Cog):
     #     embed.add_field(name=f"Sent {action}s", value=)
 
     async def check_perm(self, ctx):
-        perm = ctx.channel.permissions_for(
-            ctx.channel.guild.me
-        ).manage_webhooks
+        perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
         return perm is True
 
     @commands.cooldown(1, 10, commands.BucketType.user)
@@ -190,9 +184,7 @@ class Perform(commands.Cog):
     async def cuddle(self, ctx, user: discord.Member):
         """Cuddle a user!"""
         embed = await nekosembed(self, ctx, user, "cuddled", "cuddle")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).cuddle_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).cuddle_r()
         used = await self.config.user(ctx.author).cuddle_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total cuddles: {used + 1} | {ctx.author.name} has cuddled {user.name} {target + 1} times"
@@ -205,9 +197,9 @@ class Perform(commands.Cog):
         else:
             await ctx.reply(embed=embed, content=user.mention, mention_author=False)
         await self.config.user(ctx.author).cuddle_s.set(used + 1)
-        await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).cuddle_r.set(target + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).cuddle_r.set(
+            target + 1
+        )
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="poke")
@@ -217,9 +209,7 @@ class Perform(commands.Cog):
         embed = await kawaiiembed(self, ctx, "poked", "poke", user)
         if embed is False:
             return await ctx.send("shiro.gg api is down")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).poke_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).poke_r()
         used = await self.config.user(ctx.author).poke_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total pokes: {used + 1} | {ctx.author.name} has poked {user.name} {target + 1} times"
@@ -244,9 +234,7 @@ class Perform(commands.Cog):
         embed = await kawaiiembed(self, ctx, "just kissed", "kiss", user)
         if embed is False:
             return await ctx.send("shiro.gg api is down")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).kiss_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).kiss_r()
         used = await self.config.user(ctx.author).kiss_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total kisses: {used + 1} | {ctx.author.name} has kissed {user.name} {target + 1} times"
@@ -271,9 +259,7 @@ class Perform(commands.Cog):
         embed = await kawaiiembed(self, ctx, "just hugged", "hug", user)
         if embed is False:
             return await ctx.send("shiro.gg api is down")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).hug_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).hug_r()
         used = await self.config.user(ctx.author).hug_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total hugs: {used + 1} | {ctx.author.name} has hugged {user.name} {target + 1} times"
@@ -286,9 +272,7 @@ class Perform(commands.Cog):
         else:
             await ctx.reply(embed=embed, content=user.mention, mention_author=False)
         await self.config.user(ctx.author).hug_s.set(used + 1)
-        await self.config.custom("Target", ctx.author.id, user.id).hug_r.set(
-            target + 1
-        )
+        await self.config.custom("Target", ctx.author.id, user.id).hug_r.set(target + 1)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="pat")
@@ -298,9 +282,7 @@ class Perform(commands.Cog):
         embed = await kawaiiembed(self, ctx, "just patted", "pat", user)
         if embed is False:
             return await ctx.send("shiro.gg api is down")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).pat_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).pat_r()
         used = await self.config.user(ctx.author).pat_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total pats: {used + 1} | {ctx.author.name} has patted {user.name} {target + 1} times"
@@ -313,9 +295,7 @@ class Perform(commands.Cog):
         else:
             await ctx.reply(embed=embed, content=user.mention, mention_author=False)
         await self.config.user(ctx.author).pat_s.set(used + 1)
-        await self.config.custom("Target", ctx.author.id, user.id).pat_r.set(
-            target + 1
-        )
+        await self.config.custom("Target", ctx.author.id, user.id).pat_r.set(target + 1)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="tickle")
@@ -325,9 +305,7 @@ class Perform(commands.Cog):
         embed = await kawaiiembed(self, ctx, "just tickled", "tickle", user)
         if embed is False:
             return await ctx.send("shiro.gg api is down")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).tickle_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).tickle_r()
         used = await self.config.user(ctx.author).tickle_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total tickles: {used + 1} | {ctx.author.name} has tickled {user.name} {target + 1} times"
@@ -340,9 +318,9 @@ class Perform(commands.Cog):
         else:
             await ctx.reply(embed=embed, content=user.mention, mention_author=False)
         await self.config.user(ctx.author).tickle_s.set(used + 1)
-        await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).tickle_r.set(target + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).tickle_r.set(
+            target + 1
+        )
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="smug")
@@ -371,9 +349,7 @@ class Perform(commands.Cog):
         embed = await kawaiiembed(self, ctx, "just licked", "lick", user)
         if embed is False:
             return await ctx.send("shiro.gg api is down")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).lick_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).lick_r()
         used = await self.config.user(ctx.author).lick_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total licks: {used + 1} | {ctx.author.name} has licked {user.name} {target + 1} times"
@@ -398,9 +374,7 @@ class Perform(commands.Cog):
         embed = await kawaiiembed(self, ctx, "just slapped", "slap", user)
         if embed is False:
             return await ctx.send("shiro.gg api is down")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).slap_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).slap_r()
         used = await self.config.user(ctx.author).slap_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total slaps: {used + 1} | {ctx.author.name} has slapped {user.name} {target + 1} times"
@@ -470,11 +444,11 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** just spanked {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        em.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
+        em.set_author(
+            name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url
+        )
         em.set_image(url=images[i])
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).spank_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).spank_r()
         used = await self.config.user(ctx.author).spank_s()
         em.set_footer(
             text=f"{ctx.author.name}'s total spanks: {used + 1} | {ctx.author.name} has spanked {user.name} {target + 1} times"
@@ -544,11 +518,11 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** feeds {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        em.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
+        em.set_author(
+            name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url
+        )
         em.set_image(url=images[i])
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).feed_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).feed_r()
         used = await self.config.user(ctx.author).feed_s()
         em.set_footer(
             text=f"{ctx.author.name}'s total feeds: {used + 1} | {ctx.author.name} has feeded {user.name} {target + 1} times"
@@ -573,11 +547,11 @@ class Perform(commands.Cog):
         embed = await kawaiiembed(self, ctx, "just punched", "punch", user)
         if embed is False:
             return await ctx.send("shiro.gg api is down")
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).punch_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).punch_r()
         used = await self.config.user(ctx.author).punch_s()
-        embed.set_footer(text=f"{ctx.author.name}'s total punches: {used + 1} | {ctx.author.name} has punched {user.name} {target + 1} times")
+        embed.set_footer(
+            text=f"{ctx.author.name}'s total punches: {used + 1} | {ctx.author.name} has punched {user.name} {target + 1} times"
+        )
         if ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks is True:
             try:
                 await print_it(self, ctx, embed, user)
@@ -630,9 +604,7 @@ class Perform(commands.Cog):
     async def highfive(self, ctx, user: discord.Member):
         """Highfive a user!"""
         embed = await kawaiiembed(self, ctx, "highfived", "highfive", user)
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).highfive_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).highfive_r()
         used = await self.config.user(ctx.author).highfive_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total highfives: {used + 1} | {ctx.author.name} has highfived {user.name} {target + 1} times"
@@ -645,9 +617,9 @@ class Perform(commands.Cog):
         else:
             await ctx.reply(embed=embed, content=user.mention, mention_author=False)
         await self.config.user(ctx.author).highfive_s.set(used + 1)
-        await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).highfive_r.set(target + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).highfive_r.set(
+            target + 1
+        )
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="plead", aliases=["ask"])
@@ -655,9 +627,7 @@ class Perform(commands.Cog):
     async def plead(self, ctx, user: discord.Member):
         """Asks a user!"""
         embed = await kawaiiembed(self, ctx, "is pleading", "ask", user)
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).plead_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).plead_r()
         used = await self.config.user(ctx.author).plead_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total pleads: {used + 1} | {ctx.author.name} has pleaded {user.name} {target + 1} times"
@@ -698,9 +668,7 @@ class Perform(commands.Cog):
         """Do a facepalm!"""
         embed = await kawaiiembed(self, ctx, "is facepalming!", "facepalm")
         used = await self.config.user(ctx.author).facepalm()
-        embed.set_footer(
-            text=f"{ctx.author.name}'s total facepalms: {used + 1}"
-        )
+        embed.set_footer(text=f"{ctx.author.name}'s total facepalms: {used + 1}")
         if await self.check_perm(ctx) is True:
             try:
                 await print_it(self, ctx, embed)
@@ -717,9 +685,7 @@ class Perform(commands.Cog):
         """Do a facedesk!"""
         embed = await kawaiiembed(self, ctx, "is facedesking!", "facedesk")
         used = await self.config.user(ctx.author).facedesk()
-        embed.set_footer(
-            text=f"{ctx.author.name}'s total facedesks: {used + 1}"
-        )
+        embed.set_footer(text=f"{ctx.author.name}'s total facedesks: {used + 1}")
         if await self.check_perm(ctx) is True:
             try:
                 await print_it(self, ctx, embed)
@@ -735,9 +701,7 @@ class Perform(commands.Cog):
     async def kill(self, ctx, user: discord.Member):
         """Kill a user!"""
         embed = await kawaiiembed(self, ctx, "killed", "kill", user)
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).kill_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).kill_r()
         used = await self.config.user(ctx.author).kill_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total kills: {used + 1} | {ctx.author.name} has killed {user.name} {target + 1} times"
@@ -760,9 +724,7 @@ class Perform(commands.Cog):
     async def love(self, ctx, user: discord.Member):
         """Love a user!"""
         embed = await kawaiiembed(self, ctx, "loves", "love", user)
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).love_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).love_r()
         used = await self.config.user(ctx.author).love_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total loves: {used + 1} | {ctx.author.name} has loved {user.name} {target + 1} times"
@@ -836,9 +798,7 @@ class Perform(commands.Cog):
     async def bite(self, ctx, user: discord.Member):
         """Bite a user!"""
         embed = await kawaiiembed(self, ctx, "is biting", "bite", user)
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).bite_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).bite_r()
         used = await self.config.user(ctx.author).bite_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total bites: {used + 1} | {ctx.author.name} has bitten {user.name} {target + 1} times"
@@ -878,9 +838,7 @@ class Perform(commands.Cog):
     async def yeet(self, ctx, user: discord.Member):
         """Yeet someone!"""
         embed = await kawaiiembed(self, ctx, "yeeted", "yeet", user)
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).yeet_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).yeet_r()
         used = await self.config.user(ctx.author).yeet_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total yeets: {used + 1} | {ctx.author.name} has yeeted {user.name} {target + 1} times"
@@ -921,9 +879,7 @@ class Perform(commands.Cog):
         """Act happy!"""
         embed = await kawaiiembed(self, ctx, "is happy!", "happy")
         used = await self.config.user(ctx.author).happy()
-        embed.set_footer(
-            text=f"{ctx.author.name}'s total happiness: {used + 1}"
-        )
+        embed.set_footer(text=f"{ctx.author.name}'s total happiness: {used + 1}")
         if await self.check_perm(ctx) is True:
             try:
                 await print_it(self, ctx, embed)
@@ -940,9 +896,7 @@ class Perform(commands.Cog):
         """Act cute!"""
         embed = await kawaiiembed(self, ctx, "is acting cute!", "cute")
         used = await self.config.user(ctx.author).cute()
-        embed.set_footer(
-            text=f"{ctx.author.name}'s total cuteness: {used + 1}"
-        )
+        embed.set_footer(text=f"{ctx.author.name}'s total cuteness: {used + 1}")
         if await self.check_perm(ctx) is True:
             try:
                 await print_it(self, ctx, embed)
@@ -959,9 +913,7 @@ class Perform(commands.Cog):
         """Act lonely!"""
         embed = await kawaiiembed(self, ctx, "is lonely!", "lonely")
         used = await self.config.user(ctx.author).lonely()
-        embed.set_footer(
-            text=f"{ctx.author.name}'s total loneliness: {used + 1}"
-        )
+        embed.set_footer(text=f"{ctx.author.name}'s total loneliness: {used + 1}")
         if await self.check_perm(ctx) is True:
             try:
                 await print_it(self, ctx, embed)
@@ -978,9 +930,7 @@ class Perform(commands.Cog):
         """Act angry!"""
         embed = await kawaiiembed(self, ctx, "is angry!", "mad")
         used = await self.config.user(ctx.author).mad()
-        embed.set_footer(
-            text=f"{ctx.author.name}'s total angriness: {used + 1}"
-        )
+        embed.set_footer(text=f"{ctx.author.name}'s total angriness: {used + 1}")
         if await self.check_perm(ctx) is True:
             try:
                 await print_it(self, ctx, embed)
@@ -995,13 +945,9 @@ class Perform(commands.Cog):
     @commands.guild_only()
     async def nosebleed(self, ctx):
         """Start bleeding from nose!"""
-        embed = await kawaiiembed(
-            self, ctx, "'s nose is bleeding!", "nosebleed"
-        )
+        embed = await kawaiiembed(self, ctx, "'s nose is bleeding!", "nosebleed")
         used = await self.config.user(ctx.author).nosebleed()
-        embed.set_footer(
-            text=f"{ctx.author.name}'s total nosebleeds: {used + 1}"
-        )
+        embed.set_footer(text=f"{ctx.author.name}'s total nosebleeds: {used + 1}")
         if await self.check_perm(ctx) is True:
             try:
                 await print_it(self, ctx, embed)
@@ -1017,9 +963,7 @@ class Perform(commands.Cog):
     async def protect(self, ctx, user: discord.Member):
         """Protech someone!"""
         embed = await kawaiiembed(self, ctx, "is protecting!", "protect", user)
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).protect_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).protect_r()
         used = await self.config.user(ctx.author).protect_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total protects: {used + 1} | {ctx.author.name} has protected {user.name} {target + 1} times"
@@ -1032,9 +976,9 @@ class Perform(commands.Cog):
         else:
             await ctx.reply(embed=embed, content=user.mention, mention_author=False)
         await self.config.user(ctx.author).protect_s.set(used + 1)
-        await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).protect_r.set(target + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).protect_r.set(
+            target + 1
+        )
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="run")
@@ -1127,9 +1071,7 @@ class Perform(commands.Cog):
     async def wave(self, ctx, user: discord.Member):
         """Wave to someone!"""
         embed = await kawaiiembed(self, ctx, "is waving", "wave", user)
-        target = await self.config.custom(
-            "Target", ctx.author.id, user.id
-        ).wave_r()
+        target = await self.config.custom("Target", ctx.author.id, user.id).wave_r()
         used = await self.config.user(ctx.author).wave_s()
         embed.set_footer(
             text=f"{ctx.author.name}'s total waves: {used + 1} | {ctx.author.name} has waved {user.name} {target + 1} times"
@@ -1142,7 +1084,9 @@ class Perform(commands.Cog):
         else:
             await ctx.reply(embed=embed, content=user.mention, mention_author=False)
         await self.config.user(ctx.author).wave_s.set(used + 1)
-        await self.config.custom("Target", ctx.author.id, user.id).wave_r.set(target + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).wave_r.set(
+            target + 1
+        )
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="nutkick", aliases=["kicknuts"])
@@ -1159,11 +1103,15 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** just kicked nuts of {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        em.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
+        em.set_author(
+            name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url
+        )
         em.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).nut_r()
         used = await self.config.user(ctx.author).nut_s()
-        em.set_footer(text=f"{ctx.author.name}'s total nutkicks: {used + 1} | {ctx.author.name} has nutkicked {user.name} {target + 1} times")
+        em.set_footer(
+            text=f"{ctx.author.name}'s total nutkicks: {used + 1} | {ctx.author.name} has nutkicked {user.name} {target + 1} times"
+        )
         if ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks is True:
             try:
                 await print_it(self, ctx, em, user)
@@ -1188,6 +1136,7 @@ class Perform(commands.Cog):
             ),
         )
         await ctx.send(embed=embed)
+
 
 #     @commands.command()
 #     @commands.guild_only()
@@ -1259,6 +1208,7 @@ class Perform(commands.Cog):
 #                 targets.append((value["spank_r"], key))
 #         targets.sort(key=lambda x: x[0], reverse = True)
 #     return targets[:10]
+
 
 def setup(bot):
     global hug

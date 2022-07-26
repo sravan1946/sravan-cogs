@@ -1,1 +1,1 @@
-from .perform import setup 
+from .perform import setup # noqa

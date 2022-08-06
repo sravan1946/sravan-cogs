@@ -53,17 +53,17 @@ class Timeout(commands.Cog):
         self,
         ctx,
         member: discord.Member,
-        time: Optional[
-            TimedeltaConverter(
-                minimum=datetime.timedelta(minutes=1),
-                maximum=datetime.timedelta(days=28),
-                default_unit="minutes",
-                allowed_units=["minutes", "seconds", "hours", "days"],
-            )
-        ] = datetime.timedelta(seconds=60),
+        time: Optional[TimedeltaConverter(
+            minimum=datetime.timedelta(minutes=1),
+            maximum=datetime.timedelta(days=28),
+            default_unit="minutes",
+            allowed_units=["minutes", "seconds", "hours", "days"],
+        )] = None,
         *,
         reason: str = None,
     ):
+        if not time:
+            time = datetime.timedelta(seconds=60)
         check = await is_allowed_by_hierarchy(ctx.bot, ctx.author, member)
         if not check:
             return await ctx.send("You cannot timeout this user due to hierarchy.")

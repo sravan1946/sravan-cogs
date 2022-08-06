@@ -1,5 +1,5 @@
 import datetime
-from typing import Literal, Optional
+from typing import Literal
 
 import discord
 from discord.http import Route
@@ -54,11 +54,11 @@ class Timeout(commands.Cog):
         ctx,
         member: discord.Member,
         time: TimedeltaConverter(
-                    minimum=datetime.timedelta(minutes=1),
-                    maximum=datetime.timedelta(days=28),
-                    default_unit="minutes",
-                    allowed_units=["minutes", "seconds", "hours", "days"],
-                ) = None,
+            minimum=datetime.timedelta(minutes=1),
+            maximum=datetime.timedelta(days=28),
+            default_unit="minutes",
+            allowed_units=["minutes", "seconds", "hours", "days"],
+        ) = None,
         *,
         reason: str = None,
     ):

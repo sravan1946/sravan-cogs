@@ -47,7 +47,7 @@ class Timeout(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.mod_or_permissions(administrator=True)
     async def timeout(
         self,
@@ -76,7 +76,7 @@ class Timeout(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
-    @commands.cooldown(1, 5, commands.BucketType.user)
+    @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.mod_or_permissions(administrator=True)
     async def untimeout(
         self,

@@ -53,12 +53,14 @@ class Timeout(commands.Cog):
         self,
         ctx,
         member: discord.Member,
-        time: Optional[TimedeltaConverter(
-            minimum=datetime.timedelta(minutes=1),
-            maximum=datetime.timedelta(days=28),
-            default_unit="minutes",
-            allowed_units=["minutes", "seconds", "hours", "days"],
-        )] = datetime.timedelta(seconds=60),
+        time: Optional[
+            TimedeltaConverter(
+                minimum=datetime.timedelta(minutes=1),
+                maximum=datetime.timedelta(days=28),
+                default_unit="minutes",
+                allowed_units=["minutes", "seconds", "hours", "days"],
+            )
+        ] = datetime.timedelta(seconds=60),
         *,
         reason: str = None,
     ):

@@ -37,8 +37,11 @@ class Timeout(commands.Cog):
             guild_id=ctx.guild.id,
             user_id=member.id,
         )
+
         payload = {
-            "communication_disabled_until": str(datetime.datetime.utcnow() + time)
+            "communication_disabled_until": str(
+                datetime.datetime.now(datetime.timezone.utc) + time
+            )
             if time
             else None
         }
@@ -70,7 +73,7 @@ class Timeout(commands.Cog):
         if member.permissions_in(ctx.channel).administrator:
             return await ctx.send("You can't timeout an administrator.")
         await self.timeout_user(ctx, member, time, reason)
-        timestamp = datetime.datetime.utcnow() + time
+        timestamp = datetime.datetime.now(datetime.timezone.utc) + time
         timestamp = int(datetime.datetime.timestamp(timestamp))
         await ctx.send(f"{member.mention} has been timed out till <t:{timestamp}:f>.")
 

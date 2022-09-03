@@ -30,7 +30,13 @@ class Timeout(commands.Cog):
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
-    async def timeout_user(self, ctx, member, time, reason: str = None):
+    async def timeout_user(
+        self,
+        ctx: commands.Context,
+        member: discord.Member,
+        time: datetime.timedelta,
+        reason: str = None,
+    ) -> None:
         r = Route(
             "PATCH",
             "/guilds/{guild_id}/members/{user_id}",
@@ -54,7 +60,7 @@ class Timeout(commands.Cog):
     @commands.mod_or_permissions(administrator=True)
     async def timeout(
         self,
-        ctx,
+        ctx: commands.Context,
         member: discord.Member,
         time: TimedeltaConverter(
             minimum=datetime.timedelta(minutes=1),
@@ -83,7 +89,7 @@ class Timeout(commands.Cog):
     @commands.mod_or_permissions(administrator=True)
     async def untimeout(
         self,
-        ctx,
+        ctx: commands.Context,
         member: discord.Member,
         *,
         reason: str = None,

@@ -184,6 +184,8 @@ class Perform(commands.Cog):
     async def cuddle(self, ctx, user: discord.Member):
         """Cuddle a user!"""
         embed = await kawaiiembed(self, ctx, "cuddled", "cuddle", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
         target = await self.config.custom("Target", ctx.author.id, user.id).cuddle_r()
         used = await self.config.user(ctx.author).cuddle_s()
         embed.set_footer(

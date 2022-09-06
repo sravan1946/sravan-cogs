@@ -21,7 +21,7 @@ from random import randint
 import discord
 from redbot.core import Config, commands
 
-from .utils import kawaiiembed, nekosembed, print_it
+from .utils import kawaiiembed, print_it
 
 log = logging.getLogger("red.onii.perform")
 

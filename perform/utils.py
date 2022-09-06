@@ -7,32 +7,10 @@ async def api_call(call_uri, returnObj=False):
         async with session.get(f"{call_uri}") as response:
             response = await response.json()
             if returnObj is False:
-                return response["url"]
-            elif returnObj is True:
-                return response
-    await session.close()
-
-
-async def api_call2(call_uri, returnObj=False):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(f"{call_uri}") as response:
-            response = await response.json()
-            if returnObj is False:
                 return response["response"]
             elif returnObj is True:
                 return response
     await session.close()
-
-
-async def nekosembed(self, ctx, user, action: str, endpoint: str):
-    embed = discord.Embed(
-        description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
-        color=discord.Colour.random(),
-    )
-    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
-    embed.set_image(url=await api_call(f"https://nekos.life/api/v2/img/{endpoint}"))
-
-    return embed
 
 
 async def kawaiiembed(self, ctx, action: str, endpoint: str, user=None):
@@ -58,7 +36,7 @@ async def kawaiiembed(self, ctx, action: str, endpoint: str, user=None):
     embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
 
     embed.set_image(
-        url=await api_call2(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
+        url=await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
     )
 
     return embed

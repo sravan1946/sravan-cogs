@@ -132,8 +132,8 @@ class Timeout(commands.Cog):
         *,
         reason: str = None,
     ):
-        is_timedout = await self.is_user_timed_out(member_or_role)
         if isinstance(member_or_role, discord.Member):
+            is_timedout = await self.is_user_timed_out(member_or_role)
             if not is_timedout:
                 return await ctx.send("This user is not timed out.")
             await self.timeout_user(ctx, member_or_role, None, reason)

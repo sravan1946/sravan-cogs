@@ -1,5 +1,5 @@
 import datetime
-from typing import Literal, Union, Optional
+from typing import Literal, Optional, Union
 
 import discord
 from discord.http import Route
@@ -101,13 +101,13 @@ class Timeout(commands.Cog):
         reason: Optional[str] = None,
     ):
         """Timeout users.
-        
-        `<member_or_role>` is the username/rolename, ID or mention. If provided a role, 
+
+        `<member_or_role>` is the username/rolename, ID or mention. If provided a role,
         everyone with that role will be timedout.
-        `[time]` is the time to mute for. Time is any valid time length such as `45 minutes` 
+        `[time]` is the time to mute for. Time is any valid time length such as `45 minutes`
         or `3 days`. If nothing is provided the timeout will be 60 seconds default.
         `[reason]` is the reason for the timeout. Defaults to `None` if nothing is provided.
-        
+
         Examples:
         `[p]timeout @member 5m talks too much`
         `[p]timeout @member 10m`
@@ -145,8 +145,8 @@ class Timeout(commands.Cog):
         reason: Optional[str] = None,
     ):
         """Untimeout users.
-        
-        `<member_or_role>` is the username/rolename, ID or mention. If provided a role, 
+
+        `<member_or_role>` is the username/rolename, ID or mention. If provided a role,
         everyone with that role will be untimed.
         `[reason]` is the reason for the untimeout. Defaults to `None` if nothing is provided.
         """

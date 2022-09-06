@@ -1,5 +1,6 @@
 import aiohttp
 import discord
+from redbot.core import commands
 
 
 async def api_call(call_uri, returnObj=False):
@@ -13,7 +14,9 @@ async def api_call(call_uri, returnObj=False):
     await session.close()
 
 
-async def kawaiiembed(self, ctx, action: str, endpoint: str, user=None):
+async def kawaiiembed(
+    self, ctx: commands.Context, action: str, endpoint: str, user=None
+) -> discord.Embed:
     api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
     if not api_key:
         return await ctx.send(
@@ -43,7 +46,7 @@ async def kawaiiembed(self, ctx, action: str, endpoint: str, user=None):
 
 
 # Thanks epic
-async def get_hook(self, ctx):
+async def get_hook(self, ctx: commands.Context):
     try:
         if ctx.channel.id not in self.cache:
             for i in await ctx.channel.webhooks():
@@ -65,7 +68,13 @@ async def get_hook(self, ctx):
     return hook
 
 
-async def print_it(self, ctx, embed, user=None, retried=False):
+async def print_it(
+    self,
+    ctx: commands.Context,
+    embed: discord.Embed,
+    user: discord.User = None,
+    retried: bool = False,
+):
     hook = await get_hook(self, ctx)
     try:
         if user:

@@ -40,7 +40,7 @@ async def kawaiiembed(
     try:
         url = await api_call(f"https://kawaii.red/api/{endpoint}/token={api_key}")
     except aiohttp.client_exceptions.ContentTypeError:
-        return await ctx.send("The API is currently down, please try again later.")
+        return "The API is currently down, please try again later."
     embed.set_image(url=url)
 
     return embed

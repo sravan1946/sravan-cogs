@@ -29,7 +29,7 @@ async def nekosembed(self, ctx, user, action: str, endpoint: str):
         description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
         color=discord.Colour.random(),
     )
-    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
+    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
     embed.set_image(url=await api_call(f"https://nekos.life/api/v2/img/{endpoint}"))
 
     return embed
@@ -53,9 +53,9 @@ async def kawaiiembed(self, ctx, action: str, endpoint: str, user=None):
         )
     embed.set_footer(
         text=f"Requested by {ctx.message.author.display_name}",
-        icon_url=ctx.message.author.avatar_url,
+        icon_url=ctx.message.author.avatar,
     )
-    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
+    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
 
     embed.set_image(
         url=await api_call2(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
@@ -93,14 +93,14 @@ async def print_it(self, ctx, embed, user=None, retried=False):
         if user:
             await hook.send(
                 username=ctx.message.author.display_name,
-                avatar_url=ctx.message.author.avatar_url,
+                avatar_url=ctx.message.author.avatar,
                 embed=embed,
                 content=user.mention,
             )
         else:
             await hook.send(
                 username=ctx.message.author.display_name,
-                avatar_url=ctx.message.author.avatar_url,
+                avatar_url=ctx.message.author.avatar,
                 embed=embed,
             )
     except discord.NotFound:

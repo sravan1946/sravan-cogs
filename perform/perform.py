@@ -1210,8 +1210,8 @@ class Perform(commands.Cog):
 #     return targets[:10]
 
 
-def setup(bot):
+async def setup(bot):
     global hug
 
     hug = bot.remove_command("hug")
-    bot.add_cog(Perform(bot))
+    await bot.add_cog(Perform(bot))

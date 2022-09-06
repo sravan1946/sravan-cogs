@@ -1,5 +1,5 @@
 import datetime
-from typing import Literal, Union
+from typing import Literal, Optional, Union
 
 import discord
 from discord.http import Route
@@ -48,7 +48,7 @@ class Timeout(commands.Cog):
         ctx: commands.Context,
         member: discord.Member,
         time: datetime.timedelta,
-        reason: str = None,
+        reason: Optional[str] = None,
     ) -> None:
         r = Route(
             "PATCH",
@@ -72,7 +72,7 @@ class Timeout(commands.Cog):
         ctx: commands.Context,
         role: discord.Role,
         time: datetime.timedelta,
-        reason: str = None,
+        reason: Optional[str] = None,
     ) -> None:
         failed = []
         members = list(role.members)
@@ -98,8 +98,20 @@ class Timeout(commands.Cog):
             allowed_units=["minutes", "seconds", "hours", "days"],
         ) = None,
         *,
-        reason: str = None,
+        reason: Optional[str] = None,
     ):
+        """Timeout users.
+
+        `<member_or_role>` is the username/rolename, ID or mention. If provided a role,
+        everyone with that role will be timedout.
+        `[time]` is the time to mute for. Time is any valid time length such as `45 minutes`
+        or `3 days`. If nothing is provided the timeout will be 60 seconds default.
+        `[reason]` is the reason for the timeout. Defaults to `None` if nothing is provided.
+
+        Examples:
+        `[p]timeout @member 5m talks too much`
+        `[p]timeout @member 10m`
+        """
         if not time:
             time = datetime.timedelta(seconds=60)
         timestamp = datetime.datetime.now(datetime.timezone.utc) + time
@@ -130,8 +142,14 @@ class Timeout(commands.Cog):
         ctx: commands.Context,
         member_or_role: Union[discord.Member, discord.Role],
         *,
-        reason: str = None,
+        reason: Optional[str] = None,
     ):
+        """Untimeout users.
+
+        `<member_or_role>` is the username/rolename, ID or mention. If provided a role,
+        everyone with that role will be untimed.
+        `[reason]` is the reason for the untimeout. Defaults to `None` if nothing is provided.
+        """
         if isinstance(member_or_role, discord.Member):
             is_timedout = await self.is_user_timed_out(member_or_role)
             if not is_timedout:

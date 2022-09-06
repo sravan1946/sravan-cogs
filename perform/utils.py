@@ -37,10 +37,8 @@ async def kawaiiembed(
         icon_url=ctx.message.author.avatar_url,
     )
     embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
-
-    embed.set_image(
-        url=await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
-    )
+    url = await api_call(f"https://kawaii.red/api/{endpoint}/token={api_key}")
+    embed.set_image(url=url)
 
     return embed
 

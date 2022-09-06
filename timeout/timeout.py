@@ -83,7 +83,7 @@ class Timeout(commands.Cog):
                 failed.append(member)
         return failed
 
-    @commands.command()
+    @commands.command(aliases=["tt"])
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.mod_or_permissions(administrator=True)
@@ -121,7 +121,7 @@ class Timeout(commands.Cog):
             failed = await self.timeout_role(ctx, member_or_role, time, reason)
             await ctx.send(f"Failed to timeout {len(failed)} members.")
 
-    @commands.command()
+    @commands.command(aliases=["utt"])
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.mod_or_permissions(administrator=True)

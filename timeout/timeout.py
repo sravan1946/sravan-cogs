@@ -1,5 +1,5 @@
 import datetime
-from typing import Literal
+from typing import Literal, Union
 
 import discord
 from discord.http import Route
@@ -30,6 +30,19 @@ class Timeout(commands.Cog):
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
+    async def is_user_timed_out(self, member: discord.Member) -> bool:
+        r = Route(
+            "GET",
+            "/guilds/{guild_id}/members/{user_id}",
+            guild_id=member.guild.id,
+            user_id=member.id,
+        )
+        try:
+            data = await self.bot.http.request(r)
+        except discord.NotFound:
+            return False
+        return data["communication_disabled_until"] is not None
+
     async def timeout_user(
         self,
         ctx: commands.Context,
@@ -54,6 +67,22 @@ class Timeout(commands.Cog):
 
         await ctx.bot.http.request(r, json=payload, reason=reason)
 
+    async def timeout_role(
+        self,
+        ctx: commands.Context,
+        role: discord.Role,
+        time: datetime.timedelta,
+        reason: str = None,
+    ) -> None:
+        failed = []
+        members = list(role.members)
+        for member in members:
+            try:
+                await self.timeout_user(ctx, member, time, reason)
+            except discord.HTTPException:
+                failed.append(member)
+        return failed
+
     @commands.command()
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
@@ -61,7 +90,7 @@ class Timeout(commands.Cog):
     async def timeout(
         self,
         ctx: commands.Context,
-        member: discord.Member,
+        member_or_role: Union[discord.Member, discord.Role],
         time: TimedeltaConverter(
             minimum=datetime.timedelta(minutes=1),
             maximum=datetime.timedelta(days=28),
@@ -73,15 +102,24 @@ class Timeout(commands.Cog):
     ):
         if not time:
             time = datetime.timedelta(seconds=60)
-        check = await is_allowed_by_hierarchy(ctx.bot, ctx.author, member)
-        if not check:
-            return await ctx.send("You cannot timeout this user due to hierarchy.")
-        if member.permissions_in(ctx.channel).administrator:
-            return await ctx.send("You can't timeout an administrator.")
-        await self.timeout_user(ctx, member, time, reason)
         timestamp = datetime.datetime.now(datetime.timezone.utc) + time
         timestamp = int(datetime.datetime.timestamp(timestamp))
-        await ctx.send(f"{member.mention} has been timed out till <t:{timestamp}:f>.")
+        if isinstance(member_or_role, discord.Member):
+            check = await is_allowed_by_hierarchy(ctx.bot, ctx.author, member_or_role)
+            if not check:
+                return await ctx.send("You cannot timeout this user due to hierarchy.")
+            if member_or_role.permissions_in(ctx.channel).administrator:
+                return await ctx.send("You can't timeout an administrator.")
+            await self.timeout_user(ctx, member_or_role, time, reason)
+            await ctx.send(
+                f"{member_or_role.mention} has been timed out till <t:{timestamp}:f>."
+            )
+        else:
+            await ctx.send(
+                f"Timeing out {len(member_or_role.members)} members till <t:{timestamp}:f>."
+            )
+            failed = await self.timeout_role(ctx, member_or_role, time, reason)
+            await ctx.send(f"Failed to timeout {len(failed)} members.")
 
     @commands.command()
     @commands.guild_only()
@@ -90,12 +128,25 @@ class Timeout(commands.Cog):
     async def untimeout(
         self,
         ctx: commands.Context,
-        member: discord.Member,
+        member_or_role: Union[discord.Member, discord.Role],
         *,
         reason: str = None,
     ):
-        await self.timeout_user(ctx, member, None, reason)
-        await ctx.send(f"Removed timeout from {member.mention}")
+        is_timedout = await self.is_user_timed_out(member_or_role)
+        if isinstance(member_or_role, discord.Member):
+            if not is_timedout:
+                return await ctx.send("This user is not timed out.")
+            await self.timeout_user(ctx, member_or_role, None, reason)
+            return await ctx.send(f"Removed timeout from {member_or_role.mention}")
+        if isinstance(member_or_role, discord.Role):
+            await ctx.send(
+                f"Removing timeout from {len(member_or_role.members)} members."
+            )
+            members = list(member_or_role.members)
+            for member in members:
+                if await self.is_user_timed_out(member):
+                    await self.timeout_user(ctx, member, None, reason)
+            return await ctx.send(f"Removed timeout from {len(members)} members.")
 
 
 # https://github.com/phenom4n4n/phen-cogs/blob/8727d6ee74b40709c7eb9300713dc22b88a17915/roleutils/utils.py#L34

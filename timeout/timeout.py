@@ -123,15 +123,15 @@ class Timeout(commands.Cog):
             if member_or_role.permissions_in(ctx.channel).administrator:
                 return await ctx.send("You can't timeout an administrator.")
             await self.timeout_user(ctx, member_or_role, time, reason)
-            await ctx.send(
+            return await ctx.send(
                 f"{member_or_role.mention} has been timed out till <t:{timestamp}:f>."
             )
-        else:
+        if isinstance(member_or_role, discord.Role):
             await ctx.send(
                 f"Timeing out {len(member_or_role.members)} members till <t:{timestamp}:f>."
             )
             failed = await self.timeout_role(ctx, member_or_role, time, reason)
-            await ctx.send(f"Failed to timeout {len(failed)} members.")
+            return await ctx.send(f"Failed to timeout {len(failed)} members.")
 
     @commands.command(aliases=["utt"])
     @commands.guild_only()

@@ -38,7 +38,7 @@ async def kawaiiembed(
     )
     embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
     try:
-        url = await api_call(f"https://kawaii.red/api/{endpoint}/token={api_key}")
+        url = await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
     except aiohttp.client_exceptions.ContentTypeError:
         return "The API is currently down, please try again later."
     embed.set_image(url=url)

@@ -19,6 +19,14 @@ class Poll(commands.Cog):
     def __init__(self, bot: Red) -> None:
         self.bot = bot
 
+    __author__ = ["sravan"]
+    __version__ = "1.0.5"
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
+
     async def red_delete_data_for_user(
         self, *, requester: RequestType, user_id: int
     ) -> None:

@@ -42,6 +42,14 @@ class DontPingStaff(commands.Cog):
         self.config.register_guild(**default_guild)
         self.cache = {}
 
+    __author__ = ["sravan"]
+    __version__ = "1.0.5"
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
+        """Thanks Sinbad!"""
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
+
     async def gen_cache(self):
         self.config_cache = await self.config.all_guilds()
 

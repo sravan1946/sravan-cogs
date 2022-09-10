@@ -1,4 +1,5 @@
 import asyncio
+import contextlib
 from typing import Literal
 
 import discord
@@ -37,10 +38,8 @@ class Poll(commands.Cog):
         """
         make a simple poll
         """
-        try:
+        with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
-        except discord.Forbidden:
-            pass
         embed = discord.Embed(
             title=f"**{question}**",
         )
@@ -60,10 +59,8 @@ class Poll(commands.Cog):
         Each option must be seperated by a |.
         Maximum number options is 10.
         """
-        try:
+        with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
-        except discord.Forbidden:
-            pass
         questions = question.split("|")
         questions = list(zip(EMOJIS, questions))
         num = len(questions)

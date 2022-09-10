@@ -32,21 +32,21 @@ class GuessTheNumber(commands.Cog):
     async def gtn(self, ctx: commands.Context):
         """start a gtn event"""
         user = ctx.author
-        range = await self.get_vaules(ctx, user)
+        _range = await self.get_vaules(ctx, user)
 
         def check(m):
             return m.author == ctx.author and m.channel == user.dm_channel
 
-        if range is None:
+        if _range is None:
             return
-        low, high = int(range[0]), int(range[1])
+        low, high = int(_range[0]), int(_range[1])
         try:
             await user.send(
                 "Do u want the bot to pick a random number in the range?(y/n)"
             )
             confirmation = await self.bot.wait_for("message", check=check, timeout=60)
             if confirmation.content.lower() in ["y", "yes"]:
-                number = random.randint(int(low), int(high))
+                number = random.randint(low, high)
             elif confirmation.content.lower() in ["n", "no"]:
                 await user.send("Please enter the number to be guessed")
                 number = await self.bot.wait_for("message", check=check, timeout=60)
@@ -93,7 +93,7 @@ class GuessTheNumber(commands.Cog):
                     winem.add_field(name="Number of guesses", value=guesses)
                     winem.add_field(name="Number guessed", value=guess.content)
                     winem.set_footer(
-                        text=f"Thanks for playing!",
+                        text="Thanks for playing!",
                     )
                     await guess.reply(embed=winem, content=ctx.author.mention)
                     if pinned:

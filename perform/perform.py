@@ -174,7 +174,7 @@ class Perform(commands.Cog):
     #     embed.set_author(name=f"{ctx.author.name}'s {action} statistics")
     #     embed.add_field(name=f"Sent {action}s", value=)
 
-    async def check_perm(self, ctx):
+    async def check_perm(self, ctx: commands.Context):
         perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
         return perm is True
 
@@ -1187,10 +1187,12 @@ class Perform(commands.Cog):
         embed = discord.Embed(
             title="How to set API for perform cog",
             description=(
-                "1. Go to https://kawaii.red/\n"
-                "2. Login using your discord account\n"
-                "3. Click on dashboard and copy your token\n"
-                "4. Use `[p]set api perform api_key <token>`",
+                """
+                1. Go to https://kawaii.red/\n
+                2. Login using your discord account\n
+                3. Click on dashboard and copy your token\n
+                4. Use `[p]set api perform api_key <token>`,
+            """
             ),
         )
         await ctx.send(embed=embed)

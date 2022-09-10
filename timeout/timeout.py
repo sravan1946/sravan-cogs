@@ -6,7 +6,6 @@ from discord.http import Route
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.commands.converter import TimedeltaConverter
-from redbot.core.config import Config
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
@@ -18,11 +17,6 @@ class Timeout(commands.Cog):
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
-        self.config = Config.get_conf(
-            self,
-            identifier=202342309123,
-            force_registration=True,
-        )
 
     async def red_delete_data_for_user(
         self, *, requester: RequestType, user_id: int

@@ -25,5 +25,5 @@ jobs:
           git config --local author.email "${{ github.actor }}@users.noreply.github.com"
           git config --local author.name "{{ github.actor }}"
           git add -A
-          git commit -m "Style Reformatting"
+          git commit -m "You messed up the style buddy. Lemme fix it for you"
           git push "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${GITHUB_REF#refs/heads/}

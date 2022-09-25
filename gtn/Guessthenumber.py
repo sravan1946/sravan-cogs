@@ -52,7 +52,12 @@ class GuessTheNumber(commands.Cog):
             elif confirmation.content.lower() in ["n", "no"]:
                 await user.send("Please enter the number to be guessed")
                 number = await self.bot.wait_for("message", check=check, timeout=60)
-                number = number.content
+                try:
+                    number = int(number.content)
+                except ValueError:
+                    await user.send("This is not a valid number")
+                    await ctx.channel.send("Could not start the gtn event")
+                    return
             else:
                 await user.send("Please enter a valid answer")
                 await ctx.channel.send("Could not start the gtn event")
@@ -61,7 +66,7 @@ class GuessTheNumber(commands.Cog):
             await user.send("You took too long to enter a number")
             await ctx.channel.send("Could not start the gtn event")
             return
-        if int(number) < low or int(number) > high:
+        if number < low or number > high:
             await user.send("The number is not in the range")
             await ctx.channel.send("Could not start the gtn event")
             return
@@ -85,7 +90,7 @@ class GuessTheNumber(commands.Cog):
                 "message", check=lambda m: m.channel == ctx.channel
             )
             if guess.content.isdigit():
-                if int(guess.content) == int(number):
+                if int(guess.content) == number:
                     winem = discord.Embed()
                     winem.set_author(
                         name=f"{guess.author.display_name} has won the gtn event",

@@ -21,7 +21,7 @@ class GuessTheNumber(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.0.5"
+    __version__ = "1.0.6"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """Thanks Sinbad!"""
@@ -85,6 +85,7 @@ class GuessTheNumber(commands.Cog):
             await ctx.send("Could not pin the message due to too many pins")
         started = True
         guesses = 1
+        participant = set()
         while started:
             guess = await self.bot.wait_for(
                 "message", check=lambda m: m.channel == ctx.channel
@@ -98,6 +99,7 @@ class GuessTheNumber(commands.Cog):
                     )
                     winem.color = await ctx.embed_colour()
                     winem.add_field(name="Number of guesses", value=guesses)
+                    winem.add_field(name="Participants", value=len(participant))
                     winem.add_field(name="Number guessed", value=guess.content)
                     winem.set_footer(
                         text="Thanks for playing!",
@@ -109,6 +111,7 @@ class GuessTheNumber(commands.Cog):
                     break
                 else:
                     guesses += 1
+                    participant.add(guess.author)
             if guess.content.lower() == "cancel" and guess.author.id == ctx.author.id:
                 await ctx.channel.send(f"{user.mention} has cancelled the gtn event.")
                 if pinned:

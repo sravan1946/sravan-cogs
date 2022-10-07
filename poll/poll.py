@@ -13,7 +13,7 @@ EMOJIS = ["None", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️�
 
 class Poll(commands.Cog):
     """
-    make polls
+    make polls.
     """
 
     def __init__(self, bot: Red) -> None:
@@ -23,7 +23,9 @@ class Poll(commands.Cog):
     __version__ = "1.0.5"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
-        """Thanks Sinbad!"""
+        """
+        Thanks Sinbad!
+        """
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
@@ -38,7 +40,7 @@ class Poll(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.member)
     async def quickpoll(self, ctx, *, question: str):
         """
-        make a simple poll
+        Make a simple poll.
         """
         with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
@@ -56,10 +58,11 @@ class Poll(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.member)
     async def poll(self, ctx, *, question: str):
         """
-        Make a poll with multiple options
+        Make a poll with multiple options.
 
-        Each option must be seperated by a |.
-        Maximum number options is 10.
+        Each option must be separated by a |. Maximum number options is
+        10.
+
         """
         with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()

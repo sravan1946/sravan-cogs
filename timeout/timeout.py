@@ -12,7 +12,7 @@ RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
 class Timeout(commands.Cog):
     """
-    manage cooldowns
+    Manage Timeouts.
     """
 
     def __init__(self, bot: Red) -> None:
@@ -22,7 +22,9 @@ class Timeout(commands.Cog):
     __version__ = "1.0.5"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
-        """Thanks Sinbad!"""
+        """
+        Thanks Sinbad!
+        """
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
@@ -102,7 +104,8 @@ class Timeout(commands.Cog):
         *,
         reason: Optional[str] = None,
     ):
-        """Timeout users.
+        """
+        Timeout users.
 
         `<member_or_role>` is the username/rolename, ID or mention. If provided a role,
         everyone with that role will be timedout.
@@ -113,6 +116,7 @@ class Timeout(commands.Cog):
         Examples:
         `[p]timeout @member 5m talks too much`
         `[p]timeout @member 10m`
+
         """
         if not time:
             time = datetime.timedelta(seconds=60)
@@ -146,11 +150,14 @@ class Timeout(commands.Cog):
         *,
         reason: Optional[str] = None,
     ):
-        """Untimeout users.
+        """
+        Untimeout users.
 
-        `<member_or_role>` is the username/rolename, ID or mention. If provided a role,
-        everyone with that role will be untimed.
-        `[reason]` is the reason for the untimeout. Defaults to `None` if nothing is provided.
+        `<member_or_role>` is the username/rolename, ID or mention. If
+        provided a role, everyone with that role will be untimed.
+        `[reason]` is the reason for the untimeout. Defaults to `None`
+        if nothing is provided.
+
         """
         if isinstance(member_or_role, discord.Member):
             is_timedout = await self.is_user_timed_out(member_or_role)

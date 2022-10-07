@@ -1,5 +1,5 @@
 """
-Copyright 2021 Onii-chan
+Copyright 2021 Onii-chan.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
 """
 
 
@@ -27,7 +28,9 @@ log = logging.getLogger("red.onii.perform")
 
 
 class Perform(commands.Cog):
-    """Perform different actions, like cuddle, poke etc."""
+    """
+    Perform different actions, like cuddle, poke etc.
+    """
 
     def __init__(self, bot):
         self.bot = bot
@@ -155,7 +158,9 @@ class Perform(commands.Cog):
     __version__ = "5.5.5"  # idk what im doing with version
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
-        """Thanks Sinbad!"""
+        """
+        Thanks Sinbad!
+        """
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
@@ -182,7 +187,9 @@ class Perform(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def cuddle(self, ctx, user: discord.Member):
-        """Cuddle a user!"""
+        """
+        Cuddle a user!
+        """
         embed = await kawaiiembed(self, ctx, "cuddled", "cuddle", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -207,7 +214,9 @@ class Perform(commands.Cog):
     @commands.command(name="poke")
     @commands.bot_has_permissions(embed_links=True)
     async def poke(self, ctx, user: discord.Member):
-        """Poke a user!"""
+        """
+        Poke a user!
+        """
         embed = await kawaiiembed(self, ctx, "poked", "poke", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -232,7 +241,9 @@ class Perform(commands.Cog):
     @commands.command(name="kiss")
     @commands.bot_has_permissions(embed_links=True)
     async def kiss(self, ctx, user: discord.Member):
-        """Kiss a user!"""
+        """
+        Kiss a user!
+        """
         embed = await kawaiiembed(self, ctx, "just kissed", "kiss", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -257,7 +268,9 @@ class Perform(commands.Cog):
     @commands.command(name="hug")
     @commands.bot_has_permissions(embed_links=True)
     async def hug(self, ctx, user: discord.Member):
-        """Hugs a user!"""
+        """
+        Hugs a user!
+        """
         embed = await kawaiiembed(self, ctx, "just hugged", "hug", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -280,7 +293,9 @@ class Perform(commands.Cog):
     @commands.command(name="pat")
     @commands.bot_has_permissions(embed_links=True)
     async def pat(self, ctx, user: discord.Member):
-        """Pats a user!"""
+        """
+        Pats a user!
+        """
         embed = await kawaiiembed(self, ctx, "just patted", "pat", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -303,7 +318,9 @@ class Perform(commands.Cog):
     @commands.command(name="tickle")
     @commands.bot_has_permissions(embed_links=True)
     async def tickle(self, ctx, user: discord.Member):
-        """Tickles a user!"""
+        """
+        Tickles a user!
+        """
         embed = await kawaiiembed(self, ctx, "just tickled", "tickle", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -328,7 +345,9 @@ class Perform(commands.Cog):
     @commands.command(name="smug")
     @commands.bot_has_permissions(embed_links=True)
     async def smug(self, ctx):
-        """Be smug towards someone!"""
+        """
+        Be smug towards someone!
+        """
         embed = await kawaiiembed(self, ctx, "is acting so smug!", "smug")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -347,7 +366,9 @@ class Perform(commands.Cog):
     @commands.command(name="lick")
     @commands.bot_has_permissions(embed_links=True)
     async def lick(self, ctx, user: discord.Member):
-        """Licks a user!"""
+        """
+        Licks a user!
+        """
         embed = await kawaiiembed(self, ctx, "just licked", "lick", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -372,7 +393,9 @@ class Perform(commands.Cog):
     @commands.command(name="slap")
     @commands.bot_has_permissions(embed_links=True)
     async def slap(self, ctx, user: discord.Member):
-        """Slaps a user!"""
+        """
+        Slaps a user!
+        """
         embed = await kawaiiembed(self, ctx, "just slapped", "slap", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -397,7 +420,9 @@ class Perform(commands.Cog):
     @commands.command(name="cry")
     @commands.bot_has_permissions(embed_links=True)
     async def cry(self, ctx):
-        """Start crying!"""
+        """
+        Start crying!
+        """
         embed = await kawaiiembed(self, ctx, "is crying!", "cry")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -416,7 +441,9 @@ class Perform(commands.Cog):
     @commands.command(name="sleep")
     @commands.bot_has_permissions(embed_links=True)
     async def sleep(self, ctx):
-        """Act sleepy!"""
+        """
+        Act sleepy!
+        """
         embed = await kawaiiembed(self, ctx, "is sleepy!", "sleepy")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -435,7 +462,9 @@ class Perform(commands.Cog):
     @commands.command(name="spank")
     @commands.bot_has_permissions(embed_links=True)
     async def spank(self, ctx, user: discord.Member):
-        """Spanks a user!"""
+        """
+        Spanks a user!
+        """
 
         images = await self.config.spank()
 
@@ -471,7 +500,9 @@ class Perform(commands.Cog):
     @commands.command(name="pout")
     @commands.bot_has_permissions(embed_links=True)
     async def pout(self, ctx):
-        """Act pout!"""
+        """
+        Act pout!
+        """
         embed = await kawaiiembed(self, ctx, "is acting pout!", "pout")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -490,7 +521,9 @@ class Perform(commands.Cog):
     @commands.command(name="blush")
     @commands.bot_has_permissions(embed_links=True)
     async def blush(self, ctx):
-        """Act blush!"""
+        """
+        Act blush!
+        """
         embed = await kawaiiembed(self, ctx, "is blushing!", "blush")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -509,7 +542,9 @@ class Perform(commands.Cog):
     @commands.command(name="feed")
     @commands.bot_has_permissions(embed_links=True)
     async def feed(self, ctx, user: discord.Member):
-        """Feeds a user!"""
+        """
+        Feeds a user!
+        """
 
         images = await self.config.feed()
 
@@ -545,7 +580,9 @@ class Perform(commands.Cog):
     @commands.command(name="punch")
     @commands.bot_has_permissions(embed_links=True)
     async def punch(self, ctx, user: discord.Member):
-        """Punch a user!"""
+        """
+        Punch a user!
+        """
         embed = await kawaiiembed(self, ctx, "just punched", "punch", user)
         if embed is False:
             return await ctx.send("api is down")
@@ -570,7 +607,9 @@ class Perform(commands.Cog):
     @commands.command(name="confuse", aliases=["confused"])
     @commands.guild_only()
     async def confuse(self, ctx):
-        """Act confused!"""
+        """
+        Act confused!
+        """
         embed = await kawaiiembed(self, ctx, "is confused!", "confused")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -589,7 +628,9 @@ class Perform(commands.Cog):
     @commands.command(name="amazed", aliases=["amazing"])
     @commands.guild_only()
     async def amazed(self, ctx):
-        """Act amazed!"""
+        """
+        Act amazed!
+        """
         embed = await kawaiiembed(self, ctx, "is amazed!", "amazing")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -608,7 +649,9 @@ class Perform(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def highfive(self, ctx, user: discord.Member):
-        """Highfive a user!"""
+        """
+        Highfive a user!
+        """
         embed = await kawaiiembed(self, ctx, "highfived", "highfive", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -633,7 +676,9 @@ class Perform(commands.Cog):
     @commands.command(name="plead", aliases=["ask"])
     @commands.guild_only()
     async def plead(self, ctx, user: discord.Member):
-        """Asks a user!"""
+        """
+        Asks a user!
+        """
         embed = await kawaiiembed(self, ctx, "is pleading", "ask", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -658,7 +703,9 @@ class Perform(commands.Cog):
     @commands.command(name="clap")
     @commands.guild_only()
     async def clap(self, ctx):
-        """Clap for someone!"""
+        """
+        Clap for someone!
+        """
         embed = await kawaiiembed(self, ctx, "is clapping!", "clap")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -677,7 +724,9 @@ class Perform(commands.Cog):
     @commands.command(name="facepalm")
     @commands.guild_only()
     async def facepalm(self, ctx):
-        """Do a facepalm!"""
+        """
+        Do a facepalm!
+        """
         embed = await kawaiiembed(self, ctx, "is facepalming!", "facepalm")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -696,7 +745,9 @@ class Perform(commands.Cog):
     @commands.command(name="headdesk", aliases=["facedesk"])
     @commands.guild_only()
     async def facedesk(self, ctx):
-        """Do a facedesk!"""
+        """
+        Do a facedesk!
+        """
         embed = await kawaiiembed(self, ctx, "is facedesking!", "facedesk")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -715,7 +766,9 @@ class Perform(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def kill(self, ctx, user: discord.Member):
-        """Kill a user!"""
+        """
+        Kill a user!
+        """
         embed = await kawaiiembed(self, ctx, "killed", "kill", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -740,7 +793,9 @@ class Perform(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def love(self, ctx, user: discord.Member):
-        """Love a user!"""
+        """
+        Love a user!
+        """
         embed = await kawaiiembed(self, ctx, "loves", "love", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -765,7 +820,9 @@ class Perform(commands.Cog):
     @commands.command(name="hide")
     @commands.guild_only()
     async def hide(self, ctx):
-        """Hide yourself!"""
+        """
+        Hide yourself!
+        """
         embed = await kawaiiembed(self, ctx, "is hiding!", "hide")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -784,7 +841,9 @@ class Perform(commands.Cog):
     @commands.command(name="laugh")
     @commands.guild_only()
     async def laugh(self, ctx):
-        """Start laughing!"""
+        """
+        Start laughing!
+        """
         embed = await kawaiiembed(self, ctx, "is laughing!", "laugh")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -803,7 +862,9 @@ class Perform(commands.Cog):
     @commands.command(name="peek", aliases=["lurk"])
     @commands.guild_only()
     async def lurk(self, ctx):
-        """Start lurking!"""
+        """
+        Start lurking!
+        """
         embed = await kawaiiembed(self, ctx, "is lurking!", "peek")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -822,7 +883,9 @@ class Perform(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def bite(self, ctx, user: discord.Member):
-        """Bite a user!"""
+        """
+        Bite a user!
+        """
         embed = await kawaiiembed(self, ctx, "is biting", "bite", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -847,7 +910,9 @@ class Perform(commands.Cog):
     @commands.command(name="dance")
     @commands.guild_only()
     async def dance(self, ctx):
-        """Start dancing!"""
+        """
+        Start dancing!
+        """
         embed = await kawaiiembed(self, ctx, "is dancing", "dance")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -866,7 +931,9 @@ class Perform(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def yeet(self, ctx, user: discord.Member):
-        """Yeet someone!"""
+        """
+        Yeet someone!
+        """
         embed = await kawaiiembed(self, ctx, "yeeted", "yeet", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -891,7 +958,9 @@ class Perform(commands.Cog):
     @commands.command(name="dodge")
     @commands.guild_only()
     async def dodge(self, ctx):
-        """Dodge something!"""
+        """
+        Dodge something!
+        """
         embed = await kawaiiembed(self, ctx, "is dodging!", "dodge")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -910,7 +979,9 @@ class Perform(commands.Cog):
     @commands.command(name="happy")
     @commands.guild_only()
     async def happy(self, ctx):
-        """Act happy!"""
+        """
+        Act happy!
+        """
         embed = await kawaiiembed(self, ctx, "is happy!", "happy")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -929,7 +1000,9 @@ class Perform(commands.Cog):
     @commands.command(name="cute")
     @commands.guild_only()
     async def cute(self, ctx):
-        """Act cute!"""
+        """
+        Act cute!
+        """
         embed = await kawaiiembed(self, ctx, "is acting cute!", "cute")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -948,7 +1021,9 @@ class Perform(commands.Cog):
     @commands.command(name="lonely", aliases=["alone"])
     @commands.guild_only()
     async def lonely(self, ctx):
-        """Act lonely!"""
+        """
+        Act lonely!
+        """
         embed = await kawaiiembed(self, ctx, "is lonely!", "lonely")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -967,7 +1042,9 @@ class Perform(commands.Cog):
     @commands.command(name="mad", aliases=["angry"])
     @commands.guild_only()
     async def mad(self, ctx):
-        """Act angry!"""
+        """
+        Act angry!
+        """
         embed = await kawaiiembed(self, ctx, "is angry!", "mad")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -986,7 +1063,9 @@ class Perform(commands.Cog):
     @commands.command(name="nosebleed")
     @commands.guild_only()
     async def nosebleed(self, ctx):
-        """Start bleeding from nose!"""
+        """
+        Start bleeding from nose!
+        """
         embed = await kawaiiembed(self, ctx, "'s nose is bleeding!", "nosebleed")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -1005,7 +1084,9 @@ class Perform(commands.Cog):
     @commands.command()
     @commands.guild_only()
     async def protect(self, ctx, user: discord.Member):
-        """Protech someone!"""
+        """
+        Protech someone!
+        """
         embed = await kawaiiembed(self, ctx, "is protecting!", "protect", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -1030,7 +1111,9 @@ class Perform(commands.Cog):
     @commands.command(name="run")
     @commands.guild_only()
     async def run(self, ctx):
-        """Start running!"""
+        """
+        Start running!
+        """
         embed = await kawaiiembed(self, ctx, "is running!", "run")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -1049,7 +1132,9 @@ class Perform(commands.Cog):
     @commands.command(name="scared")
     @commands.guild_only()
     async def scared(self, ctx):
-        """Act scared!"""
+        """
+        Act scared!
+        """
         embed = await kawaiiembed(self, ctx, "is scared!", "scared")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -1068,7 +1153,9 @@ class Perform(commands.Cog):
     @commands.command(name="shrug")
     @commands.guild_only()
     async def shrug(self, ctx):
-        """Start shrugging!"""
+        """
+        Start shrugging!
+        """
         embed = await kawaiiembed(self, ctx, "is shrugging!", "shrug")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -1087,7 +1174,9 @@ class Perform(commands.Cog):
     @commands.command(name="scream")
     @commands.guild_only()
     async def scream(self, ctx):
-        """Start screaming!"""
+        """
+        Start screaming!
+        """
         embed = await kawaiiembed(self, ctx, "is screaming!", "scream")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -1106,7 +1195,9 @@ class Perform(commands.Cog):
     @commands.command(name="stare")
     @commands.guild_only()
     async def stare(self, ctx):
-        """Stare someone!"""
+        """
+        Stare someone!
+        """
         embed = await kawaiiembed(self, ctx, "is stareing!", "stare")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -1125,7 +1216,9 @@ class Perform(commands.Cog):
     @commands.command(aliases=["welcome"])
     @commands.guild_only()
     async def wave(self, ctx, user: discord.Member):
-        """Wave to someone!"""
+        """
+        Wave to someone!
+        """
         embed = await kawaiiembed(self, ctx, "is waving", "wave", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -1150,7 +1243,9 @@ class Perform(commands.Cog):
     @commands.command(name="nutkick", aliases=["kicknuts"])
     @commands.bot_has_permissions(embed_links=True)
     async def kicknuts(self, ctx, user: discord.Member):
-        """Kick a user on the nuts!"""
+        """
+        Kick a user on the nuts!
+        """
 
         images = await self.config.nut()
 
@@ -1183,7 +1278,9 @@ class Perform(commands.Cog):
     @commands.is_owner()
     @commands.command()
     async def performapi(self, ctx):
-        """Steps to get the API token needed for few commands."""
+        """
+        Steps to get the API token needed for few commands.
+        """
         embed = discord.Embed(
             title="How to set API for perform cog",
             description=(

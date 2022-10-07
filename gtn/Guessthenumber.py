@@ -14,7 +14,7 @@ log = logging.getLogger("red.sravan.gtn")
 
 class GuessTheNumber(commands.Cog):
     """
-    a simple gtn game
+    A simple gtn game.
     """
 
     def __init__(self, bot: Red) -> None:
@@ -24,7 +24,9 @@ class GuessTheNumber(commands.Cog):
     __version__ = "1.0.6"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
-        """Thanks Sinbad!"""
+        """
+        Thanks Sinbad!
+        """
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
@@ -32,7 +34,9 @@ class GuessTheNumber(commands.Cog):
     @commands.guild_only()
     @commands.max_concurrency(1, commands.BucketType.channel)
     async def gtn(self, ctx: commands.Context):
-        """start a gtn event"""
+        """
+        Start a gtn event.
+        """
         user = ctx.author
         _range = await self.get_vaules(ctx, user)
 
@@ -126,7 +130,9 @@ class GuessTheNumber(commands.Cog):
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
     async def get_vaules(self, ctx: commands.Context, user):
-        """ask the range and the number to be guessed in the users DM"""
+        """
+        Ask the range and the number to be guessed in the users DM.
+        """
         await ctx.tick()
 
         def check(m):

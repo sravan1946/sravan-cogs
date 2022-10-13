@@ -185,6 +185,7 @@ class Timeout(commands.Cog):
             return await ctx.send(f"Removed timeout from {len(members)} members.")
 
     @commands.group()
+    @command.guild_only()
     @commands.admin_or_permissions(manage_guild=True)
     async def timeoutset(self, ctx: commands.Context):
         """Manage timeout settings."""

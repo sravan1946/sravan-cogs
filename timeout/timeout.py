@@ -1,9 +1,10 @@
+import contextlib
 import datetime
-from typing import Literal, Optional, Union
+from typing import List, Literal, Optional, Union
 
 import discord
 from discord.http import Route
-from redbot.core import commands
+from redbot.core import Config, commands
 from redbot.core.bot import Red
 from redbot.core.commands.converter import TimedeltaConverter
 
@@ -17,6 +18,9 @@ class Timeout(commands.Cog):
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
+        self.config = Config.get_conf(self, identifier=190, force_registration=True)
+        default_guild = {"dm": True}
+        self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
     __version__ = "1.0.5"
@@ -70,6 +74,11 @@ class Timeout(commands.Cog):
         }
 
         await ctx.bot.http.request(r, json=payload, reason=reason)
+        if await self.config.guild(member.guild).dm():
+            with contextlib.suppress(discord.Forbidden):
+                message = f"You have been timed out for {time} in {ctx.guild.name}"
+                message += f" for reason: {reason}" if reason else ""
+                await member.send(message)
 
     async def timeout_role(
         self,
@@ -77,7 +86,7 @@ class Timeout(commands.Cog):
         role: discord.Role,
         time: datetime.timedelta,
         reason: Optional[str] = None,
-    ) -> None:
+    ) -> List[discord.Member]:
         failed = []
         members = list(role.members)
         for member in members:
@@ -174,6 +183,20 @@ class Timeout(commands.Cog):
                 if await self.is_user_timed_out(member):
                     await self.timeout_user(ctx, member, None, reason)
             return await ctx.send(f"Removed timeout from {len(members)} members.")
+
+    @commands.group()
+    @commands.admin_or_permissions(manage_guild=True)
+    async def timeoutset(self, ctx: commands.Context):
+        """Manage timeout settings."""
+        pass
+
+    @timeoutset.command(name="dm")
+    async def timeoutset_dm(self, ctx: commands.Context):
+        """Change whether to DM the user when they are timed out."""
+        current = await self.config.guild(ctx.guild).dm()
+        await self.config.guild(ctx.guild).dm.set(not current)
+        w = "Will not" if current else "Will"
+        await ctx.send(f"I {w} DM the user when they are timed out.")
 
 
 # https://github.com/phenom4n4n/phen-cogs/blob/8727d6ee74b40709c7eb9300713dc22b88a17915/roleutils/utils.py#L34

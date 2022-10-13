@@ -188,7 +188,6 @@ class Timeout(commands.Cog):
     @commands.admin_or_permissions(manage_guild=True)
     async def timeoutset(self, ctx: commands.Context):
         """Manage timeout settings."""
-        pass
 
     @timeoutset.command(name="dm")
     async def timeoutset_dm(self, ctx: commands.Context):

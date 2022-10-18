@@ -43,7 +43,7 @@ class DontPingStaff(commands.Cog):
         self.cache = {}
 
     __author__ = ["sravan"]
-    __version__ = "1.0.5"
+    __version__ = "1.0.6"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -341,7 +341,7 @@ class DontPingStaff(commands.Cog):
         await self.gen_cache()
 
     @commands.Cog.listener()
-    async def on_message(self, message) -> None:
+    async def on_message(self, message: discord.Message) -> None:
         """
         Checks for pings and acts accordingly.
         """
@@ -368,7 +368,7 @@ class DontPingStaff(commands.Cog):
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
     # All of the cache stuff was taken from the antispam cog by flare.
-    async def check_ping(self, message):
+    async def check_ping(self, message: discord.Message):
         """
         Check for pings in a message,to be used in the listener.
         """
@@ -415,7 +415,7 @@ class DontPingStaff(commands.Cog):
                         break
             break
 
-    async def mute(self, message):
+    async def mute(self, message: discord.Message):
         """
         Mute a member.
         """
@@ -429,7 +429,7 @@ class DontPingStaff(commands.Cog):
         except discord.Forbidden:
             return await message.reply("I don't have permission to mute this user")
 
-    async def kick(self, message):
+    async def kick(self, message: discord.Message):
         """
         Kick a member.
         """
@@ -439,7 +439,7 @@ class DontPingStaff(commands.Cog):
         except discord.Forbidden:
             return await message.reply("I don't have permission to kick this user")
 
-    async def ban(self, message):
+    async def ban(self, message: discord.Message):
         """
         Ban a member.
         """

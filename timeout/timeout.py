@@ -23,7 +23,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.0.6"
+    __version__ = "1.0.7"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -55,7 +55,7 @@ class Timeout(commands.Cog):
         self,
         ctx: commands.Context,
         member: discord.Member,
-        time: datetime.timedelta,
+        time: Optional[datetime.timedelta],
         reason: Optional[str] = None,
     ) -> None:
         r = Route(

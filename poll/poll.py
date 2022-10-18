@@ -20,7 +20,7 @@ class Poll(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.0.5"
+    __version__ = "1.0.6"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -38,7 +38,7 @@ class Poll(commands.Cog):
     @commands.command(name="quickpoll")
     @commands.guild_only()
     @commands.cooldown(1, 5, commands.BucketType.member)
-    async def quickpoll(self, ctx, *, question: str):
+    async def quickpoll(self, ctx: commands.Context, *, question: str):
         """
         Make a simple poll.
         """
@@ -56,7 +56,7 @@ class Poll(commands.Cog):
     @commands.command(name="poll")
     @commands.guild_only()
     @commands.cooldown(1, 5, commands.BucketType.member)
-    async def poll(self, ctx, *, question: str):
+    async def poll(self, ctx: commands.Context, *, question: str):
         """
         Make a poll with multiple options.
 

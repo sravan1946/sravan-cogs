@@ -1,9 +1,11 @@
+from typing import Optional
+
 import aiohttp
 import discord
 from redbot.core import commands
 
 
-async def api_call(call_uri, returnObj=False):
+async def api_call(call_uri: str, returnObj: Optional[bool] = False):
     async with aiohttp.ClientSession() as session:
         async with session.get(f"{call_uri}") as response:
             response = await response.json()
@@ -12,6 +14,31 @@ async def api_call(call_uri, returnObj=False):
             elif returnObj is True:
                 return response
     await session.close()
+
+
+async def check_perm(ctx: commands.Context):
+    perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
+    return perm is True
+
+
+async def send_embed(
+    self, ctx: commands.Context, embed: discord.Embed, user: Optional[discord.Member]
+):
+    if await check_perm(ctx) is True:
+        try:
+            if user:
+                await print_it(self, ctx, embed, user)
+            else:
+                await print_it(self, ctx, embed)
+        except discord.Forbidden:
+            if user:
+                await ctx.reply(embed=embed, content=user.mention, mention_author=False)
+            else:
+                await ctx.reply(embed=embed, mention_author=False)
+    elif user:
+        await ctx.reply(embed=embed, content=user.mention, mention_author=False)
+    else:
+        await ctx.reply(embed=embed, mention_author=False)
 
 
 async def kawaiiembed(
@@ -73,7 +100,7 @@ async def print_it(
     self,
     ctx: commands.Context,
     embed: discord.Embed,
-    user: discord.User = None,
+    user: Optional[discord.User] = None,
     retried: bool = False,
 ):
     hook = await get_hook(self, ctx)

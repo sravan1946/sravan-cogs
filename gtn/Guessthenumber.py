@@ -6,7 +6,6 @@ from typing import Literal
 import discord
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.config import Config
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
@@ -15,42 +14,54 @@ log = logging.getLogger("red.sravan.gtn")
 
 class GuessTheNumber(commands.Cog):
     """
-    a simple gtn game
+    A simple gtn game.
     """
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
-        self.config = Config.get_conf(
-            self,
-            identifier=43624556345246235424236,
-            force_registration=True,
-        )
+
+    __author__ = ["sravan"]
+    __version__ = "1.0.6"
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
+        """
+        Thanks Sinbad!
+        """
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
     @commands.command()
     @commands.guild_only()
     @commands.max_concurrency(1, commands.BucketType.channel)
     async def gtn(self, ctx: commands.Context):
-        """start a gtn event"""
+        """
+        Start a gtn event.
+        """
         user = ctx.author
-        range = await self.get_vaules(ctx, user)
+        _range = await self.get_vaules(ctx, user)
 
         def check(m):
             return m.author == ctx.author and m.channel == user.dm_channel
 
-        if range is None:
+        if _range is None:
             return
-        low, high = int(range[0]), int(range[1])
+        low, high = int(_range[0]), int(_range[1])
         try:
             await user.send(
                 "Do u want the bot to pick a random number in the range?(y/n)"
             )
             confirmation = await self.bot.wait_for("message", check=check, timeout=60)
             if confirmation.content.lower() in ["y", "yes"]:
-                number = random.randint(int(low), int(high))
+                number = random.randint(low, high)
             elif confirmation.content.lower() in ["n", "no"]:
                 await user.send("Please enter the number to be guessed")
                 number = await self.bot.wait_for("message", check=check, timeout=60)
-                number = number.content
+                try:
+                    number = int(number.content)
+                except ValueError:
+                    await user.send("This is not a valid number")
+                    await ctx.channel.send("Could not start the gtn event")
+                    return
             else:
                 await user.send("Please enter a valid answer")
                 await ctx.channel.send("Could not start the gtn event")
@@ -59,7 +70,7 @@ class GuessTheNumber(commands.Cog):
             await user.send("You took too long to enter a number")
             await ctx.channel.send("Could not start the gtn event")
             return
-        if int(number) < low or int(number) > high:
+        if number < low or number > high:
             await user.send("The number is not in the range")
             await ctx.channel.send("Could not start the gtn event")
             return
@@ -78,12 +89,13 @@ class GuessTheNumber(commands.Cog):
             await ctx.send("Could not pin the message due to too many pins")
         started = True
         guesses = 1
+        participant = set()
         while started:
             guess = await self.bot.wait_for(
                 "message", check=lambda m: m.channel == ctx.channel
             )
             if guess.content.isdigit():
-                if int(guess.content) == int(number):
+                if int(guess.content) == number:
                     winem = discord.Embed()
                     winem.set_author(
                         name=f"{guess.author.display_name} has won the gtn event",
@@ -91,9 +103,10 @@ class GuessTheNumber(commands.Cog):
                     )
                     winem.color = await ctx.embed_colour()
                     winem.add_field(name="Number of guesses", value=guesses)
+                    winem.add_field(name="Participants", value=len(participant))
                     winem.add_field(name="Number guessed", value=guess.content)
                     winem.set_footer(
-                        text=f"Thanks for playing!",
+                        text="Thanks for playing!",
                     )
                     await guess.reply(embed=winem, content=ctx.author.mention)
                     if pinned:
@@ -102,6 +115,7 @@ class GuessTheNumber(commands.Cog):
                     break
                 else:
                     guesses += 1
+                    participant.add(guess.author)
             if guess.content.lower() == "cancel" and guess.author.id == ctx.author.id:
                 await ctx.channel.send(f"{user.mention} has cancelled the gtn event.")
                 if pinned:
@@ -116,7 +130,9 @@ class GuessTheNumber(commands.Cog):
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
     async def get_vaules(self, ctx: commands.Context, user):
-        """ask the range and the number to be guessed in the users DM"""
+        """
+        Ask the range and the number to be guessed in the users DM.
+        """
         await ctx.tick()
 
         def check(m):

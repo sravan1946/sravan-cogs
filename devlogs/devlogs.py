@@ -11,7 +11,7 @@ RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
 class DevLogs(commands.Cog):
     """
-    Keep a log of all that evals and debugs
+    Keep a log of all that evals and debugs.
     """
 
     def __init__(self, bot: Red) -> None:
@@ -25,6 +25,16 @@ class DevLogs(commands.Cog):
         default_global = {"default_channel": None, "bypass": []}
         self.config.register_global(**default_global)
 
+    __author__ = ["sravan"]
+    __version__ = "1.0.5"
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
+        """
+        Thanks Sinbad!
+        """
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
+
     async def red_delete_data_for_user(
         self, *, requester: RequestType, user_id: int
     ) -> None:
@@ -32,7 +42,10 @@ class DevLogs(commands.Cog):
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
     async def send_log(self, ctx) -> None:
-        """sends a embed in the channel and also returns DM if the command was ran in Dms"""
+        """
+        sends a embed in the channel and also returns DM if the command was ran
+        in Dms.
+        """
         partialchannel = await self.config.default_channel()
         if partialchannel is None:
             return

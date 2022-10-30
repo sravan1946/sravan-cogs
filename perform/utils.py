@@ -1,19 +1,11 @@
+from typing import Optional
+
 import aiohttp
 import discord
+from redbot.core import commands
 
 
-async def api_call(call_uri, returnObj=False):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(f"{call_uri}") as response:
-            response = await response.json()
-            if returnObj is False:
-                return response["url"]
-            elif returnObj is True:
-                return response
-    await session.close()
-
-
-async def api_call2(call_uri, returnObj=False):
+async def api_call(call_uri: str, returnObj: Optional[bool] = False):
     async with aiohttp.ClientSession() as session:
         async with session.get(f"{call_uri}") as response:
             response = await response.json()
@@ -24,18 +16,37 @@ async def api_call2(call_uri, returnObj=False):
     await session.close()
 
 
-async def nekosembed(self, ctx, user, action: str, endpoint: str):
-    embed = discord.Embed(
-        description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
-        color=discord.Colour.random(),
-    )
-    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
-    embed.set_image(url=await api_call(f"https://nekos.life/api/v2/img/{endpoint}"))
-
-    return embed
+async def check_perm(ctx: commands.Context):
+    perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
+    return perm is True
 
 
-async def kawaiiembed(self, ctx, action: str, endpoint: str, user=None):
+async def send_embed(
+    self,
+    ctx: commands.Context,
+    embed: discord.Embed,
+    user: Optional[discord.Member] = None,
+):
+    if await check_perm(ctx) is True:
+        try:
+            if user:
+                await print_it(self, ctx, embed, user)
+            else:
+                await print_it(self, ctx, embed)
+        except discord.Forbidden:
+            if user:
+                await ctx.reply(embed=embed, content=user.mention, mention_author=False)
+            else:
+                await ctx.reply(embed=embed, mention_author=False)
+    elif user:
+        await ctx.reply(embed=embed, content=user.mention, mention_author=False)
+    else:
+        await ctx.reply(embed=embed, mention_author=False)
+
+
+async def kawaiiembed(
+    self, ctx: commands.Context, action: str, endpoint: str, user=None
+) -> discord.Embed:
     api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
     if not api_key:
         return await ctx.send(
@@ -56,16 +67,17 @@ async def kawaiiembed(self, ctx, action: str, endpoint: str, user=None):
         icon_url=ctx.message.author.avatar,
     )
     embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
-
-    embed.set_image(
-        url=await api_call2(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
-    )
+    try:
+        url = await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
+    except aiohttp.client_exceptions.ContentTypeError:
+        return "The API is currently down, please try again later."
+    embed.set_image(url=url)
 
     return embed
 
 
 # Thanks epic
-async def get_hook(self, ctx):
+async def get_hook(self, ctx: commands.Context):
     try:
         if ctx.channel.id not in self.cache:
             for i in await ctx.channel.webhooks():
@@ -87,7 +99,13 @@ async def get_hook(self, ctx):
     return hook
 
 
-async def print_it(self, ctx, embed, user=None, retried=False):
+async def print_it(
+    self,
+    ctx: commands.Context,
+    embed: discord.Embed,
+    user: Optional[discord.User] = None,
+    retried: bool = False,
+):
     hook = await get_hook(self, ctx)
     try:
         if user:

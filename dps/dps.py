@@ -17,7 +17,7 @@ log = logging.getLogger("red.sravan.dps")
 # and the code from flare's antispam cog
 class DontPingStaff(commands.Cog):
     """
-    just dont!
+    Just dont!
     """
 
     def __init__(self, bot: Red) -> None:
@@ -42,6 +42,16 @@ class DontPingStaff(commands.Cog):
         self.config.register_guild(**default_guild)
         self.cache = {}
 
+    __author__ = ["sravan"]
+    __version__ = "1.0.5"
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
+        """
+        Thanks Sinbad!
+        """
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
+
     async def gen_cache(self):
         self.config_cache = await self.config.all_guilds()
 
@@ -49,13 +59,13 @@ class DontPingStaff(commands.Cog):
     @commands.admin_or_permissions(manage_guild=True)
     async def dps(self, ctx: commands.Context) -> None:
         """
-        Dont ping staff
+        Dont ping staff.
         """
 
     @dps.command()
     async def toggle(self, ctx: commands.Context) -> None:
         """
-        Toggle the module
+        Toggle the module.
         """
         guild = ctx.guild
         enabled = await self.config.guild(guild).enabled()
@@ -68,15 +78,21 @@ class DontPingStaff(commands.Cog):
 
     @dps.group(aliases=["ignore"])
     async def whitelist(self, ctx: commands.Context) -> None:
-        """manage whitelist"""
+        """
+        Manage whitelist.
+        """
 
     @whitelist.group()
     async def add(self, ctx: commands.Context) -> None:
-        """add users/roles/channels to the whitelist"""
+        """
+        Add users/roles/channels to the whitelist.
+        """
 
     @add.command(name="user")
     async def whitelist_user(self, ctx: commands.Context, user: discord.User) -> None:
-        """add a user to the whitelist"""
+        """
+        Add a user to the whitelist.
+        """
         guild = ctx.guild
         user_id = user.id
         ignored_users = await self.config.guild(guild).ignored_users()
@@ -89,7 +105,9 @@ class DontPingStaff(commands.Cog):
 
     @add.command(name="role")
     async def whitelist_role(self, ctx: commands.Context, role: discord.Role) -> None:
-        """add a role to the whitelist"""
+        """
+        Add a role to the whitelist.
+        """
         guild = ctx.guild
         role_id = role.id
         ignored_roles = await self.config.guild(guild).ignored_roles()
@@ -104,7 +122,9 @@ class DontPingStaff(commands.Cog):
     async def whitelist_channel(
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> None:
-        """add a channel to the whitelist"""
+        """
+        Add a channel to the whitelist.
+        """
         guild = ctx.guild
         channel_id = channel.id
         ignored_channels = await self.config.guild(guild).ignored_channels()
@@ -117,13 +137,17 @@ class DontPingStaff(commands.Cog):
 
     @whitelist.group()
     async def remove(self, ctx: commands.Context) -> None:
-        """remove users/roles/channels from the whitelist"""
+        """
+        Remove users/roles/channels from the whitelist.
+        """
 
     @remove.command(name="user")
     async def whitelist_user_remove(
         self, ctx: commands.Context, user: discord.User
     ) -> None:
-        """remove a user from the whitelist"""
+        """
+        Remove a user from the whitelist.
+        """
         guild = ctx.guild
         user_id = user.id
         ignored_users = await self.config.guild(guild).ignored_users()
@@ -138,7 +162,9 @@ class DontPingStaff(commands.Cog):
     async def whitelist_role_remove(
         self, ctx: commands.Context, role: discord.Role
     ) -> None:
-        """remove a role from the whitelist"""
+        """
+        Remove a role from the whitelist.
+        """
         guild = ctx.guild
         role_id = role.id
         ignored_roles = await self.config.guild(guild).ignored_roles()
@@ -153,7 +179,9 @@ class DontPingStaff(commands.Cog):
     async def whitelist_channel_remove(
         self, ctx: commands.Context, channel: discord.TextChannel
     ) -> None:
-        """remove a channel from the whitelist"""
+        """
+        Remove a channel from the whitelist.
+        """
         guild = ctx.guild
         channel_id = channel.id
         ignored_channels = await self.config.guild(guild).ignored_channels()
@@ -166,7 +194,9 @@ class DontPingStaff(commands.Cog):
 
     @dps.command(name="muterole")
     async def set_mute_role(self, ctx: commands.Context, role: discord.Role) -> None:
-        """set a role to be used for muting"""
+        """
+        Set a role to be used for muting.
+        """
         guild = ctx.guild
         role_id = role.id
         muted_role = await self.config.guild(guild).muted_role()
@@ -178,7 +208,9 @@ class DontPingStaff(commands.Cog):
 
     @dps.command(name="message")
     async def set_message(self, ctx: commands.Context, *, message: str) -> None:
-        """set the message to be sent to the user"""
+        """
+        Set the message to be sent to the user.
+        """
         guild = ctx.guild
         message = message.replace("@", "@\u200b")
         await self.config.guild(guild).message.set(message)
@@ -186,22 +218,28 @@ class DontPingStaff(commands.Cog):
 
     @dps.command(name="action")
     async def set_action(self, ctx: commands.Context, *, action: str) -> None:
-        """choose nothing, kick, ban or mute as the action"""
+        """
+        Choose nothing, kick, ban or mute as the action.
+        """
         guild = ctx.guild
         action = action.lower()
         if action not in ["kick", "ban", "mute", "none"]:
             await ctx.send("Invalid action. pick `none`, `kick`, `ban` or `mute`")
             return
         await self.config.guild(guild).action.set(action)
-        await ctx.send("Action set to `{}`".format(action))
+        await ctx.send(f"Action set to `{action}`")
 
     @dps.group(name="staffrole")
     async def staff_role(self, ctx: commands.Context) -> None:
-        """command for manageing the staff role"""
+        """
+        Command for managing the staff role.
+        """
 
     @staff_role.command(name="add")
     async def staff_role_add(self, ctx: commands.Context, role: discord.Role) -> None:
-        """add a role to the staff role"""
+        """
+        Add a role to the staff role.
+        """
         guild = ctx.guild
         role_id = role.id
         staff_role = await self.config.guild(guild).staff_role()
@@ -216,7 +254,9 @@ class DontPingStaff(commands.Cog):
     async def staff_role_remove(
         self, ctx: commands.Context, role: discord.Role
     ) -> None:
-        """remove a role from the staff role"""
+        """
+        Remove a role from the staff role.
+        """
         guild = ctx.guild
         role_id = role.id
         staff_role = await self.config.guild(guild).staff_role()
@@ -230,7 +270,9 @@ class DontPingStaff(commands.Cog):
     # TODO: the embed stuff is messed up.
     @dps.command(name="settings")
     async def settings(self, ctx: commands.Context) -> None:
-        """show the current settings"""
+        """
+        Show the current settings.
+        """
         guild = ctx.guild
         await self.gen_cache()
         muted_role = await self.config.guild(guild).muted_role()
@@ -273,7 +315,9 @@ class DontPingStaff(commands.Cog):
 
     @dps.command(name="per")
     async def per(self, ctx: commands.Context, *, time: TimedeltaConverter) -> None:
-        """set how long to wait between actions"""
+        """
+        Set how long to wait between actions.
+        """
         guild = ctx.guild
         if not time:
             return await ctx.send("Invalid time")
@@ -286,7 +330,9 @@ class DontPingStaff(commands.Cog):
 
     @dps.command(name="amount")
     async def amount(self, ctx: commands.Context, amount: int) -> None:
-        """set how many pings are needed to trigger an action"""
+        """
+        Set how many pings are needed to trigger an action.
+        """
         guild = ctx.guild
         if amount < 1:
             return await ctx.send("Must be at least 1")
@@ -296,7 +342,9 @@ class DontPingStaff(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message) -> None:
-        """checks for pings and acts accordingly"""
+        """
+        Checks for pings and acts accordingly.
+        """
         guild = message.guild
         if not guild:
             return
@@ -321,7 +369,9 @@ class DontPingStaff(commands.Cog):
 
     # All of the cache stuff was taken from the antispam cog by flare.
     async def check_ping(self, message):
-        """check for pings in a message. to be used in the listener"""
+        """
+        Check for pings in a message,to be used in the listener.
+        """
         guild = message.guild
         author = message.author
         now = datetime.now()
@@ -366,7 +416,9 @@ class DontPingStaff(commands.Cog):
             break
 
     async def mute(self, message):
-        """mute a member"""
+        """
+        Mute a member.
+        """
         guild = message.guild
         muted_role = await self.config.guild(guild).muted_role()
         if muted_role is None:
@@ -378,7 +430,9 @@ class DontPingStaff(commands.Cog):
             return await message.reply("I don't have permission to mute this user")
 
     async def kick(self, message):
-        """kick a member"""
+        """
+        Kick a member.
+        """
         try:
             await message.author.kick(reason="Pinged too many times")
             await message.channel.send(f"{message.author.mention} has been kicked")
@@ -386,7 +440,9 @@ class DontPingStaff(commands.Cog):
             return await message.reply("I don't have permission to kick this user")
 
     async def ban(self, message):
-        """ban a member"""
+        """
+        Ban a member.
+        """
         try:
             await message.author.ban(reason="Pinged too much", delete_message_days=0)
             await message.channel.send(f"{message.author.mention} has been banned")

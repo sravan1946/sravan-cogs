@@ -1,10 +1,10 @@
 import asyncio
+import contextlib
 from typing import Literal
 
 import discord
 from redbot.core import commands
 from redbot.core.bot import Red
-from redbot.core.config import Config
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
@@ -13,16 +13,21 @@ EMOJIS = ["None", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️�
 
 class Poll(commands.Cog):
     """
-    make polls
+    make polls.
     """
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
-        self.config = Config.get_conf(
-            self,
-            identifier=23487129235,
-            force_registration=True,
-        )
+
+    __author__ = ["sravan"]
+    __version__ = "1.0.5"
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
+        """
+        Thanks Sinbad!
+        """
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
     async def red_delete_data_for_user(
         self, *, requester: RequestType, user_id: int
@@ -35,12 +40,10 @@ class Poll(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.member)
     async def quickpoll(self, ctx, *, question: str):
         """
-        make a simple poll
+        Make a simple poll.
         """
-        try:
+        with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
-        except discord.Forbidden:
-            pass
         embed = discord.Embed(
             title=f"**{question}**",
         )
@@ -55,15 +58,14 @@ class Poll(commands.Cog):
     @commands.cooldown(1, 5, commands.BucketType.member)
     async def poll(self, ctx, *, question: str):
         """
-        Make a poll with multiple options
+        Make a poll with multiple options.
 
-        Each option must be seperated by a |.
-        Maximum number options is 10.
+        Each option must be separated by a |. Maximum number options is
+        10.
+
         """
-        try:
+        with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
-        except discord.Forbidden:
-            pass
         questions = question.split("|")
         questions = list(zip(EMOJIS, questions))
         num = len(questions)

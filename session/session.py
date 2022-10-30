@@ -9,11 +9,14 @@ log = logging.getLogger("red.sravan.session")
 
 
 class Session(commands.Cog):
-    """Shows how many commands are invoked in a session
-    (resets on reboot)"""
+    """
+    Shows how many commands are invoked in a session (resets on reboot)
+    """
 
     async def red_delete_data_for_user(self, **kwargs):
-        """Nothing to delete"""
+        """
+        Nothing to delete.
+        """
         return
 
     def __init__(self, bot):
@@ -33,6 +36,16 @@ class Session(commands.Cog):
         }
         self.config.register_global(**default_global)
 
+    __author__ = ["aikaterna", "sravan"]
+    __version__ = "1.0.5"
+
+    def format_help_for_context(self, ctx: commands.Context) -> str:
+        """
+        Thanks Sinbad!
+        """
+        pre_processed = super().format_help_for_context(ctx)
+        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
+
     def cog_unload(self):
         self.presence_task.cancel()
 
@@ -40,25 +53,34 @@ class Session(commands.Cog):
     @commands.guild_only()
     @checks.is_owner()
     async def session(self, ctx):
-        """Session group commands."""
+        """
+        Session group commands.
+        """
 
     @session.command()
     async def delay(self, ctx, seconds: int):
-        """Sets interval of random status switch.
-        Must be 20 or superior."""
+        """
+        Sets interval of random status switch.
+
+        Must be 20 or superior.
+
+        """
         seconds = max(seconds, 20)
         await self.config.delay.set(seconds)
         await ctx.send(f"Interval set to {seconds} seconds.")
 
     @session.command(name="type")
     async def _session_type(self, ctx, status_type: int):
-        """Define the session game type.
+        """
+        Define the session game type.
 
         Type list:
         0 = Playing
         2 = Listening
         3 = Watching
-        5 = Competing"""
+        5 = Competing
+
+        """
         if status_type in {0, 2, 3, 5}:
             rnd_type = {0: "playing", 2: "listening", 3: "watching", 5: "competing"}
             await self.config.type.set(status_type)
@@ -72,13 +94,16 @@ class Session(commands.Cog):
 
     @session.command()
     async def status(self, ctx, status: int):
-        """Define the session presence status.
+        """
+        Define the session presence status.
 
         Status list:
         0 = Online
         1 = Idle
         2 = DND
-        3 = Invisible"""
+        3 = Invisible
+
+        """
         if 0 <= status <= 3:
             rnd_status = {0: "online", 1: "idle", 2: "DND", 3: "invisible"}
             await self.config.status.set(status)

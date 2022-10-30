@@ -20,7 +20,6 @@ async def check_perm(ctx: commands.Context):
     perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
     return perm is True
 
-
 async def send_embed(
     self,
     ctx: commands.Context,
@@ -64,9 +63,9 @@ async def kawaiiembed(
         )
     embed.set_footer(
         text=f"Requested by {ctx.message.author.display_name}",
-        icon_url=ctx.message.author.avatar_url,
+        icon_url=ctx.message.author.avatar,
     )
-    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
+    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
     try:
         url = await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
     except aiohttp.client_exceptions.ContentTypeError:
@@ -111,14 +110,14 @@ async def print_it(
         if user:
             await hook.send(
                 username=ctx.message.author.display_name,
-                avatar_url=ctx.message.author.avatar_url,
+                avatar_url=ctx.message.author.avatar,
                 embed=embed,
                 content=user.mention,
             )
         else:
             await hook.send(
                 username=ctx.message.author.display_name,
-                avatar_url=ctx.message.author.avatar_url,
+                avatar_url=ctx.message.author.avatar,
                 embed=embed,
             )
     except discord.NotFound:

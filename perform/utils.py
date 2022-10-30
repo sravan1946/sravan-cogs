@@ -20,6 +20,7 @@ async def check_perm(ctx: commands.Context):
     perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
     return perm is True
 
+
 async def send_embed(
     self,
     ctx: commands.Context,

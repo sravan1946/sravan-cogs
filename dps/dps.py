@@ -89,20 +89,22 @@ class DontPingStaff(commands.Cog):
         """
 
     @add.command(name="user")
-    async def whitelist_user(self, ctx: commands.Context, users: commands.Greedy[discord.User] = None) -> None:
+    async def whitelist_user(
+        self, ctx: commands.Context, users: commands.Greedy[discord.User] = None
+    ) -> None:
         """
         Add users to the whitelist.
         """
         if users is None:
             return await ctx.send("`Users` is a required argument.")
-        
+
         async with self.config.guild(ctx.guild).ignored_users() as ignored_users:
             for user in users:
                 if not user.id in ignored_users:
                     ignored_users.append(user.id)
-                    
+
         ids = len(list(users))
-        
+
         return await ctx.send(
             f"Successfully added {ids} "
             f"{'user' if ids == 1 else 'users'} "
@@ -110,20 +112,22 @@ class DontPingStaff(commands.Cog):
         )
 
     @add.command(name="role")
-    async def whitelist_role(self, ctx: commands.Context, roles: commands.Greedy[discord.Role] = None) -> None:
+    async def whitelist_role(
+        self, ctx: commands.Context, roles: commands.Greedy[discord.Role] = None
+    ) -> None:
         """
         Add roles to the whitelist.
         """
         if roles is None:
             return await ctx.send("`Roles` is a required argument.")
-        
+
         async with self.config.guild(ctx.guild).ignored_roles() as ignored_roles:
             for role in roles:
                 if not role.id in ignored_roles:
                     ignored_roles.append(role.id)
-                    
+
         ids = len(list(roles))
-        
+
         return await ctx.send(
             f"Successfully added {ids} "
             f"{'role' if ids == 1 else 'roles'} "
@@ -132,21 +136,23 @@ class DontPingStaff(commands.Cog):
 
     @add.command(name="channel")
     async def whitelist_channel(
-        self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel] = None
+        self,
+        ctx: commands.Context,
+        channels: commands.Greedy[discord.TextChannel] = None,
     ) -> None:
         """
         Add channels to the whitelist.
         """
         if channels is None:
             return await ctx.send(f"`Channels` is a required argument.")
-        
+
         async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
             for channel in channels:
                 if not channel.id in ignored_channels:
                     ignored_channels.append(channel.id)
-                    
+
         ids = len(list(channels))
-        
+
         return await ctx.send(
             f"Successfully added {ids} "
             f"{'channel' if ids == 1 else 'channels'} "
@@ -168,14 +174,14 @@ class DontPingStaff(commands.Cog):
         """
         if users is None:
             return await ctx.send("`Users` is a required argument.")
-        
+
         async with self.config.guild(ctx.guild).ignored_users() as ignored_users:
             for user in users:
                 if user.id in ignored_users:
                     ignored_users.remove(user.id)
-                    
+
         ids = len(list(users))
-        
+
         return await ctx.send(
             f"Successfully removed {ids} "
             f"{'user' if ids == 1 else 'users'} "
@@ -191,14 +197,14 @@ class DontPingStaff(commands.Cog):
         """
         if roles is None:
             return await ctx.send("`Roles` is a required argument.")
-        
+
         async with self.config.guild(ctx.guild).ignored_roles() as ignored_roles:
             for role in roles:
                 if role.id in ignored_roles:
                     ignored_roles.remove(role.id)
-                    
+
         ids = len(list(roles))
-        
+
         return await ctx.send(
             f"Successfully removed {ids} "
             f"{'role' if ids == 1 else 'roles'} "
@@ -207,21 +213,23 @@ class DontPingStaff(commands.Cog):
 
     @remove.command(name="channel")
     async def whitelist_channel_remove(
-        self, ctx: commands.Context, channels: commands.Greedy[discord.TextChannel] = None
+        self,
+        ctx: commands.Context,
+        channels: commands.Greedy[discord.TextChannel] = None,
     ) -> None:
         """
         Remove channels from the whitelist.
         """
         if channels is None:
             return await ctx.send(f"`Channels` is a required argument.")
-        
+
         async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
             for channel in channels:
                 if channel.id in ignored_channels:
                     ignored_channels.remove(channel.id)
-                    
+
         ids = len(list(channels))
-        
+
         return await ctx.send(
             f"Successfully removed {ids} "
             f"{'channel' if ids == 1 else 'channels'} "
@@ -254,10 +262,10 @@ class DontPingStaff(commands.Cog):
 
     @dps.command(name="action")
     async def set_action(
-        self, 
-        ctx: commands.Context, 
-        *, 
-        action: commands.Literal["kick", "ban", "mute", "none"]
+        self,
+        ctx: commands.Context,
+        *,
+        action: commands.Literal["kick", "ban", "mute", "none"],
     ) -> None:
         """
         Choose nothing, kick, ban or mute as the action.

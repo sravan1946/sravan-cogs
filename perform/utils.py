@@ -22,7 +22,10 @@ async def check_perm(ctx: commands.Context):
 
 
 async def send_embed(
-    self, ctx: commands.Context, embed: discord.Embed, user: Optional[discord.Member]
+    self,
+    ctx: commands.Context,
+    embed: discord.Embed,
+    user: Optional[discord.Member] = None,
 ):
     if await check_perm(ctx) is True:
         try:

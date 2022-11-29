@@ -23,7 +23,7 @@ import discord
 from redbot.core import Config, commands
 from redbot.core.bot import Red
 
-from .utils import check_perm, kawaiiembed, print_it, send_embed
+from .utils import kawaiiembed, send_embed
 
 log = logging.getLogger("red.onii.perform")
 

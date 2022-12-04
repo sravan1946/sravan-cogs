@@ -23,7 +23,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.0.7"
+    __version__ = "1.0.8"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -75,7 +75,7 @@ class Timeout(commands.Cog):
 
         await ctx.bot.http.request(r, json=payload, reason=reason)
         if await self.config.guild(member.guild).dm():
-            with contextlib.suppress(discord.Forbidden):
+            with contextlib.suppress(discord.HTTPException):
                 message = f"You have been timed out for {time} in {ctx.guild.name}"
                 message += f" for reason: {reason}" if reason else ""
                 await member.send(message)

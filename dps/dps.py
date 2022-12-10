@@ -100,7 +100,7 @@ class DontPingStaff(commands.Cog):
 
         async with self.config.guild(ctx.guild).ignored_users() as ignored_users:
             for user in users:
-                if not user.id in ignored_users:
+                if user.id not in ignored_users:
                     ignored_users.append(user.id)
 
         ids = len(list(users))
@@ -123,7 +123,7 @@ class DontPingStaff(commands.Cog):
 
         async with self.config.guild(ctx.guild).ignored_roles() as ignored_roles:
             for role in roles:
-                if not role.id in ignored_roles:
+                if role.id not in ignored_roles:
                     ignored_roles.append(role.id)
 
         ids = len(list(roles))
@@ -144,11 +144,11 @@ class DontPingStaff(commands.Cog):
         Add channels to the whitelist.
         """
         if channels is None:
-            return await ctx.send(f"`Channels` is a required argument.")
+            return await ctx.send("`Channels` is a required argument.")
 
         async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
             for channel in channels:
-                if not channel.id in ignored_channels:
+                if channel.id not in ignored_channels:
                     ignored_channels.append(channel.id)
 
         ids = len(list(channels))
@@ -221,7 +221,7 @@ class DontPingStaff(commands.Cog):
         Remove channels from the whitelist.
         """
         if channels is None:
-            return await ctx.send(f"`Channels` is a required argument.")
+            return await ctx.send("`Channels` is a required argument.")
 
         async with self.config.guild(ctx.guild).ignored_channels() as ignored_channels:
             for channel in channels:

@@ -82,9 +82,10 @@ class GuessTheNumber(commands.Cog):
         )
         startem.add_field(name="Range", value=f"{low}-{high}")
         starting_message = await ctx.message.reply(embed=startem)
+        pinned = False
         try:
-            pinned = True
             await starting_message.pin()
+            pinned = True
         except discord.HTTPException:
             await ctx.send("Could not pin the message due to too many pins")
         started = True

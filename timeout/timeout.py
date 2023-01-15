@@ -4,7 +4,7 @@ from typing import List, Literal, Optional, Union
 
 import discord
 from discord.http import Route
-from redbot.core import Config, commands
+from redbot.core import Config, commands, modlog
 from redbot.core.bot import Red
 from redbot.core.commands.converter import TimedeltaConverter
 
@@ -23,7 +23,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.0.8"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -51,6 +51,20 @@ class Timeout(commands.Cog):
             return False
         return data["communication_disabled_until"] is not None
 
+    async def pre_load(self):
+        await modlog.register_casetype(
+            name="timeout",
+            default_setting=True,
+            image=":mute:",
+            case_str="Timeout",
+        )
+        await modlog.register_casetype(
+            name="untimeout",
+            default_setting=True,
+            image=":sound:",
+            case_str="Untimeout",
+        )
+
     async def timeout_user(
         self,
         ctx: commands.Context,
@@ -74,6 +88,19 @@ class Timeout(commands.Cog):
         }
 
         await ctx.bot.http.request(r, json=payload, reason=reason)
+        await modlog.create_case(
+            bot=ctx.bot,
+            guild=ctx.guild,
+            created_at=datetime.datetime.now(datetime.timezone.utc),
+            action_type="timeout" if time else "untimeout",
+            user=member,
+            moderator=ctx.author,
+            reason=reason,
+            until=(datetime.datetime.now(datetime.timezone.utc) + time)
+            if time
+            else None,
+            channel=ctx.channel,
+        )
         if await self.config.guild(member.guild).dm():
             with contextlib.suppress(discord.HTTPException):
                 message = f"You have been timed out for {time} in {ctx.guild.name}"

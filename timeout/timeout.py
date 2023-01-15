@@ -52,18 +52,19 @@ class Timeout(commands.Cog):
         return data["communication_disabled_until"] is not None
 
     async def pre_load(self):
-        await modlog.register_casetype(
-            name="timeout",
-            default_setting=True,
-            image=":mute:",
-            case_str="Timeout",
-        )
-        await modlog.register_casetype(
-            name="untimeout",
-            default_setting=True,
-            image=":sound:",
-            case_str="Untimeout",
-        )
+        with contextlib.suppress(RuntimeError):
+            await modlog.register_casetype(
+                name="timeout",
+                default_setting=True,
+                image=":mute:",
+                case_str="Timeout",
+            )
+            await modlog.register_casetype(
+                name="untimeout",
+                default_setting=True,
+                image=":sound:",
+                case_str="Untimeout",
+            )
 
     async def timeout_user(
         self,

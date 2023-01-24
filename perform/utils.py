@@ -17,6 +17,8 @@ async def api_call(call_uri: str, returnObj: Optional[bool] = False):
 
 
 async def check_perm(ctx: commands.Context):
+    if isinstance(ctx.channel, discord.DMChannel):
+        return False
     perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
     return perm is True
 

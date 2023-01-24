@@ -156,7 +156,7 @@ class Perform(commands.Cog):
         self.cache = {}
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.6.5"  # idk what im doing with version
+    __version__ = "5.6.6"  # idk what im doing with version
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """

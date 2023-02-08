@@ -3,6 +3,7 @@ import datetime
 from typing import List, Literal, Optional, Union
 
 import discord
+import humanize
 from discord.http import Route
 from redbot.core import Config, commands, modlog
 from redbot.core.bot import Red
@@ -23,7 +24,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.1.0"
+    __version__ = "1.1.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -104,7 +105,13 @@ class Timeout(commands.Cog):
         )
         if await self.config.guild(member.guild).dm():
             with contextlib.suppress(discord.HTTPException):
-                message = f"You have been timed out for {time} in {ctx.guild.name}"
+                message = "You have been"
+                message += (
+                    f" timed out for {humanize.naturaldelta(time)}"
+                    if time
+                    else " untimedout"
+                )
+                message += f" in {ctx.guild.name}"
                 message += f" for reason: {reason}" if reason else ""
                 await member.send(message)
 

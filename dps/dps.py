@@ -13,6 +13,7 @@ RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
 log = logging.getLogger("red.sravan.dps")
 
+
 # thanks to epic for letting me annoy him with this
 # and the code from flare's antispam cog
 class DontPingStaff(commands.Cog):

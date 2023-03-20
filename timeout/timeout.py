@@ -20,7 +20,7 @@ class Timeout(commands.Cog):
     def __init__(self, bot: Red) -> None:
         self.bot = bot
         self.config = Config.get_conf(self, identifier=190, force_registration=True)
-        default_guild = {"dm": True}
+        default_guild = {"dm": True, "showmod": False}
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
@@ -105,15 +105,24 @@ class Timeout(commands.Cog):
         )
         if await self.config.guild(member.guild).dm():
             with contextlib.suppress(discord.HTTPException):
-                message = "You have been"
-                message += (
-                    f" timed out for {humanize.naturaldelta(time)}"
-                    if time
-                    else " untimedout"
+                embed = discord.Embed(
+                    title="Server timeout" if time else "Server untimeout",
+                    description=f"**reason:** {reason}" if reason else "**reason:** No reason given.",
+                    timestamp=datetime.datetime.utcnow(),
+                    colour=await ctx.embed_colour()
                 )
-                message += f" in {ctx.guild.name}"
-                message += f" for reason: {reason}" if reason else ""
-                await member.send(message)
+                
+                if time:
+                    timestamp = datetime.datetime.now(datetime.timezone.utc) + time
+                    timestamp = int(datetime.datetime.timestamp(timestamp))
+                    embed.add_field(name="Until", value=f"<t:{timestamp}:f>", inline=True)
+                    embed.add_field(name="Duration", value=humanize.naturaldelta(time), inline=True)
+                
+                embed.add_field(name="Guild", value=ctx.guild, inline=False)
+                
+                if await self.config.guild(ctx.guild).showmod():
+                    embed.add_field(name="Moderator", value=ctx.author, inline=False)
+                await member.send(embed=embed)
 
     async def timeout_role(
         self,
@@ -225,6 +234,14 @@ class Timeout(commands.Cog):
     async def timeoutset(self, ctx: commands.Context):
         """Manage timeout settings."""
 
+    @timeoutset.command(name="showmoderator", aliases=["showmod"])
+    async def timeoutset_showmoderator(self, ctx: commands.Context):
+        """Change whether to show moderator on DM's or not."""
+        current = await self.config.guild(ctx.guild).showmod()
+        await self.config.guild(ctx.guild).showmod.set(not current)
+        w = "Will not" if current else "Will"
+        await ctx.send(f"I {w} show the moderator in timeout DM's.")
+    
     @timeoutset.command(name="dm")
     async def timeoutset_dm(self, ctx: commands.Context):
         """Change whether to DM the user when they are timed out."""

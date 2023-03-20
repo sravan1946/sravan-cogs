@@ -107,19 +107,25 @@ class Timeout(commands.Cog):
             with contextlib.suppress(discord.HTTPException):
                 embed = discord.Embed(
                     title="Server timeout" if time else "Server untimeout",
-                    description=f"**reason:** {reason}" if reason else "**reason:** No reason given.",
+                    description=f"**reason:** {reason}"
+                    if reason
+                    else "**reason:** No reason given.",
                     timestamp=datetime.datetime.utcnow(),
-                    colour=await ctx.embed_colour()
+                    colour=await ctx.embed_colour(),
                 )
-                
+
                 if time:
                     timestamp = datetime.datetime.now(datetime.timezone.utc) + time
                     timestamp = int(datetime.datetime.timestamp(timestamp))
-                    embed.add_field(name="Until", value=f"<t:{timestamp}:f>", inline=True)
-                    embed.add_field(name="Duration", value=humanize.naturaldelta(time), inline=True)
-                
+                    embed.add_field(
+                        name="Until", value=f"<t:{timestamp}:f>", inline=True
+                    )
+                    embed.add_field(
+                        name="Duration", value=humanize.naturaldelta(time), inline=True
+                    )
+
                 embed.add_field(name="Guild", value=ctx.guild, inline=False)
-                
+
                 if await self.config.guild(ctx.guild).showmod():
                     embed.add_field(name="Moderator", value=ctx.author, inline=False)
                 await member.send(embed=embed)
@@ -241,7 +247,7 @@ class Timeout(commands.Cog):
         await self.config.guild(ctx.guild).showmod.set(not current)
         w = "Will not" if current else "Will"
         await ctx.send(f"I {w} show the moderator in timeout DM's.")
-    
+
     @timeoutset.command(name="dm")
     async def timeoutset_dm(self, ctx: commands.Context):
         """Change whether to DM the user when they are timed out."""

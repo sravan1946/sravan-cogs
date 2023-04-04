@@ -3,6 +3,8 @@ from typing import Optional
 import aiohttp
 import discord
 from redbot.core import commands
+from redbot.core.utils.chat_formatting import box
+from tabulate import tabulate
 
 
 async def api_call(call_uri: str, returnObj: Optional[bool] = False):
@@ -128,3 +130,77 @@ async def print_it(
             return await ctx.send("I can't find the webhook, sorry.")
         self.cache.pop(ctx.channel.id)
         await print_it(self, ctx, embed, retried=True)
+
+
+async def rstats_embed(
+    self,
+    ctx: commands.Context,
+    action: str,
+    user: discord.User,
+):
+    custom = await self.config.custom("Target").all()
+    em = discord.Embed(
+        title=f"{user.name}'s {action} stats", color=await ctx.embed_color()
+    )
+    em.set_author(name=user, icon_url=user.avatar_url)
+    em.set_footer(text=f"Requested by {ctx.author}")
+
+    sent = {}
+    for who, to_who_d in custom.items():
+        for to_who, _ in to_who_d.items():
+            if int(who) != user.id:
+                continue
+            if (
+                custom.get(who)
+                and custom[who].get(to_who)
+                and custom[who][to_who].get(f"{action}_r")
+            ):
+                sent[to_who] = custom[who][to_who][f"{action}_r"]
+    sent = sorted(sent.items(), key=lambda x: x[1], reverse=True)
+    rsent = sum(v for _, v in sent)
+    sent = [
+        [self.bot.get_user(int(k)), v]
+        if self.bot.get_user(int(k))
+        else ["Deleted User", v]
+        for k, v in sent[:10]
+    ]
+    sent = tabulate(sent, tablefmt="fancy", headers=["User", "Amount"])
+
+    em.add_field(
+        name=f"Sent {action}s: {rsent}",
+        value=box(sent, lang="sml")
+        if rsent != 0
+        else f"You haven't sent any {action} yet.",
+        inline=False,
+    )
+
+    received = {}
+    for who, to_who_d in custom.items():
+        for to_who, _ in to_who_d.items():
+            if int(to_who) != user.id:
+                continue
+            if (
+                custom.get(who)
+                and custom[who].get(to_who)
+                and custom[who][to_who].get(f"{action}_r")
+            ):
+                received[who] = custom[who][to_who][f"{action}_r"]
+    received = sorted(received.items(), key=lambda x: x[1], reverse=True)
+    rcount = sum(v for _, v in received)
+    received = [
+        [self.bot.get_user(int(k)), v]
+        if self.bot.get_user(int(k))
+        else ["Deleted User", v]
+        for k, v in received[:10]
+    ]
+    received = tabulate(received, tablefmt="fancy", headers=["User", "Amount"])
+
+    em.add_field(
+        name=f"Received {action}s: {rcount}",
+        value=box(received, lang="sml")
+        if rcount != 0
+        else f"You haven't received any {action} yet.",
+        inline=False,
+    )
+
+    return em

@@ -42,7 +42,7 @@ class TimeConverter(commands.Converter):
         return seconds or None
 
 
-async def is_manager(ctx):
+async def is_manager(ctx) -> bool:
     if not ctx.guild:
         return False
     if await ctx.bot.is_owner(ctx.author):

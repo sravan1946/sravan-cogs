@@ -188,12 +188,13 @@ class Acromania(commands.Cog):
         return
 
     @acromania.command()
-    @commands.check(is_manager)
     @commands.max_concurrency(1, commands.BucketType.channel)
     async def start(self, ctx: commands.Context) -> None:
         """
         Starts the acromania game.
         """
+        if not is_manager(ctx):
+            return await ctx.send("You are not allowed to start an acromania game.")
         acronym = await self.generate_acronym()
         guessing_time: int = await self.config.guild(ctx.guild).guessing_time()
         startem = discord.Embed(

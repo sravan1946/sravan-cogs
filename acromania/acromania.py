@@ -247,6 +247,13 @@ class Acromania(commands.Cog):
         embed.description = desc
         await ctx.send(embed=embed)
 
+        em = discord.Embed(
+            title="Vote for the best guess.",
+            description="Use the number to vote for the guess. \n :warning: You can only vote once.",
+            color=await ctx.embed_color(),
+        )
+        await ctx.send(embed=em)
+
         voting_time = await self.config.guild(ctx.guild).voting_time()
         endtime = time.time() + voting_time
         is_voting = True

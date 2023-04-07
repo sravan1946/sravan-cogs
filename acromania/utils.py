@@ -53,6 +53,6 @@ async def is_manager(ctx):
     ):
         return True
     else:
-        cog = ctx.bot.get_cog("Acronym")
+        cog = ctx.bot.get_cog("Acromania")
         manager = await cog.config.guild(ctx.guild).manager()
         return manager in [r.id for r in ctx.author.roles] if manager else False

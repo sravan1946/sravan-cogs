@@ -169,7 +169,8 @@ class Acromania(commands.Cog):
         """
         Sets the time on how long the bot should wait to collect the answers.
 
-        This sets the amount of time the bot will wait for users to send their answers."""
+        This sets the amount of time the bot will wait for users to send their answers.
+        """
         if time is None:
             return await ctx.send("Invalid time provided.")
         await self.config.guild(ctx.guild).guessing_time.set(time)

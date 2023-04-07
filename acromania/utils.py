@@ -2,7 +2,6 @@ import datetime
 import re
 
 from redbot.core import commands
-from redbot.core.utils import mod
 
 TIME_UNITS: dict = {
     "name": {

@@ -20,7 +20,7 @@ class Poll(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.0.6"
+    __version__ = "1.0.7"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -47,7 +47,7 @@ class Poll(commands.Cog):
         embed = discord.Embed(
             title=f"**{question}**",
         )
-        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
         e = await ctx.send(embed=embed)
         asyncio.sleep(1)
         await e.add_reaction("⬆")
@@ -76,7 +76,7 @@ class Poll(commands.Cog):
         embed = discord.Embed(
             title=f"**{questions[0][1]}**",
         )
-        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar_url)
+        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
         embed.description = "\n".join([f"{i[0]} | {i[1]}" for i in questions[1:]])
         e = await ctx.send(embed=embed)
         for i in range(1, num):

@@ -21,7 +21,7 @@ class GuessTheNumber(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.0.7"
+    __version__ = "1.0.8"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -86,6 +86,8 @@ class GuessTheNumber(commands.Cog):
         try:
             await starting_message.pin()
             pinned = True
+        except discord.Forbidden:
+            await ctx.send("I do not have permissions to pin the message")
         except discord.HTTPException:
             await ctx.send("Could not pin the message due to too many pins")
         started = True
@@ -100,7 +102,7 @@ class GuessTheNumber(commands.Cog):
                     winem = discord.Embed()
                     winem.set_author(
                         name=f"{guess.author.display_name} has won the gtn event",
-                        icon_url=guess.author.avatar_url,
+                        icon_url=guess.author.avatar,
                     )
                     winem.color = await ctx.embed_colour()
                     winem.add_field(name="Number of guesses", value=guesses)

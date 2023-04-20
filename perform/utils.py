@@ -7,7 +7,6 @@ from redbot.core.utils.chat_formatting import box
 from tabulate import tabulate
 
 
-
 async def api_call(call_uri: str, returnObj: Optional[bool] = False):
     async with aiohttp.ClientSession() as session:
         async with session.get(f"{call_uri}") as response:

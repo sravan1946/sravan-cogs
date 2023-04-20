@@ -46,7 +46,6 @@ class DontPingStaff(commands.Cog):
     __author__ = ["sravan"]
     __version__ = "1.0.6"
 
-
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
         Thanks Sinbad!

@@ -13,17 +13,18 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-"""
 
+"""
 
 import logging
 from random import randint
+from typing import Optional
 
 import discord
 from redbot.core import Config, commands
 from redbot.core.bot import Red
 
-from .utils import kawaiiembed, send_embed
+from .utils import kawaiiembed, rstats_embed, send_embed
 
 log = logging.getLogger("red.onii.perform")
 
@@ -155,8 +156,10 @@ class Perform(commands.Cog):
         self.config.register_custom("Target", **default_target)
         self.cache = {}
 
+        self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
+
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.6.5"  # idk what im doing with version
+    __version__ = "5.7.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -173,12 +176,6 @@ class Perform(commands.Cog):
             except Exception as e:
                 log.info(e)
             self.bot.add_command(hug)
-
-    # @commands.command()
-    # async def rstats(self, ctx, action: str):
-    #     embed = discord.Embed()
-    #     embed.set_author(name=f"{ctx.author.name}'s {action} statistics")
-    #     embed.add_field(name=f"Sent {action}s", value=)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command()
@@ -406,7 +403,6 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** just spanked {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-
         embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).spank_r()
@@ -467,7 +463,6 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** feeds {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-
         embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).feed_r()
@@ -986,7 +981,6 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** just kicked nuts of {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-
         embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).nut_r()
@@ -1017,77 +1011,21 @@ class Perform(commands.Cog):
         )
         await ctx.send(embed=embed)
 
+    @commands.command(aliases=["rstats", "pstats", "roleplaystats"])
+    @commands.guild_only()
+    async def performstats(
+        self, ctx: commands.Context, action: str, user: Optional[discord.User]
+    ):
+        """View your roleplay stats"""
+        if user is None:
+            user = ctx.author
+        if action not in self.COMMANDS:
+            return await ctx.send(
+                f"The valid choices to view stats for are {', '.join(f'`{c}`' for c in self.COMMANDS)}"
+            )
+        embed = await rstats_embed(self, ctx, action, user)
 
-#     @commands.command()
-#     @commands.guild_only()
-#     async def rstats(self, ctx: commands.Context, action: str, member: discord.Member = None):
-#         """RStats cog commands."""
-#         valid = [
-#             "cuddle",
-#             "poke",
-#             "kiss",
-#             "hug",
-#             "pat",
-#             "tickle",
-#             "smug",
-#             "lick",
-#             "slap",
-#             "cry",
-#             "sleep",
-#             "spank",
-#             "pout",
-#             "blush",
-#             "feed",
-#             "punch",
-#             "confuse",
-#             "amazed",
-#             "highfive",
-#             "plead",
-#             "clap",
-#             "facepalm",
-#             "headdesk",
-#             "kill",
-#             "love",
-#             "hide",
-#             "laugh",
-#             "peek",
-#             "bite",
-#             "dance",
-#             "yeet",
-#             "dodge",
-#             "happy",
-#             "cute",
-#             "lonely",
-#             "mad",
-#             "nosebleed",
-#             "protect",
-#             "run",
-#             "scared",
-#             "shrug",
-#             "scream",
-#             "stare",
-#             "wave",
-#             ]
-#         if action.lower() not in valid:
-#             return await ctx.send("Invalid action.")
-#         if member is None:
-#             member = ctx.author
-#         data = await self.config.custom("Target").all()
-#         top_10 = get_top10(data, member.id)
-#         embed = discord.Embed(title=f"Top 10 for {member.name}")
-#         top_10 = tabulate(top_10, tablefmt="psql", headers=["User", "Spanks"])
-#         embed.description = box(top_10)
-#         await ctx.send(embed=embed)
-
-
-# def get_top10(data, action: str):
-#     targets = []
-#     for i in data:
-#         for key, value in data[i].items():
-#             with contextlib.suppress(KeyError):
-#                 targets.append((value["spank_r"], key))
-#         targets.sort(key=lambda x: x[0], reverse = True)
-#     return targets[:10]
+        await ctx.send(embed=embed)
 
 
 async def setup(bot):

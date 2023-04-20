@@ -21,7 +21,7 @@ class GuessTheNumber(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.0.6"
+    __version__ = "1.0.7"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -82,9 +82,10 @@ class GuessTheNumber(commands.Cog):
         )
         startem.add_field(name="Range", value=f"{low}-{high}")
         starting_message = await ctx.message.reply(embed=startem)
+        pinned = False
         try:
-            pinned = True
             await starting_message.pin()
+            pinned = True
         except discord.HTTPException:
             await ctx.send("Could not pin the message due to too many pins")
         started = True
@@ -129,7 +130,7 @@ class GuessTheNumber(commands.Cog):
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
-    async def get_vaules(self, ctx: commands.Context, user):
+    async def get_vaules(self, ctx: commands.Context, user: discord.User):
         """
         Ask the range and the number to be guessed in the users DM.
         """

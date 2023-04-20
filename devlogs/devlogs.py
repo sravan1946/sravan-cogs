@@ -26,7 +26,7 @@ class DevLogs(commands.Cog):
         self.config.register_global(**default_global)
 
     __author__ = ["sravan"]
-    __version__ = "1.0.5"
+    __version__ = "1.0.6"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -41,7 +41,7 @@ class DevLogs(commands.Cog):
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
-    async def send_log(self, ctx) -> None:
+    async def send_log(self, ctx: commands.Context) -> None:
         """
         sends a embed in the channel and also returns DM if the command was ran
         in Dms.

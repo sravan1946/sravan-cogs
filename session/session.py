@@ -4,6 +4,7 @@ import re
 
 import discord
 from redbot.core import Config, checks, commands
+from redbot.core.bot import Red
 
 log = logging.getLogger("red.sravan.session")
 
@@ -19,7 +20,7 @@ class Session(commands.Cog):
         """
         return
 
-    def __init__(self, bot):
+    def __init__(self, bot: Red):
         self.bot = bot
         self.last_change = None
         self.config = Config.get_conf(self, 25298865439862, force_registration=True)
@@ -37,7 +38,7 @@ class Session(commands.Cog):
         self.config.register_global(**default_global)
 
     __author__ = ["aikaterna", "sravan"]
-    __version__ = "1.0.5"
+    __version__ = "1.0.6"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -52,13 +53,13 @@ class Session(commands.Cog):
     @commands.group(autohelp=True)
     @commands.guild_only()
     @checks.is_owner()
-    async def session(self, ctx):
+    async def session(self, ctx: commands.Context):
         """
         Session group commands.
         """
 
     @session.command()
-    async def delay(self, ctx, seconds: int):
+    async def delay(self, ctx: commands.Context, seconds: int):
         """
         Sets interval of random status switch.
 
@@ -70,7 +71,7 @@ class Session(commands.Cog):
         await ctx.send(f"Interval set to {seconds} seconds.")
 
     @session.command(name="type")
-    async def _session_type(self, ctx, status_type: int):
+    async def _session_type(self, ctx: commands.Context, status_type: int):
         """
         Define the session game type.
 
@@ -93,7 +94,7 @@ class Session(commands.Cog):
             )
 
     @session.command()
-    async def status(self, ctx, status: int):
+    async def status(self, ctx: commands.Context, status: int):
         """
         Define the session presence status.
 

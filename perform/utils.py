@@ -7,6 +7,7 @@ from redbot.core.utils.chat_formatting import box
 from tabulate import tabulate
 
 
+
 async def api_call(call_uri: str, returnObj: Optional[bool] = False):
     async with aiohttp.ClientSession() as session:
         async with session.get(f"{call_uri}") as response:
@@ -68,9 +69,9 @@ async def kawaiiembed(
         )
     embed.set_footer(
         text=f"Requested by {ctx.message.author.display_name}",
-        icon_url=ctx.message.author.avatar_url,
+        icon_url=ctx.message.author.avatar,
     )
-    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url)
+    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
     try:
         url = await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
     except aiohttp.client_exceptions.ContentTypeError:
@@ -115,14 +116,14 @@ async def print_it(
         if user:
             await hook.send(
                 username=ctx.message.author.display_name,
-                avatar_url=ctx.message.author.avatar_url,
+                avatar_url=ctx.message.author.avatar,
                 embed=embed,
                 content=user.mention,
             )
         else:
             await hook.send(
                 username=ctx.message.author.display_name,
-                avatar_url=ctx.message.author.avatar_url,
+                avatar_url=ctx.message.author.avatar,
                 embed=embed,
             )
     except discord.NotFound:

@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+
 """
 
 import logging
@@ -402,9 +403,7 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** just spanked {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        embed.set_author(
-            name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url
-        )
+        embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).spank_r()
         used = await self.config.user(ctx.author).spank_s()
@@ -464,9 +463,7 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** feeds {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        embed.set_author(
-            name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url
-        )
+        embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).feed_r()
         used = await self.config.user(ctx.author).feed_s()
@@ -984,9 +981,7 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** just kicked nuts of {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        embed.set_author(
-            name=self.bot.user.display_name, icon_url=self.bot.user.avatar_url
-        )
+        embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).nut_r()
         used = await self.config.user(ctx.author).nut_s()
@@ -1033,8 +1028,8 @@ class Perform(commands.Cog):
         await ctx.send(embed=embed)
 
 
-def setup(bot):
+async def setup(bot):
     global hug
 
     hug = bot.remove_command("hug")
-    bot.add_cog(Perform(bot))
+    await bot.add_cog(Perform(bot))

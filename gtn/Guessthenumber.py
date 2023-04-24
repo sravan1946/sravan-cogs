@@ -21,7 +21,7 @@ class GuessTheNumber(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.0.8"
+    __version__ = "1.0.9"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -99,6 +99,7 @@ class GuessTheNumber(commands.Cog):
             )
             if guess.content.isdigit():
                 if int(guess.content) == number:
+                    participant.add(guess.author)
                     winem = discord.Embed()
                     winem.set_author(
                         name=f"{guess.author.display_name} has won the gtn event",

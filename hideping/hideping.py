@@ -11,7 +11,7 @@ class HidePing(commands.Cog):
     """
 
     __author__ = ["sravan"]
-    __version__ = "1.0.6"
+    __version__ = "1.0.7"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -24,7 +24,7 @@ class HidePing(commands.Cog):
         self.bot = bot
 
     @commands.command(name="hideping")
-    @commands.mod()
+    @commands.mod_or_permissions(manage_messages=True)
     async def hideping(
         self, ctx: commands.Context, member: discord.Member, *, message: Optional[str]
     ):

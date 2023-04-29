@@ -21,7 +21,7 @@ class GuessTheNumber(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.1.0"
+    __version__ = "1.1.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -106,12 +106,15 @@ class GuessTheNumber(commands.Cog):
                         icon_url=guess.author.avatar,
                     )
                     winem.color = await ctx.embed_colour()
-                    winem.add_field(name="Number of guesses", value=guesses)
-                    winem.add_field(name="Participants", value=len(participant))
-                    winem.add_field(name="Number guessed", value=guess.content)
+                    winem.add_field(name="Number of guesses", value=f"> {guesses}")
+                    winem.add_field(name="Participants", value=f"> {len(participant)}")
+                    winem.add_field(
+                        name="Number guessed", value=f"> {guess.content}", inline=False
+                    )
                     winem.set_footer(
                         text="Thanks for playing!",
                     )
+                    winem.set_thumbnail(url=ctx.guild.icon)
                     await guess.reply(embed=winem, content=ctx.author.mention)
                     if pinned:
                         await starting_message.unpin()

@@ -9,17 +9,9 @@ from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.config import Config
 
-from .utils import (
-    TimeConverter,
-    add_guess,
-    add_vote,
-    gen_results,
-    generate_acronym,
-    is_manager,
-    send_embed,
-    valid_guess,
-    valid_vote,
-)
+from .utils import (TimeConverter, add_guess, add_vote, gen_results,
+                    generate_acronym, is_manager, send_embed, valid_guess,
+                    valid_vote)
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 

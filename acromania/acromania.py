@@ -1,15 +1,25 @@
 import asyncio
-import random
-import string
+import datetime
 import time
 from typing import Literal
 
 import discord
+from discord.utils import format_dt
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.config import Config
 
-from .utils import TimeConverter, is_manager
+from .utils import (
+    TimeConverter,
+    add_guess,
+    add_vote,
+    gen_results,
+    generate_acronym,
+    is_manager,
+    send_embed,
+    valid_guess,
+    valid_vote,
+)
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
@@ -22,7 +32,7 @@ class Acromania(commands.Cog):
     """
 
     __author__ = ["sravan"]
-    __version__ = "1.0.2"
+    __version__ = "1.1.0"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
@@ -42,80 +52,6 @@ class Acromania(commands.Cog):
     def format_help_for_context(self, ctx: commands.Context) -> str:
         context = super().format_help_for_context(ctx)
         return f"{context}\n\nVersion: {self.__version__}"
-
-    async def generate_acronym(self) -> str:
-        return ".".join(random.choices(string.ascii_uppercase, k=random.randint(3, 5)))
-
-    async def valid_guess(
-        self, ctx: commands.Context, guess: discord.Message, acronym: str
-    ) -> bool:
-        acro = acronym.split(".")
-        for i, word in enumerate(guess.content.split()):
-            if i >= len(acro):
-                return False
-            if word[0].lower() != acro[i][0].lower():
-                return False
-        return len(guess.content.split()) == len(acro)
-
-    async def valid_vote(
-        self, ctx: commands.Context, vote: discord.Message, data: dict
-    ) -> bool:
-        author = vote.author.id
-        try:
-            vote = int(vote.content)
-        except ValueError:
-            return False
-        for i, (k, v) in enumerate(data.items(), 1):
-            if k == author and i == vote:
-                return False
-        return vote >= 1 and vote <= len(data)
-
-    async def gen_cache(self, ctx: commands.Context, acronym: str) -> None:
-        self.cache[ctx.channel.id] = {acronym: {"votes": {}}}
-
-    async def add_guess(
-        self, ctx: commands.Context, guess: discord.Message, acronym: str
-    ) -> None:
-        if ctx.channel.id not in self.cache:
-            await self.gen_cache(ctx, acronym)
-        if acronym not in self.cache[ctx.channel.id]:
-            await self.gen_cache(ctx, acronym)
-        if guess.author.id not in self.cache[ctx.channel.id][acronym]:
-            self.cache[ctx.channel.id][acronym][guess.author.id] = guess.content
-
-    async def add_vote(
-        self, ctx: commands.Context, vote: discord.Message, acronym: str
-    ) -> None:
-        data = self.cache[ctx.channel.id][acronym]
-        if vote.content not in data["votes"]:
-            data["votes"][vote.content] = 1
-        else:
-            data["votes"][vote.content] += 1
-
-    async def gen_results(self, ctx: commands.Context, acronym: str) -> None:
-        data = self.cache[ctx.channel.id][acronym]
-        data = {k: v for k, v in data.items() if k != "votes"}
-        votes = self.cache[ctx.channel.id][acronym]["votes"]
-        results = {}
-        for guess, vote in votes.items():
-            guess = int(guess)
-            for i, (k, v) in enumerate(data.items(), 1):
-                if i == guess:
-                    results[v] = [k, vote]
-        return results
-
-    async def send_embed(self, ctx: commands.Context, results: dict) -> None:
-        embed = discord.Embed(title="Acromania Results", color=await ctx.embed_color())
-        results = dict(
-            sorted(results.items(), key=lambda item: item[1][1], reverse=True)
-        )
-        mes = ""
-        for k, v in results.items():
-            user = ctx.guild.get_member(v[0])
-            votes = v[1]
-            mes += f"{user.mention}: {k} ({votes} votes) \n"
-            embed.description = mes
-        await ctx.send(embed=embed)
 
     @commands.group(aliases=["acro", "acronym"])
     @commands.guild_only()
@@ -193,9 +129,9 @@ class Acromania(commands.Cog):
         """
         Starts the acromania game.
         """
-        if not is_manager(ctx):
+        if not await is_manager(ctx):
             return await ctx.send("You are not allowed to start an acromania game.")
-        acronym = await self.generate_acronym()
+        acronym = await generate_acronym()
         guessing_time: int = await self.config.guild(ctx.guild).guessing_time()
         startem = discord.Embed(
             title="Acromania Game",
@@ -222,10 +158,10 @@ class Acromania(commands.Cog):
                 continue
             if guess.author.id == ctx.author.id and guess.content == "CANCEL":
                 return await ctx.send("Cancelled.")
-            valid = await self.valid_guess(ctx, guess, acronym)
+            valid = await valid_guess(guess, acronym)
             if valid:
                 if guess.author.id not in guessed:
-                    await self.add_guess(ctx, guess, acronym)
+                    await add_guess(self, ctx, guess, acronym)
                     guessed.add(guess.author.id)
                 try:
                     await guess.delete()
@@ -247,15 +183,16 @@ class Acromania(commands.Cog):
         embed.description = desc
         await ctx.send(embed=embed)
 
+        voting_time = await self.config.guild(ctx.guild).voting_time()
+        timestamp = datetime.datetime.now() + datetime.timedelta(seconds=voting_time)
+        endtime = time.time() + voting_time
         em = discord.Embed(
             title="Vote for the best guess.",
-            description="Use the number to vote for the guess. \n :warning: You can only vote once.",
+            description=f"Use the number to vote for the guess. \nVoting time ends in {format_dt(timestamp, style='R')} \n :warning: You can only vote once.",
             color=await ctx.embed_color(),
         )
         await ctx.send(embed=em)
 
-        voting_time = await self.config.guild(ctx.guild).voting_time()
-        endtime = time.time() + voting_time
         is_voting = True
         voted = set()
         while is_voting:
@@ -273,14 +210,14 @@ class Acromania(commands.Cog):
                 continue
             if vote.author.id == ctx.author.id and vote.content == "CANCEL":
                 return await ctx.send("Cancelled.")
-            valid = await self.valid_vote(ctx, vote, data)
+            valid = await valid_vote(vote, data)
             if valid and vote.author.id not in voted:
-                await self.add_vote(ctx, vote, acronym)
+                await add_vote(self, ctx, vote, acronym)
                 voted.add(vote.author.id)
                 await vote.add_reaction("✅")
         await ctx.send("All votes have been collected.")
-        result = await self.gen_results(ctx, acronym)
-        await self.send_embed(ctx, result)
+        result = await gen_results(self, ctx, acronym)
+        await send_embed(ctx, result)
 
     async def red_delete_data_for_user(
         self, *, requester: RequestType, user_id: int

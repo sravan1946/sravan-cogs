@@ -4,7 +4,6 @@ from typing import List, Literal, Optional, Union
 
 import discord
 import humanize
-from discord.http import Route
 from discord.utils import utcnow
 from redbot.core import Config, commands, modlog
 from redbot.core.bot import Red

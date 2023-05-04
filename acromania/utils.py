@@ -80,10 +80,14 @@ async def valid_vote(vote: discord.Message, data: dict) -> bool:
         vote = int(vote.content)
     except ValueError:
         return False
-    for i, (k, v) in enumerate(data.items(), 1):
-        if k == author and i == vote:
-            return False
-    return vote >= 1 and vote <= len(data)
+    return next(
+        (
+            False
+            for i, (k, v) in enumerate(data.items(), 1)
+            if k == author and i == vote
+        ),
+        vote >= 1 and vote <= len(data),
+    )
 
 
 async def gen_cache(self, ctx: commands.Context, acronym: str) -> None:

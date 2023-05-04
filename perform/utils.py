@@ -24,6 +24,7 @@ async def check_perm(ctx: commands.Context):
     perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
     return perm is True
 
+
 async def send_embed(
     self,
     ctx: commands.Context,
@@ -45,6 +46,7 @@ async def send_embed(
         await ctx.reply(embed=embed, content=user.mention, mention_author=False)
     else:
         await ctx.reply(embed=embed, mention_author=False)
+
 
 async def kawaiiembed(
     self, ctx: commands.Context, action: str, endpoint: str, user=None

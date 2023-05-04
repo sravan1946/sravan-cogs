@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import random
-from typing import Literal
+from typing import List, Literal, Optional
 
 import discord
 from redbot.core import commands
@@ -21,7 +21,7 @@ class GuessTheNumber(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.0.7"
+    __version__ = "1.1.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -37,7 +37,7 @@ class GuessTheNumber(commands.Cog):
         """
         Start a gtn event.
         """
-        user = ctx.author
+        user: discord.Member = ctx.author
         _range = await self.get_vaules(ctx, user)
 
         def check(m):
@@ -86,6 +86,8 @@ class GuessTheNumber(commands.Cog):
         try:
             await starting_message.pin()
             pinned = True
+        except discord.Forbidden:
+            await ctx.send("I do not have permissions to pin the message")
         except discord.HTTPException:
             await ctx.send("Could not pin the message due to too many pins")
         started = True
@@ -97,18 +99,22 @@ class GuessTheNumber(commands.Cog):
             )
             if guess.content.isdigit():
                 if int(guess.content) == number:
+                    participant.add(guess.author)
                     winem = discord.Embed()
                     winem.set_author(
                         name=f"{guess.author.display_name} has won the gtn event",
-                        icon_url=guess.author.avatar_url,
+                        icon_url=guess.author.avatar,
                     )
                     winem.color = await ctx.embed_colour()
-                    winem.add_field(name="Number of guesses", value=guesses)
-                    winem.add_field(name="Participants", value=len(participant))
-                    winem.add_field(name="Number guessed", value=guess.content)
+                    winem.add_field(name="Number of guesses", value=f"> {guesses}")
+                    winem.add_field(name="Participants", value=f"> {len(participant)}")
+                    winem.add_field(
+                        name="Number guessed", value=f"> {guess.content}", inline=False
+                    )
                     winem.set_footer(
                         text="Thanks for playing!",
                     )
+                    winem.set_thumbnail(url=ctx.guild.icon)
                     await guess.reply(embed=winem, content=ctx.author.mention)
                     if pinned:
                         await starting_message.unpin()
@@ -130,7 +136,9 @@ class GuessTheNumber(commands.Cog):
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
-    async def get_vaules(self, ctx: commands.Context, user: discord.User):
+    async def get_vaules(
+        self, ctx: commands.Context, user: discord.User
+    ) -> Optional[List[str]]:
         """
         Ask the range and the number to be guessed in the users DM.
         """
@@ -144,10 +152,12 @@ class GuessTheNumber(commands.Cog):
                 "Please enter the range of the number you want to guess. (e.g. 1-10, 1-100, 200-600)"
             )
         except discord.Forbidden:
-            return await ctx.channel.send("Could not send DM to user")
+            await ctx.channel.send("Could not send DM to user")
+            return
         try:
-            _range = await self.bot.wait_for("message", check=check, timeout=60)
-            # check if the range is a number and in the correct format
+            _range: discord.Message = await self.bot.wait_for(
+                "message", check=check, timeout=60
+            )
             if _range.content.count("-") == 1:
                 _range = _range.content.split("-")
                 if _range[0].isdigit() and _range[1].isdigit():

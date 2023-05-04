@@ -4,7 +4,7 @@ from typing import List, Literal, Optional, Union
 
 import discord
 import humanize
-from discord.http import Route
+from discord.utils import utcnow
 from redbot.core import Config, commands, modlog
 from redbot.core.bot import Red
 from redbot.core.commands.converter import TimedeltaConverter
@@ -24,7 +24,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.2.0"
+    __version__ = "1.3.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -39,18 +39,20 @@ class Timeout(commands.Cog):
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
 
-    async def is_user_timed_out(self, member: discord.Member) -> bool:
-        r = Route(
-            "GET",
-            "/guilds/{guild_id}/members/{user_id}",
-            guild_id=member.guild.id,
-            user_id=member.id,
-        )
-        try:
-            data = await self.bot.http.request(r)
-        except discord.NotFound:
-            return False
-        return data["communication_disabled_until"] is not None
+    async def pre_load(self):
+        with contextlib.suppress(RuntimeError):
+            await modlog.register_casetype(
+                name="timeout",
+                default_setting=True,
+                image=":mute:",
+                case_str="Timeout",
+            )
+            await modlog.register_casetype(
+                name="untimeout",
+                default_setting=True,
+                image=":sound:",
+                case_str="Untimeout",
+            )
 
     async def pre_load(self):
         with contextlib.suppress(RuntimeError):
@@ -74,48 +76,31 @@ class Timeout(commands.Cog):
         time: Optional[datetime.timedelta],
         reason: Optional[str] = None,
     ) -> None:
-        r = Route(
-            "PATCH",
-            "/guilds/{guild_id}/members/{user_id}",
-            guild_id=ctx.guild.id,
-            user_id=member.id,
-        )
-
-        payload = {
-            "communication_disabled_until": str(
-                datetime.datetime.now(datetime.timezone.utc) + time
-            )
-            if time
-            else None
-        }
-
-        await ctx.bot.http.request(r, json=payload, reason=reason)
+        await member.timeout(time, reason=reason)
         await modlog.create_case(
             bot=ctx.bot,
             guild=ctx.guild,
-            created_at=datetime.datetime.now(datetime.timezone.utc),
+            created_at=utcnow(),
             action_type="timeout" if time else "untimeout",
             user=member,
             moderator=ctx.author,
             reason=reason,
-            until=(datetime.datetime.now(datetime.timezone.utc) + time)
-            if time
-            else None,
+            until=(utcnow() + time) if time else None,
             channel=ctx.channel,
         )
         if await self.config.guild(member.guild).dm():
             with contextlib.suppress(discord.HTTPException):
                 embed = discord.Embed(
                     title="Server timeout" if time else "Server untimeout",
-                    description=f"**reason:** {reason}"
+                    description=f"**Reason:** {reason}"
                     if reason
-                    else "**reason:** No reason given.",
-                    timestamp=datetime.datetime.utcnow(),
+                    else "**Reason:** No reason given.",
+                    timestamp=utcnow(),
                     colour=await ctx.embed_colour(),
                 )
 
                 if time:
-                    timestamp = datetime.datetime.now(datetime.timezone.utc) + time
+                    timestamp = utcnow() + time
                     timestamp = int(datetime.datetime.timestamp(timestamp))
                     embed.add_field(
                         name="Until", value=f"<t:{timestamp}:f>", inline=True
@@ -123,9 +108,7 @@ class Timeout(commands.Cog):
                     embed.add_field(
                         name="Duration", value=humanize.naturaldelta(time), inline=True
                     )
-
                 embed.add_field(name="Guild", value=ctx.guild, inline=False)
-
                 if await self.config.guild(ctx.guild).showmod():
                     embed.add_field(name="Moderator", value=ctx.author, inline=False)
                 await member.send(embed=embed)
@@ -149,7 +132,7 @@ class Timeout(commands.Cog):
     @commands.command(aliases=["tt"])
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
-    @commands.mod_or_permissions(administrator=True)
+    @commands.admin_or_permissions(moderate_members=True)
     async def timeout(
         self,
         ctx: commands.Context,
@@ -179,13 +162,13 @@ class Timeout(commands.Cog):
         """
         if not time:
             time = datetime.timedelta(seconds=60)
-        timestamp = datetime.datetime.now(datetime.timezone.utc) + time
-        timestamp = int(datetime.datetime.timestamp(timestamp))
+        timestamp = int(datetime.datetime.timestamp(utcnow() + time))
         if isinstance(member_or_role, discord.Member):
-            check = await is_allowed_by_hierarchy(ctx.bot, ctx.author, member_or_role)
-            if not check:
+            if member_or_role.is_timed_out():
+                return await ctx.send("This user is already timed out.")
+            if not await is_allowed_by_hierarchy(ctx.bot, ctx.author, member_or_role):
                 return await ctx.send("You cannot timeout this user due to hierarchy.")
-            if member_or_role.permissions_in(ctx.channel).administrator:
+            if ctx.channel.permissions_for(member_or_role).administrator:
                 return await ctx.send("You can't timeout an administrator.")
             await self.timeout_user(ctx, member_or_role, time, reason)
             return await ctx.send(
@@ -201,7 +184,7 @@ class Timeout(commands.Cog):
     @commands.command(aliases=["utt"])
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
-    @commands.mod_or_permissions(administrator=True)
+    @commands.admin_or_permissions(moderate_members=True)
     async def untimeout(
         self,
         ctx: commands.Context,
@@ -219,8 +202,7 @@ class Timeout(commands.Cog):
 
         """
         if isinstance(member_or_role, discord.Member):
-            is_timedout = await self.is_user_timed_out(member_or_role)
-            if not is_timedout:
+            if not member_or_role.is_timed_out():
                 return await ctx.send("This user is not timed out.")
             await self.timeout_user(ctx, member_or_role, None, reason)
             return await ctx.send(f"Removed timeout from {member_or_role.mention}")
@@ -230,7 +212,7 @@ class Timeout(commands.Cog):
             )
             members = list(member_or_role.members)
             for member in members:
-                if await self.is_user_timed_out(member):
+                if member.is_timed_out():
                     await self.timeout_user(ctx, member, None, reason)
             return await ctx.send(f"Removed timeout from {len(members)} members.")
 

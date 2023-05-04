@@ -26,7 +26,7 @@ class DevLogs(commands.Cog):
         self.config.register_global(**default_global)
 
     __author__ = ["sravan"]
-    __version__ = "1.0.6"
+    __version__ = "1.0.7"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -58,7 +58,7 @@ class DevLogs(commands.Cog):
             description=box(content, lang="py"),
             color=await self.bot.get_embed_color(self.bot.user.colour),
         )
-        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
+        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar)
         try:
             embed.add_field(
                 name="Channel", value=f"{ctx.channel.mention} \n ({ctx.channel.id})"

@@ -44,7 +44,7 @@ class DontPingStaff(commands.Cog):
         self.cache = {}
 
     __author__ = ["sravan"]
-    __version__ = "1.0.6"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -266,7 +266,7 @@ class DontPingStaff(commands.Cog):
         self,
         ctx: commands.Context,
         *,
-        action: commands.Literal["kick", "ban", "mute", "none"],
+        action: str,
     ) -> None:
         """
         Choose nothing, kick, ban or mute as the action.
@@ -340,16 +340,22 @@ class DontPingStaff(commands.Cog):
         )
         embed.add_field(
             name="Ignored Users",
-            value=", ".join(str(f"<@!{user}>") for user in ignored_users),
-        ) if ignored_users else "None"
+            value=", ".join(str(f"<@!{user}>") for user in ignored_users)
+            if ignored_users
+            else "None",
+        )
         embed.add_field(
             name="Ignored Roles",
-            value=", ".join(str(f"<@&{role}>") for role in ignored_roles),
-        ) if ignored_roles else "None"
+            value=", ".join(str(f"<@&{role}>") for role in ignored_roles)
+            if ignored_roles
+            else "None",
+        )
         embed.add_field(
             name="Ignored Channels",
-            value=", ".join(str(f"<#{channel}>") for channel in ignored_channels),
-        ) if ignored_channels else "None"
+            value=", ".join(str(f"<#{channel}>") for channel in ignored_channels)
+            if ignored_channels
+            else "None",
+        )
         embed.add_field(
             name="Staff Role",
             value=", ".join(str(f"<@&{role}>") for role in staff_role),

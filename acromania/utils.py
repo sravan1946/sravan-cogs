@@ -60,7 +60,6 @@ async def is_manager(ctx) -> bool:
         manager = await cog.config.guild(ctx.guild).manager()
         return manager in [r.id for r in ctx.author.roles] if manager else False
 
-
 async def generate_acronym() -> str:
     return ".".join(random.choices(string.ascii_uppercase, k=random.randint(3, 5)))
 

@@ -13,6 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+"""
 
 """
 
@@ -1024,12 +1025,10 @@ class Perform(commands.Cog):
                 f"The valid choices to view stats for are {', '.join(f'`{c}`' for c in self.COMMANDS)}"
             )
         embed = await rstats_embed(self, ctx, action, user)
-
         await ctx.send(embed=embed)
 
 
 async def setup(bot):
     global hug
-
     hug = bot.remove_command("hug")
     await bot.add_cog(Perform(bot))

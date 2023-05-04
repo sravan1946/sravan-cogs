@@ -54,6 +54,21 @@ class Timeout(commands.Cog):
                 case_str="Untimeout",
             )
 
+    async def pre_load(self):
+        with contextlib.suppress(RuntimeError):
+            await modlog.register_casetype(
+                name="timeout",
+                default_setting=True,
+                image=":mute:",
+                case_str="Timeout",
+            )
+            await modlog.register_casetype(
+                name="untimeout",
+                default_setting=True,
+                image=":sound:",
+                case_str="Untimeout",
+            )
+
     async def timeout_user(
         self,
         ctx: commands.Context,
@@ -93,9 +108,7 @@ class Timeout(commands.Cog):
                     embed.add_field(
                         name="Duration", value=humanize.naturaldelta(time), inline=True
                     )
-
                 embed.add_field(name="Guild", value=ctx.guild, inline=False)
-
                 if await self.config.guild(ctx.guild).showmod():
                     embed.add_field(name="Moderator", value=ctx.author, inline=False)
                 await member.send(embed=embed)

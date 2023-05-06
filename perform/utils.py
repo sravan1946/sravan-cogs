@@ -142,7 +142,7 @@ async def rstats_embed(
     em = discord.Embed(
         title=f"{user.name}'s {action} stats", color=await ctx.embed_color()
     )
-    em.set_author(name=user, icon_url=user.avatar_url)
+    em.set_author(name=user, icon_url=user.avatar)
     em.set_footer(text=f"Requested by {ctx.author}")
 
     sent = {}

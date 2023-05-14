@@ -21,7 +21,7 @@ class GuessTheNumber(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.1.1"
+    __version__ = "1.1.2"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -98,7 +98,11 @@ class GuessTheNumber(commands.Cog):
                 "message", check=lambda m: m.channel == ctx.channel
             )
             if guess.content.isdigit():
-                if int(guess.content) == number:
+                try:
+                    guessed_number = int(guess.content)
+                except ValueError:
+                    continue
+                if guessed_number == number:
                     participant.add(guess.author)
                     winem = discord.Embed()
                     winem.set_author(

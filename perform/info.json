@@ -4,6 +4,7 @@
     ],
     "name": "Perform",
     "requirements": ["tabulate"],
-    "description": "Perform Actions like kiss, cuddle etc.",
+    "short": "Perform Actions like kiss, cuddle etc.",
+    "description": "The perform cog facilitates immersive roleplay experiences with commands for hugging, kissing, poking, kicking, and more, allowing users to engage in diverse interactive actions and expressions.",
     "install_msg": "Hello and thank you for installing this cog, this cog shouldn't contain any nsfw gifs and allows you to interact with other people. Make sure to use `[p]performapi` to see the steps needed to set the api required for the cog"
 }

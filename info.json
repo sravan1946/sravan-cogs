@@ -1,13 +1,23 @@
 {
-    "author": [
+    "author" : [
         "sravan"
     ],
-    "install_msg": "Thanks for installing my repo! DM me (sravan#0001) or ping me in #support_othercogs if you have any questions or suggestions.",
-    "name": "sravan-cogs",
-    "short": "General cogs.",
-    "description": "Just some cogs which I made for fun.",
-    "tags": [
+    "description" : "Just some cogs which I made for fun.",
+    "disabled" : false,
+    "end_user_data_statement" : "This cog does not persistently store data or metadata about users.",
+    "hidden" : false,
+    "install_msg" : "Thanks for installing my repo! DM me (sravan#0001) or ping me in #support_othercogs if you have any questions or suggestions.",
+    "max_bot_version" : "0.0.0",
+    "min_bot_version" : "3.1.8",
+    "min_python_version" : [],
+    "name" : "sravan-cogs",
+    "permissions" : [],
+    "required_cogs" : {},
+    "requirements" : [],
+    "short" : "General cogs.",
+    "tags" : [
         "utility",
         "fun"
-    ]
+    ],
+    "type" : "COG"
 }

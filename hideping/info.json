@@ -3,7 +3,7 @@
       "sravan"
     ],
     "install_msg": "Thank you for installing this cog!",
-    "name": "hideping",
+    "name": "HidePing",
     "short": "Hidden mentions",
     "description": "Mentions the user in a hidden ping",
     "tags": [

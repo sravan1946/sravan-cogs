@@ -53,9 +53,7 @@ async def kawaiiembed(
 ) -> discord.Embed:
     api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
     if not api_key:
-        return await ctx.send(
-            "Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API."
-        )
+        return "Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API."
     if user is None:
         embed = discord.Embed(
             description=f"**{ctx.author.mention}** {action}",

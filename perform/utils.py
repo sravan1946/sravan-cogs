@@ -64,10 +64,6 @@ async def kawaiiembed(
             description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
         )
-    embed.set_footer(
-        text=f"Requested by {ctx.message.author.display_name}",
-        icon_url=ctx.message.author.avatar,
-    )
     embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
     try:
         url = await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")

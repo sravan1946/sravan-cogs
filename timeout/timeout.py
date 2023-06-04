@@ -24,7 +24,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.3.0"
+    __version__ = "1.3.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -38,21 +38,6 @@ class Timeout(commands.Cog):
     ) -> None:
         # TODO: Replace this with the proper end user data removal handling.
         super().red_delete_data_for_user(requester=requester, user_id=user_id)
-
-    async def pre_load(self):
-        with contextlib.suppress(RuntimeError):
-            await modlog.register_casetype(
-                name="timeout",
-                default_setting=True,
-                image=":mute:",
-                case_str="Timeout",
-            )
-            await modlog.register_casetype(
-                name="untimeout",
-                default_setting=True,
-                image=":sound:",
-                case_str="Untimeout",
-            )
 
     async def pre_load(self):
         with contextlib.suppress(RuntimeError):

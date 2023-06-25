@@ -1,21 +1,23 @@
 {
-    "$schema": "https://raw.githubusercontent.com/Cog-Creators/Red-DiscordBot/V3/develop/schema/red_cog.schema.json",
-    "name": "Acromania",
-    "short": "Acronym game.",
-    "description": "Acronym game is a fun and engaging word game where players take turns creating a phrase or sentence from a series of letters, with each letter representing a word in the phrase.",
-    "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
-    "install_msg": "Thanks for installing the cog, run `<p>load acromania` to load it.",
-    "author": [
+    "author" : [
         "sravan"
     ],
-    "required_cogs": {},
-    "requirements": [],
-    "tags": [
+    "description" : "Acronym game is a fun and engaging word game where players take turns creating a phrase or sentence from a series of letters, with each letter representing a word in the phrase.",
+    "disabled" : false,
+    "end_user_data_statement" : "This cog does not persistently store any data or metadata about users.",
+    "hidden" : false,
+    "install_msg" : "Thanks for installing the cog, run `[p]load acromania` to load it.",
+    "max_bot_version" : "0.0.0",
+    "min_bot_version" : "3.3.10",
+    "min_python_version" : [],
+    "name" : "Acromania",
+    "permissions" : [],
+    "required_cogs" : {},
+    "requirements" : [],
+    "short" : "Acronym game.",
+    "tags" : [
         "game",
         "fun"
     ],
-    "min_bot_version": "3.3.10",
-    "hidden": false,
-    "disabled": false,
-    "type": "COG"
+    "type" : "COG"
 }

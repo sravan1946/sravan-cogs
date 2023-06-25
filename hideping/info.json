@@ -1,12 +1,22 @@
 {
-    "author": [
-      "sravan"
+    "author" : [
+        "sravan"
     ],
-    "install_msg": "Thank you for installing this cog!",
-    "name": "HidePing",
-    "short": "Hidden mentions",
-    "description": "Mentions the user in a hidden ping",
-    "tags": [
-      "fun"
-    ]
-  }
+    "description" : "Mentions the user in a hidden ping",
+    "disabled" : false,
+    "end_user_data_statement" : "This cog does not persistently store data or metadata about users.",
+    "hidden" : false,
+    "install_msg" : "Thank you for installing this cog!",
+    "max_bot_version" : "0.0.0",
+    "min_bot_version" : "3.5.0",
+    "min_python_version" : [],
+    "name" : "HidePing",
+    "permissions" : [],
+    "required_cogs" : {},
+    "requirements" : [],
+    "short" : "Hidden mentions",
+    "tags" : [
+        "fun"
+    ],
+    "type" : "COG"
+}

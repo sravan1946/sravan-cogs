@@ -1,19 +1,22 @@
 {
-    "name": "Poll",
-    "short": "make polls",
-    "description": "simple command to start poll using reactions",
-    "end_user_data_statement": "This cog does not persistently store any data or metadata about users.",
-    "install_msg": "ty for installing",
-    "author": [
+    "author" : [
         "sravan"
     ],
-    "required_cogs": {},
-    "requirements": [],
-    "tags": [
+    "description" : "simple command to start poll using reactions",
+    "disabled" : false,
+    "end_user_data_statement" : "This cog does not persistently store any data or metadata about users.",
+    "hidden" : false,
+    "install_msg" : "Thank you for installing. Run `[p]load poll` to load the cog",
+    "max_bot_version" : "0.0.0",
+    "min_bot_version" : "3.3.10",
+    "min_python_version" : [],
+    "name" : "Poll",
+    "permissions" : [],
+    "required_cogs" : {},
+    "requirements" : [],
+    "short" : "make polls",
+    "tags" : [
         "poll"
     ],
-    "min_bot_version": "3.3.10",
-    "hidden": false,
-    "disabled": false,
-    "type": "COG"
+    "type" : "COG"
 }

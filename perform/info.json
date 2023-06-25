@@ -1,10 +1,22 @@
 {
-    "author": [
+    "author" : [
         "Ari (Onii-chan#3920), sravan (sravan#0001)"
     ],
-    "name": "Perform",
-    "requirements": ["tabulate"],
-    "short": "Perform Actions like kiss, cuddle etc.",
-    "description": "The perform cog facilitates immersive roleplay experiences with commands for hugging, kissing, poking, kicking, and more, allowing users to engage in diverse interactive actions and expressions.",
-    "install_msg": "Hello and thank you for installing this cog, this cog shouldn't contain any nsfw gifs and allows you to interact with other people. Make sure to use `[p]performapi` to see the steps needed to set the api required for the cog"
+    "description" : "The perform cog facilitates immersive roleplay experiences with commands for hugging, kissing, poking, kicking, and more, allowing users to engage in diverse interactive actions and expressions.",
+    "disabled" : false,
+    "end_user_data_statement" : "This cog does not persistently store data or metadata about users.",
+    "hidden" : false,
+    "install_msg" : "Hello and thank you for installing this cog, this cog shouldn't contain any nsfw gifs and allows you to interact with other people. Make sure to use `[p]performapi` to see the steps needed to set the api required for the cog",
+    "max_bot_version" : "0.0.0",
+    "min_bot_version" : "3.5.0",
+    "min_python_version" : [],
+    "name" : "Perform",
+    "permissions" : [],
+    "required_cogs" : {},
+    "requirements" : [
+        "tabulate"
+    ],
+    "short" : "Perform Actions like kiss, cuddle etc.",
+    "tags" : ["fun", "roleplay", "actions"],
+    "type" : "COG"
 }

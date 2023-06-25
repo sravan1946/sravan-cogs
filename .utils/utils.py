@@ -65,7 +65,7 @@ Once the bot is installed, run the following command in Discord:
 {body}
 
 # Contact
-If you encounter bugs or require support, go to *#Sravan-Cogs* on the [cog support server](https://discord.gg/GET4DVk).
+If you encounter bugs or require support, go to *#support_othercogs* on the [cog support server](https://discord.gg/GET4DVk).
 For feature requests, open a PR/issue on this repo.
 
 # Credits

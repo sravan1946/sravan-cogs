@@ -9,7 +9,6 @@
     "install_msg" : "Thank you for installing this cog!",
     "max_bot_version" : "0.0.0",
     "min_bot_version" : "3.5.0",
-    "min_python_version" : [],
     "name" : "HidePing",
     "permissions" : [],
     "required_cogs" : {},

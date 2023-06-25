@@ -9,7 +9,6 @@
     "install_msg" : "Hello and thank you for installing this cog, this cog shouldn't contain any nsfw gifs and allows you to interact with other people. Make sure to use `[p]performapi` to see the steps needed to set the api required for the cog",
     "max_bot_version" : "0.0.0",
     "min_bot_version" : "3.5.0",
-    "min_python_version" : [],
     "name" : "Perform",
     "permissions" : [],
     "required_cogs" : {},

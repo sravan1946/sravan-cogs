@@ -9,7 +9,6 @@
     "install_msg" : "Thank you for installing. Run `[p]load timeout` to load the cog.",
     "max_bot_version" : "0.0.0",
     "min_bot_version" : "3.3.10",
-    "min_python_version" : [],
     "name" : "Timeout",
     "permissions" : [],
     "required_cogs" : {},

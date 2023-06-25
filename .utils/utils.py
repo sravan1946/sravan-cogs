@@ -82,7 +82,7 @@ class InfoJson:
     install_msg: Optional[str] = "Thanks for installing"
     short: Optional[str] = ""
     name: Optional[str] = ""
-    min_bot_version: Optional[str] = "3.3.0"
+    min_bot_version: Optional[str] = "3.5.0"
     max_bot_version: Optional[str] = "0.0.0"
     hidden: Optional[bool] = False
     disabled: Optional[bool] = False
@@ -91,7 +91,7 @@ class InfoJson:
     tags: List[str] = field(default_factory=list)
     type: Optional[str] = "COG"
     permissions: List[str] = field(default_factory=list)
-    min_python_version: Optional[List[int]] = field(default_factory=lambda: [3, 8, 0])
+    min_python_version: Optional[List[int]] = field(default_factory=lambda: [3, 9, 0])
     end_user_data_statement: str = (
         "This cog does not persistently store data or metadata about users."
     )

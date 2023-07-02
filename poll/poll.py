@@ -47,7 +47,9 @@ class Poll(commands.Cog):
         embed = discord.Embed(
             title=f"**{question}**",
         )
-        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
+        embed.set_author(
+            name=ctx.author.display_name, icon_url=ctx.author.display_avatar
+        )
         e = await ctx.send(embed=embed)
         asyncio.sleep(1)
         await e.add_reaction("⬆")
@@ -76,7 +78,9 @@ class Poll(commands.Cog):
         embed = discord.Embed(
             title=f"**{questions[0][1]}**",
         )
-        embed.set_author(name=ctx.author.display_name, icon_url=ctx.author.avatar)
+        embed.set_author(
+            name=ctx.author.display_name, icon_url=ctx.author.display_avatar
+        )
         embed.description = "\n".join([f"{i[0]} | {i[1]}" for i in questions[1:]])
         e = await ctx.send(embed=embed)
         for i in range(1, num):

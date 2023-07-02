@@ -188,7 +188,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).cuddle_r()
         used = await self.config.user(ctx.author).cuddle_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total cuddles: {used + 1} | {ctx.author.name} has cuddled {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total cuddles: {used + 1} | {ctx.author.display_name} has cuddled {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).cuddle_s.set(used + 1)
@@ -209,7 +209,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).poke_r()
         used = await self.config.user(ctx.author).poke_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total pokes: {used + 1} | {ctx.author.name} has poked {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total pokes: {used + 1} | {ctx.author.display_name} has poked {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).poke_s.set(used + 1)
@@ -230,7 +230,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).kiss_r()
         used = await self.config.user(ctx.author).kiss_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total kisses: {used + 1} | {ctx.author.name} has kissed {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total kisses: {used + 1} | {ctx.author.display_name} has kissed {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).kiss_s.set(used + 1)
@@ -251,7 +251,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).hug_r()
         used = await self.config.user(ctx.author).hug_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total hugs: {used + 1} | {ctx.author.name} has hugged {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total hugs: {used + 1} | {ctx.author.display_name} has hugged {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).hug_s.set(used + 1)
@@ -270,7 +270,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).pat_r()
         used = await self.config.user(ctx.author).pat_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total pats: {used + 1} | {ctx.author.name} has patted {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total pats: {used + 1} | {ctx.author.display_name} has patted {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).pat_s.set(used + 1)
@@ -289,7 +289,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).tickle_r()
         used = await self.config.user(ctx.author).tickle_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total tickles: {used + 1} | {ctx.author.name} has tickled {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total tickles: {used + 1} | {ctx.author.display_name} has tickled {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).tickle_s.set(used + 1)
@@ -308,7 +308,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).smug_s()
-        embed.set_footer(text=f"{ctx.author.name}'s total smugs: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total smugs: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).smug_s.set(used + 1)
 
@@ -325,7 +325,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).lick_r()
         used = await self.config.user(ctx.author).lick_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total licks: {used + 1} | {ctx.author.name} has licked {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total licks: {used + 1} | {ctx.author.display_name} has licked {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).lick_s.set(used + 1)
@@ -346,7 +346,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).slap_r()
         used = await self.config.user(ctx.author).slap_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total slaps: {used + 1} | {ctx.author.name} has slapped {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total slaps: {used + 1} | {ctx.author.display_name} has slapped {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).slap_s.set(used + 1)
@@ -365,7 +365,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).cry()
-        embed.set_footer(text=f"{ctx.author.name}'s total cries: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total cries: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).cry.set(used + 1)
 
@@ -380,7 +380,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).sleep()
-        embed.set_footer(text=f"{ctx.author.name}'s total sleeps: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total sleeps: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).sleep.set(used + 1)
 
@@ -401,12 +401,14 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** just spanked {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
+        embed.set_author(
+            name=self.bot.user.display_name, icon_url=self.bot.user.display_avatar
+        )
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).spank_r()
         used = await self.config.user(ctx.author).spank_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total spanks: {used + 1} | {ctx.author.name} has spanked {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total spanks: {used + 1} | {ctx.author.display_name} has spanked {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).spank_s.set(used + 1)
@@ -425,7 +427,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).pout()
-        embed.set_footer(text=f"{ctx.author.name}'s total pouts: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total pouts: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).pout.set(used + 1)
 
@@ -440,7 +442,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).blush()
-        embed.set_footer(text=f"{ctx.author.name}'s total blushes: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total blushes: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).blush.set(used + 1)
 
@@ -461,12 +463,14 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** feeds {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
+        embed.set_author(
+            name=self.bot.user.display_name, icon_url=self.bot.user.display_avatar
+        )
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).feed_r()
         used = await self.config.user(ctx.author).feed_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total feeds: {used + 1} | {ctx.author.name} has feeded {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total feeds: {used + 1} | {ctx.author.display_name} has feeded {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).feed_s.set(used + 1)
@@ -487,7 +491,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).punch_r()
         used = await self.config.user(ctx.author).punch_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total punches: {used + 1} | {ctx.author.name} has punched {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total punches: {used + 1} | {ctx.author.display_name} has punched {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.custom("Target", ctx.author.id, user.id).punch_r.set(
@@ -505,7 +509,9 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).confused()
-        embed.set_footer(text=f"{ctx.author.name}'s total confusions: {used + 1}")
+        embed.set_footer(
+            text=f"{ctx.author.display_name}'s total confusions: {used + 1}"
+        )
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).confused.set(used + 1)
 
@@ -520,7 +526,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).amazed()
-        embed.set_footer(text=f"{ctx.author.name}'s total amazes: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total amazes: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).amazed.set(used + 1)
 
@@ -537,7 +543,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).highfive_r()
         used = await self.config.user(ctx.author).highfive_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total highfives: {used + 1} | {ctx.author.name} has highfived {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total highfives: {used + 1} | {ctx.author.display_name} has highfived {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).highfive_s.set(used + 1)
@@ -558,7 +564,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).plead_r()
         used = await self.config.user(ctx.author).plead_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total pleads: {used + 1} | {ctx.author.name} has pleaded {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total pleads: {used + 1} | {ctx.author.display_name} has pleaded {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).plead_s.set(used + 1)
@@ -577,7 +583,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).clap()
-        embed.set_footer(text=f"{ctx.author.name}'s total claps: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total claps: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).clap.set(used + 1)
 
@@ -592,7 +598,9 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).facepalm()
-        embed.set_footer(text=f"{ctx.author.name}'s total facepalms: {used + 1}")
+        embed.set_footer(
+            text=f"{ctx.author.display_name}'s total facepalms: {used + 1}"
+        )
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).facepalm.set(used + 1)
 
@@ -607,7 +615,9 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).facedesk()
-        embed.set_footer(text=f"{ctx.author.name}'s total facedesks: {used + 1}")
+        embed.set_footer(
+            text=f"{ctx.author.display_name}'s total facedesks: {used + 1}"
+        )
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).facedesk.set(used + 1)
 
@@ -624,7 +634,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).kill_r()
         used = await self.config.user(ctx.author).kill_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total kills: {used + 1} | {ctx.author.name} has killed {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total kills: {used + 1} | {ctx.author.display_name} has killed {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).kill_s.set(used + 1)
@@ -645,7 +655,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).love_r()
         used = await self.config.user(ctx.author).love_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total loves: {used + 1} | {ctx.author.name} has loved {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total loves: {used + 1} | {ctx.author.display_name} has loved {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).love_s.set(used + 1)
@@ -664,7 +674,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).hide()
-        embed.set_footer(text=f"{ctx.author.name}'s total hides: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total hides: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).hide.set(used + 1)
 
@@ -679,7 +689,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).laugh()
-        embed.set_footer(text=f"{ctx.author.name}'s total laughs: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total laughs: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).laugh.set(used + 1)
 
@@ -694,7 +704,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).lurk()
-        embed.set_footer(text=f"{ctx.author.name}'s total lurks: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total lurks: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).lurk.set(used + 1)
 
@@ -711,7 +721,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).bite_r()
         used = await self.config.user(ctx.author).bite_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total bites: {used + 1} | {ctx.author.name} has bitten {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total bites: {used + 1} | {ctx.author.display_name} has bitten {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).bite_s.set(used + 1)
@@ -730,7 +740,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).dance()
-        embed.set_footer(text=f"{ctx.author.name}'s total dances: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total dances: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).dance.set(used + 1)
 
@@ -747,7 +757,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).yeet_r()
         used = await self.config.user(ctx.author).yeet_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total yeets: {used + 1} | {ctx.author.name} has yeeted {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total yeets: {used + 1} | {ctx.author.display_name} has yeeted {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).yeet_s.set(used + 1)
@@ -766,7 +776,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).dodge()
-        embed.set_footer(text=f"{ctx.author.name}'s total dodges: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total dodges: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).dodge.set(used + 1)
 
@@ -781,7 +791,9 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).happy()
-        embed.set_footer(text=f"{ctx.author.name}'s total happiness: {used + 1}")
+        embed.set_footer(
+            text=f"{ctx.author.display_name}'s total happiness: {used + 1}"
+        )
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).happy.set(used + 1)
 
@@ -796,7 +808,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).cute()
-        embed.set_footer(text=f"{ctx.author.name}'s total cuteness: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total cuteness: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).cute.set(used + 1)
 
@@ -811,7 +823,9 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).lonely()
-        embed.set_footer(text=f"{ctx.author.name}'s total loneliness: {used + 1}")
+        embed.set_footer(
+            text=f"{ctx.author.display_name}'s total loneliness: {used + 1}"
+        )
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).lonely.set(used + 1)
 
@@ -826,7 +840,9 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).mad()
-        embed.set_footer(text=f"{ctx.author.name}'s total angriness: {used + 1}")
+        embed.set_footer(
+            text=f"{ctx.author.display_name}'s total angriness: {used + 1}"
+        )
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).mad.set(used + 1)
 
@@ -841,7 +857,9 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).nosebleed()
-        embed.set_footer(text=f"{ctx.author.name}'s total nosebleeds: {used + 1}")
+        embed.set_footer(
+            text=f"{ctx.author.display_name}'s total nosebleeds: {used + 1}"
+        )
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).nosebleed.set(used + 1)
 
@@ -858,7 +876,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).protect_r()
         used = await self.config.user(ctx.author).protect_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total protects: {used + 1} | {ctx.author.name} has protected {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total protects: {used + 1} | {ctx.author.display_name} has protected {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).protect_s.set(used + 1)
@@ -877,7 +895,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).run()
-        embed.set_footer(text=f"{ctx.author.name}'s total runs: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total runs: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).run.set(used + 1)
 
@@ -892,7 +910,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).scared()
-        embed.set_footer(text=f"{ctx.author.name}'s total scares: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total scares: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).scared.set(used + 1)
 
@@ -907,7 +925,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).shrug()
-        embed.set_footer(text=f"{ctx.author.name}'s total shrugs: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total shrugs: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).shrug.set(used + 1)
 
@@ -922,7 +940,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).scream()
-        embed.set_footer(text=f"{ctx.author.name}'s total screams: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total screams: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).scream.set(used + 1)
 
@@ -937,7 +955,7 @@ class Perform(commands.Cog):
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).stare()
-        embed.set_footer(text=f"{ctx.author.name}'s total stares: {used + 1}")
+        embed.set_footer(text=f"{ctx.author.display_name}'s total stares: {used + 1}")
         await send_embed(self, ctx, embed)
         await self.config.user(ctx.author).stare.set(used + 1)
 
@@ -954,7 +972,7 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).wave_r()
         used = await self.config.user(ctx.author).wave_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total waves: {used + 1} | {ctx.author.name} has waved {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total waves: {used + 1} | {ctx.author.display_name} has waved {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).wave_s.set(used + 1)
@@ -979,12 +997,14 @@ class Perform(commands.Cog):
             colour=discord.Colour.random(),
             description=f"**{ctx.author.mention}** just kicked nuts of {f'**{str(user.mention)}**' if user else 'themselves'}!",
         )
-        embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
+        embed.set_author(
+            name=self.bot.user.display_name, icon_url=self.bot.user.display_avatar
+        )
         embed.set_image(url=images[i])
         target = await self.config.custom("Target", ctx.author.id, user.id).nut_r()
         used = await self.config.user(ctx.author).nut_s()
         embed.set_footer(
-            text=f"{ctx.author.name}'s total nutkicks: {used + 1} | {ctx.author.name} has nutkicked {user.name} {target + 1} times"
+            text=f"{ctx.author.display_name}'s total nutkicks: {used + 1} | {ctx.author.display_name} has nutkicked {user.display_name} {target + 1} times"
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).nut_s.set(used + 1)

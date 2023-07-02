@@ -64,7 +64,9 @@ async def kawaiiembed(
             description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
             color=discord.Colour.random(),
         )
-    embed.set_author(name=self.bot.user.display_name, icon_url=self.bot.user.avatar)
+    embed.set_author(
+        name=self.bot.user.display_name, icon_url=self.bot.user.display_avatar
+    )
     try:
         url = await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
     except aiohttp.client_exceptions.ContentTypeError:
@@ -109,14 +111,14 @@ async def print_it(
         if user:
             await hook.send(
                 username=ctx.message.author.display_name,
-                avatar_url=ctx.message.author.avatar,
+                avatar_url=ctx.message.author.display_avatar,
                 embed=embed,
                 content=user.mention,
             )
         else:
             await hook.send(
                 username=ctx.message.author.display_name,
-                avatar_url=ctx.message.author.avatar,
+                avatar_url=ctx.message.author.display_avatar,
                 embed=embed,
             )
     except discord.NotFound:
@@ -136,7 +138,7 @@ async def rstats_embed(
     em = discord.Embed(
         title=f"{user.name}'s {action} stats", color=await ctx.embed_color()
     )
-    em.set_author(name=user, icon_url=user.avatar)
+    em.set_author(name=user, icon_url=user.display_avatar)
     em.set_footer(text=f"Requested by {ctx.author}")
 
     sent = {}

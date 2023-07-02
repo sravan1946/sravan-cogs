@@ -6,7 +6,7 @@
     "disabled" : false,
     "end_user_data_statement" : "This cog does not persistently store data or metadata about users.",
     "hidden" : false,
-    "install_msg" : "Thanks for installing my repo! DM me (sravan#0001) or ping me in #support_othercogs if you have any questions or suggestions.",
+    "install_msg" : "Thanks for installing my repo! DM me (@sravan_krishna) or ping me in #support_othercogs if you have any questions or suggestions.",
     "max_bot_version" : "0.0.0",
     "min_bot_version" : "3.1.8",
     "min_python_version" : [],

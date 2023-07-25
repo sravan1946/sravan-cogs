@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 
 import aiohttp
 import discord
@@ -50,7 +50,7 @@ async def send_embed(
 
 async def kawaiiembed(
     self, ctx: commands.Context, action: str, endpoint: str, user=None
-) -> discord.Embed:
+) -> Union[discord.Embed, str]:
     api_key = (await self.bot.get_shared_api_tokens("perform")).get("api_key")
     if not api_key:
         return "Set a API token before using this command. If you are the bot owner, then use `[p]performapi` to see how to add the API."
@@ -61,7 +61,7 @@ async def kawaiiembed(
         )
     else:
         embed = discord.Embed(
-            description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            description=f"**{ctx.author.mention}** {action} **{str(user.mention)}**!",
             color=discord.Colour.random(),
         )
     embed.set_author(
@@ -74,6 +74,23 @@ async def kawaiiembed(
     embed.set_image(url=url)
 
     return embed
+
+
+async def add_footer(
+    self, ctx: commands.Context, embed: discord.Embed, used: int, word1: str, **kwargs
+):
+    if not await self.config.footer():
+        return
+    if (
+        (target := kwargs.get("target", None))
+        and (word2 := kwargs.get("word2", None))
+        and (user := kwargs.get("user", None))
+    ):
+        embed.set_footer(
+            text=f"{ctx.author.display_name}'s total {word1}: {used + 1} | {ctx.author.display_name} has {word2} {user.display_name} {target + 1} times"
+        )
+    else:
+        embed.set_footer(text=f"{ctx.author.display_name}'s total {word1}: {used + 1}")
 
 
 # Thanks epic

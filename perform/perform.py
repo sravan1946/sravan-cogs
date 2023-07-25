@@ -1056,7 +1056,6 @@ class Perform(commands.Cog):
     @commands.is_owner()
     async def performset(self, ctx: commands.Context):
         """Settings for roleplay stats"""
-        pass
 
     @performset.command()
     async def footer(self, ctx: commands.Context):

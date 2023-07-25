@@ -118,6 +118,7 @@ class Timeout(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.admin_or_permissions(moderate_members=True)
+    @commands.bot_has_guild_permissions(moderate_members=True)
     async def timeout(
         self,
         ctx: commands.Context,
@@ -170,6 +171,7 @@ class Timeout(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.admin_or_permissions(moderate_members=True)
+    @commands.bot_has_guild_permissions(moderate_members=True)
     async def untimeout(
         self,
         ctx: commands.Context,

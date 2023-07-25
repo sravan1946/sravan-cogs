@@ -61,7 +61,7 @@ async def kawaiiembed(
         )
     else:
         embed = discord.Embed(
-            description=f"**{ctx.author.mention}** {action} {f'**{str(user.mention)}**' if user else 'themselves'}!",
+            description=f"**{ctx.author.mention}** {action} **{str(user.mention)}**!",
             color=discord.Colour.random(),
         )
     embed.set_author(
@@ -79,6 +79,8 @@ async def kawaiiembed(
 async def add_footer(
     self, ctx: commands.Context, embed: discord.Embed, used: int, word1: str, **kwargs
 ):
+    if not await self.config.footer():
+        return
     if (
         (target := kwargs.get("target", None))
         and (word2 := kwargs.get("word2", None))

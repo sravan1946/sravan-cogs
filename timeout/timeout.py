@@ -146,6 +146,8 @@ class Timeout(commands.Cog):
         `[p]timeout @member 10m`
 
         """
+        if not ctx.channel.permissions_for(ctx.guild.me).moderate_members:
+            return await ctx.send("I do not have permission to timeout users.")
         if not time:
             time = datetime.timedelta(seconds=60)
         timestamp = int(datetime.datetime.timestamp(utcnow() + time))
@@ -171,7 +173,6 @@ class Timeout(commands.Cog):
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
     @commands.admin_or_permissions(moderate_members=True)
-    @commands.bot_has_guild_permissions(moderate_members=True)
     async def untimeout(
         self,
         ctx: commands.Context,
@@ -188,6 +189,8 @@ class Timeout(commands.Cog):
         if nothing is provided.
 
         """
+        if not ctx.channel.permissions_for(ctx.guild.me).moderate_members:
+            return await ctx.send("I do not have permission to untimeout users.")
         if isinstance(member_or_role, discord.Member):
             if not member_or_role.is_timed_out():
                 return await ctx.send("This user is not timed out.")

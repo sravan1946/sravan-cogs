@@ -155,7 +155,7 @@ async def rstats_embed(
     sent = sorted(sent.items(), key=lambda x: x[1], reverse=True)
     rsent = sum(v for _, v in sent)
     sent = [
-        [self.bot.get_user(int(k)), v]
+        [await self.bot.get_or_fetch_user(int(k)), v]
         if (await self.bot.get_or_fetch_user(int(k)))
         else ["Deleted User", v]
         for k, v in sent[:10]

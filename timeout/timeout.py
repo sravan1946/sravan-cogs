@@ -22,7 +22,7 @@ class Timeout(commands.Cog):
     def __init__(self, bot: Red) -> None:
         self.bot = bot
         self.config = Config.get_conf(self, identifier=190, force_registration=True)
-        default_guild = {"dm": True, "showmod": False}
+        default_guild = {"dm": True, "showmod": False, "role_enabled": False}
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
@@ -168,6 +168,9 @@ class Timeout(commands.Cog):
                 f"{member_or_role.mention} has been timed out till <t:{timestamp}:f>."
             )
         if isinstance(member_or_role, discord.Role):
+            enabled = await self.config.guild(ctx.guild).role_enabled()
+            if not enabled:
+                return await ctx.send("Role (un)timeouts are not enabled.")
             await ctx.send(
                 f"Timeing out {len(member_or_role.members)} members till <t:{timestamp}:f>."
             )
@@ -201,6 +204,9 @@ class Timeout(commands.Cog):
             await self.timeout_user(ctx, member_or_role, None, reason)
             return await ctx.send(f"Removed timeout from {member_or_role.mention}")
         if isinstance(member_or_role, discord.Role):
+            enabled = await self.config.guild(ctx.guild).role_enabled()
+            if not enabled:
+                return await ctx.send("Role (un)timeouts are not enabled.")
             await ctx.send(
                 f"Removing timeout from {len(member_or_role.members)} members."
             )
@@ -231,6 +237,14 @@ class Timeout(commands.Cog):
         await self.config.guild(ctx.guild).dm.set(not current)
         w = "Will not" if current else "Will"
         await ctx.send(f"I {w} DM the user when they are timed out.")
+
+    @timeoutset.command(name="role")
+    async def timeoutset_role(self, ctx: commands.Context):
+        """Change whether to timeout role or not."""
+        current = await self.config.guild(ctx.guild).role_enabled()
+        await self.config.guild(ctx.guild).role_enabled.set(not current)
+        w = "Will not" if current else "Will"
+        await ctx.send(f"I {w} timeout role.")
 
 
 # https://github.com/phenom4n4n/phen-cogs/blob/8727d6ee74b40709c7eb9300713dc22b88a17915/roleutils/utils.py#L34

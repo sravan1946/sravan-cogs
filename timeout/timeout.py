@@ -24,7 +24,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.3.1"
+    __version__ = "1.4.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -109,6 +109,12 @@ class Timeout(commands.Cog):
         members = list(role.members)
         for member in members:
             try:
+                if (
+                    member.is_timed_out()
+                    or not await is_allowed_by_hierarchy(ctx.bot, ctx.author, member)
+                    or ctx.channel.permissions_for(member).administrator
+                ):
+                    raise discord.HTTPException
                 await self.timeout_user(ctx, member, time, reason)
             except discord.HTTPException:
                 failed.append(member)
@@ -145,8 +151,6 @@ class Timeout(commands.Cog):
         `[p]timeout @member 10m`
 
         """
-        if not ctx.channel.permissions_for(ctx.guild.me).moderate_members:
-            return await ctx.send("I do not have permission to timeout users.")
         if not time:
             time = datetime.timedelta(seconds=60)
         timestamp = int(datetime.datetime.timestamp(utcnow() + time))
@@ -188,8 +192,6 @@ class Timeout(commands.Cog):
         if nothing is provided.
 
         """
-        if not ctx.channel.permissions_for(ctx.guild.me).moderate_members:
-            return await ctx.send("I do not have permission to untimeout users.")
         if isinstance(member_or_role, discord.Member):
             if not member_or_role.is_timed_out():
                 return await ctx.send("This user is not timed out.")

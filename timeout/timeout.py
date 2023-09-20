@@ -9,6 +9,8 @@ from redbot.core import Config, commands, modlog
 from redbot.core.bot import Red
 from redbot.core.commands.converter import TimedeltaConverter
 
+from .exceptions import TimeoutException
+
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
 
@@ -24,7 +26,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.4.0"
+    __version__ = "1.4.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -114,9 +116,9 @@ class Timeout(commands.Cog):
                     or not await is_allowed_by_hierarchy(ctx.bot, ctx.author, member)
                     or ctx.channel.permissions_for(member).administrator
                 ):
-                    raise discord.HTTPException
+                    raise TimeoutException
                 await self.timeout_user(ctx, member, time, reason)
-            except discord.HTTPException:
+            except (discord.HTTPException, TimeoutException):
                 failed.append(member)
         return failed
 
@@ -170,7 +172,8 @@ class Timeout(commands.Cog):
                 f"Timeing out {len(member_or_role.members)} members till <t:{timestamp}:f>."
             )
             failed = await self.timeout_role(ctx, member_or_role, time, reason)
-            return await ctx.send(f"Failed to timeout {len(failed)} members.")
+            if failed:
+                return await ctx.send(f"Failed to timeout {len(failed)} members.")
 
     @commands.command(aliases=["utt"])
     @commands.guild_only()

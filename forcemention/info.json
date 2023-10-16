@@ -1,0 +1,15 @@
+{
+  "name": "ForceMention",
+  "author": [
+    "Bobloy", "PhenoM4n4n", "sravan"
+  ],
+  "description": "Mentions roles that are unmentionable",
+  "hidden": false,
+  "install_msg": "Thank you for installing ForceMention! Get started with `[p]load forcemention`, then `[p]forcemention`",
+  "short": "Mention unmentionables",
+  "tags": [
+    "bobloy",
+    "utils"
+  ],
+  "end_user_data_statement": "This cog does not store any End User Data."
+}

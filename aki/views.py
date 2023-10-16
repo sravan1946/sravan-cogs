@@ -52,11 +52,15 @@ class AkiView(discord.ui.View):
         await self.answer_question("idk", interaction)
 
     @discord.ui.button(label="probably", style=discord.ButtonStyle.blurple)
-    async def probably(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def probably(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ):
         await self.answer_question("probably", interaction)
 
     @discord.ui.button(label="probably not", style=discord.ButtonStyle.blurple)
-    async def probably_not(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def probably_not(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ):
         await self.answer_question("probably not", interaction)
 
     @discord.ui.button(label="back", style=discord.ButtonStyle.gray)
@@ -73,7 +77,9 @@ class AkiView(discord.ui.View):
             await self.send_current_question(interaction)
 
     @discord.ui.button(label="win", style=discord.ButtonStyle.gray)
-    async def react_win(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def react_win(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ):
         await self.win(interaction)
 
     @discord.ui.button(label="cancel", style=discord.ButtonStyle.gray)
@@ -92,14 +98,18 @@ class AkiView(discord.ui.View):
         except akinator.AkiNoQuestions:
             await self.win(interaction)
         except akinator.AkiTimedOut:
-            await self.cancel(interaction, "The connection to the Akinator servers was lost.")
+            await self.cancel(
+                interaction, "The connection to the Akinator servers was lost."
+            )
         except Exception as error:
             log.exception(
                 f"Encountered an exception while answering with {message} during Akinator session",
                 exc_info=True,
             )
             await self.edit_or_send(
-                interaction, content=f"Akinator game errored out:\n`{error}`", embed=None
+                interaction,
+                content=f"Akinator game errored out:\n`{error}`",
+                embed=None,
             )
             self.stop()
 
@@ -145,12 +155,16 @@ class AkiView(discord.ui.View):
         try:
             winner = await self.aki.win()
             description = winner["description"]
-            if not channel_is_nsfw(interaction.message.channel) and self.text_is_nsfw(description):
+            if not channel_is_nsfw(interaction.message.channel) and self.text_is_nsfw(
+                description
+            ):
                 embed = self.get_nsfw_embed()
             else:
                 embed = self.get_winner_embed(winner)
         except Exception as e:
-            log.exception("An error occurred while trying to win an Akinator game.", exc_info=e)
+            log.exception(
+                "An error occurred while trying to win an Akinator game.", exc_info=e
+            )
             embed = discord.Embed(
                 color=self.color,
                 title="An error occurred while trying to win the game.",
@@ -164,7 +178,9 @@ class AkiView(discord.ui.View):
         await interaction.message.edit(embed=self.current_question_embed(), view=self)
 
     async def cancel(
-        self, interaction: discord.Interaction, message: str = "Akinator game cancelled."
+        self,
+        interaction: discord.Interaction,
+        message: str = "Akinator game cancelled.",
     ):
         await self.edit_or_send(interaction, content=message, embed=None, view=None)
         self.stop()

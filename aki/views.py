@@ -5,7 +5,7 @@ import discord
 from akinator.async_aki import Akinator
 from redbot.core import commands
 
-log = logging.getLogger("red.phenom4n4n.aki.menus")
+log = logging.getLogger("red.sravan.aki.menus")
 
 NSFW_WORDS = ("porn", "sex")
 

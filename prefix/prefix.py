@@ -86,7 +86,9 @@ class Prefix(commands.Cog):
         `[p]prefix`
         """
         embed = await self.prefix_embed(ctx)
-        embed.set_footer(text=f"add a prefix with {self.format_command(ctx, 'prefix add')}")
+        embed.set_footer(
+            text=f"add a prefix with {self.format_command(ctx, 'prefix add')}"
+        )
         await self.reply(ctx, embed=embed)
 
     @commands.admin_or_permissions(manage_guild=True)
@@ -130,7 +132,9 @@ class Prefix(commands.Cog):
         prefixes.append(prefix)
         await self.bot.set_prefixes(guild=ctx.guild, prefixes=prefixes)
         embed = await self.prefix_embed(ctx)
-        embed.set_footer(text=f"remove a prefix with {self.format_command(ctx, 'prefix remove')}")
+        embed.set_footer(
+            text=f"remove a prefix with {self.format_command(ctx, 'prefix remove')}"
+        )
         await self.reply(ctx, "Prefix added.", embed=embed)
 
     @commands.admin_or_permissions(manage_guild=True)
@@ -149,12 +153,16 @@ class Prefix(commands.Cog):
         if prefix not in prefixes:
             return await self.reply(ctx, "That is not a valid prefix.")
         if len(prefixes) == 1:
-            return await self.reply(ctx, "If you removed that prefix, you would have none left.")
+            return await self.reply(
+                ctx, "If you removed that prefix, you would have none left."
+            )
 
         prefixes.remove(prefix)
         await self.bot.set_prefixes(guild=ctx.guild, prefixes=prefixes)
         embed = await self.prefix_embed(ctx)
-        embed.set_footer(text=f"add a prefix with {self.format_command(ctx, 'prefix add')}")
+        embed.set_footer(
+            text=f"add a prefix with {self.format_command(ctx, 'prefix add')}"
+        )
         await self.reply(ctx, "Prefix removed.", embed=embed)
 
     @commands.admin_or_permissions(manage_guild=True)
@@ -170,7 +178,9 @@ class Prefix(commands.Cog):
         """
         await self.bot.set_prefixes(guild=ctx.guild, prefixes=[])
         embed = await self.prefix_embed(ctx)
-        embed.set_footer(text=f"set the prefixes with {self.format_command(ctx, 'prefix set')}")
+        embed.set_footer(
+            text=f"set the prefixes with {self.format_command(ctx, 'prefix set')}"
+        )
         await self.reply(ctx, f"Reset this server's prefixes.", embed=embed)
 
     async def get_prefixes(self, guild: discord.Guild = None) -> List[str]:
@@ -201,7 +211,9 @@ class Prefix(commands.Cog):
 
     async def prefix_embed(self, ctx: commands.Context) -> discord.Embed:
         prefixes = await self.get_unique_prefixes(ctx.guild)
-        prefix_list = "\n".join(f"{index}. {prefix}" for index, prefix in enumerate(prefixes, 1))
+        prefix_list = "\n".join(
+            f"{index}. {prefix}" for index, prefix in enumerate(prefixes, 1)
+        )
         es = "es" if len(prefixes) > 1 else ""
         color = await ctx.embed_color()
         return discord.Embed(color=color, title=f"Prefix{es}:", description=prefix_list)

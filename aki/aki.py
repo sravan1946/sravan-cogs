@@ -85,7 +85,9 @@ class Aki(commands.Cog):
                 "Invalid language. Refer here to view valid languages.\n<https://github.com/NinjaSnail1080/akinator.py#functions>"
             )
         except Exception:
-            await ctx.send("I encountered an error while connecting to the Akinator servers.")
+            await ctx.send(
+                "I encountered an error while connecting to the Akinator servers."
+            )
         else:
             aki_color = discord.Color(0xE8BC90)
             await AkiView(aki, aki_color, author_id=ctx.author.id).start(ctx)

@@ -52,12 +52,13 @@ class Aki(commands.Cog):
         )
         self.session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False))
 
-    __version__ = "1.2.0"
+    __version__ = "1.2.1"
+    __aki_version__ = akinator.__version__
 
     def format_help_for_context(self, ctx):
         pre_processed = super().format_help_for_context(ctx)
         n = "\n" if "\n\n" not in pre_processed else ""
-        return f"{pre_processed}{n}\nCog Version: {self.__version__}"
+        return f"{pre_processed}{n}\nCog Version: {self.__version__}\nAkinator.py Version: {self.__aki_version__}"
 
     async def red_delete_data_for_user(self, *, requester: str, user_id: int) -> None:
         return

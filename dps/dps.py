@@ -439,8 +439,7 @@ class DontPingStaff(commands.Cog):
         **Note**: You can specify multiple categories and channels, separated **by a space**. Running the command again will **override** the previous configuration.
 
         **Example**
-        - `dps scope channel 123456789 123456789 123456789`
-        - `dps scope category 123456789 123456789`
+        - To enable DPS for **specific channels**, **categories**, or a **mix of both**: `dps scope 123456789 123456789 123456789`
         """
         guild = ctx.guild
         await self.config.guild(guild).scope.set(scope)

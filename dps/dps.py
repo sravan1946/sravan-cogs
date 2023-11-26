@@ -430,6 +430,17 @@ class DontPingStaff(commands.Cog):
     ) -> None:
         """
         Set the scope of the module.
+
+        **Scope**
+        - `guild` - Enable DPS __**server-wide**__ by passing **guild**.
+        - `category` - Enable DPS for a specific category by passing its **category ID**.
+        - `channel` - Enable DPS for a specific channel by passing its **channel ID**.
+
+        **Note**: You can specify multiple categories and channels, separated **by a space**. Running the command again will **override** the previous configuration.
+
+        **Example**
+        - `dps scope channel 123456789 123456789 123456789`
+        - `dps scope category 123456789 123456789`
         """
         guild = ctx.guild
         await self.config.guild(guild).scope.set(scope)

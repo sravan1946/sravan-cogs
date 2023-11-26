@@ -23,7 +23,7 @@ class DontPingStaff(commands.Cog):
     Punish users for pinging staff.
     """
 
-    def _init_(self, bot: Red) -> None:
+    def __init__(self, bot: Red) -> None:
         self.bot = bot
         self.config = Config.get_conf(
             self,
@@ -46,15 +46,15 @@ class DontPingStaff(commands.Cog):
         self.config.register_guild(**default_guild)
         self.cache = {}
 
-    _author_ = ["sravan"]
-    _version_ = "1.2.0"
+    __author__ = ["sravan"]
+    __version__ = "1.2.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
         Thanks Sinbad!
         """
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\nAuthors: {', '.join(self._author)}\nCog Version: {self.version_}"
+        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
     async def gen_cache(self):
         self.config_cache = await self.config.all_guilds()

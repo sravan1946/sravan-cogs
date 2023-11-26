@@ -1,5 +1,6 @@
 from redbot.core import commands
 
+
 class ChannelCategoryConverter(commands.Converter):
     async def convert(self, ctx: commands.Context, argument: str):
         args = argument.split()
@@ -14,7 +15,9 @@ class ChannelCategoryConverter(commands.Converter):
                     res["channel"].append(channel.id)
             except commands.BadArgument:
                 try:
-                    category = await commands.CategoryChannelConverter().convert(ctx, arg)
+                    category = await commands.CategoryChannelConverter().convert(
+                        ctx, arg
+                    )
                     if category not in res["category"]:
                         res["category"].append(category.id)
                 except commands.BadArgument as e:

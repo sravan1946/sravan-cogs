@@ -7,7 +7,7 @@ from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.commands.converter import TimedeltaConverter
 from redbot.core.config import Config
-from redbot.core.utils.chat_formatting import humanize_timedelta, pagify
+from redbot.core.utils.chat_formatting import humanize_timedelta
 
 from .converters import ChannelCategoryConverter
 
@@ -338,7 +338,9 @@ class DontPingStaff(commands.Cog):
         amount = await self.config.guild(guild).amount()
         action = await self.config.guild(guild).action() or "Not set"
         message = await self.config.guild(guild).message() or "Not set"
-        embed = discord.Embed(title="Settings", color=await ctx.bot.get_embed_color(ctx))
+        embed = discord.Embed(
+            title="Settings", color=await ctx.bot.get_embed_color(ctx)
+        )
         embed.add_field(
             name="Muted Role", value=f"<@&{muted_role}>" if muted_role else "Not set"
         )
@@ -371,7 +373,9 @@ class DontPingStaff(commands.Cog):
         embed.add_field(
             name="Enabled", value=str(await self.config.guild(guild).enabled())
         )
-        scope_em = discord.Embed(title="Scope", color=await ctx.bot.get_embed_color(ctx))
+        scope_em = discord.Embed(
+            title="Scope", color=await ctx.bot.get_embed_color(ctx)
+        )
         scope = await self.config.guild(guild).scope()
         guild_scope: bool = scope["guild"]
         if guild_scope:
@@ -380,9 +384,13 @@ class DontPingStaff(commands.Cog):
             category_scope: list[int] = scope["category"]
             channel_scope: list[int] = scope["channel"]
             scope_em.description = (
-                ", ".join([str(guild.get_channel(cat).mention) for cat in category_scope])
+                ", ".join(
+                    [str(guild.get_channel(cat).mention) for cat in category_scope]
+                )
                 + "\n"
-                + ", ".join([str(guild.get_channel(chan).mention) for chan in channel_scope])
+                + ", ".join(
+                    [str(guild.get_channel(chan).mention) for chan in channel_scope]
+                )
             )
         embeds = [embed, scope_em]
         await ctx.send(embeds=embeds)
@@ -436,9 +444,13 @@ class DontPingStaff(commands.Cog):
                 title="Channels", color=await self.bot.get_embed_color(ctx)
             )
             category_scope: list[int] = scope["category"]
-            cat_em.description = "\n".join(ctx.guild.get_channel(cat).mention for cat in category_scope)
+            cat_em.description = "\n".join(
+                ctx.guild.get_channel(cat).mention for cat in category_scope
+            )
             channel_scope: list[int] = scope["channel"]
-            chan_em.description = "\n".join(ctx.guild.get_channel(chan).mention for chan in channel_scope)
+            chan_em.description = "\n".join(
+                ctx.guild.get_channel(chan).mention for chan in channel_scope
+            )
             embeds = [cat_em, chan_em]
             await ctx.send(
                 embeds=embeds,

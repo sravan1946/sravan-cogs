@@ -7,7 +7,9 @@ from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.commands.converter import TimedeltaConverter
 from redbot.core.config import Config
-from redbot.core.utils.chat_formatting import humanize_timedelta
+from redbot.core.utils.chat_formatting import humanize_timedelta, pagify
+
+from .converters import ChannelCategoryConverter
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
@@ -18,7 +20,7 @@ log = logging.getLogger("red.sravan.dps")
 # and the code from flare's antispam cog
 class DontPingStaff(commands.Cog):
     """
-    Just dont!
+    Punish users for pinging staff.
     """
 
     def __init__(self, bot: Red) -> None:
@@ -30,6 +32,7 @@ class DontPingStaff(commands.Cog):
         )
         default_guild = {
             "enabled": False,
+            "scope": {"guild": True, "category": [], "channel": []},
             "ignored_channels": [],
             "ignored_roles": [],
             "ignored_users": [],
@@ -44,7 +47,7 @@ class DontPingStaff(commands.Cog):
         self.cache = {}
 
     __author__ = ["sravan"]
-    __version__ = "1.1.0"
+    __version__ = "1.2.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -319,6 +322,7 @@ class DontPingStaff(commands.Cog):
 
     # TODO: the embed stuff is messed up.
     @dps.command(name="settings")
+    @commands.bot_has_permissions(embed_links=True)
     async def settings(self, ctx: commands.Context) -> None:
         """
         Show the current settings.
@@ -334,7 +338,7 @@ class DontPingStaff(commands.Cog):
         amount = await self.config.guild(guild).amount()
         action = await self.config.guild(guild).action() or "Not set"
         message = await self.config.guild(guild).message() or "Not set"
-        embed = discord.Embed(title="Settings")
+        embed = discord.Embed(title="Settings", color=await ctx.bot.get_embed_color(ctx))
         embed.add_field(
             name="Muted Role", value=f"<@&{muted_role}>" if muted_role else "Not set"
         )
@@ -365,9 +369,23 @@ class DontPingStaff(commands.Cog):
         embed.add_field(name="Per", value=per)
         embed.add_field(name="Amount", value=amount)
         embed.add_field(
-            name="enabled", value=str(await self.config.guild(guild).enabled())
+            name="Enabled", value=str(await self.config.guild(guild).enabled())
         )
-        await ctx.send(embed=embed)
+        scope_em = discord.Embed(title="Scope", color=await ctx.bot.get_embed_color(ctx))
+        scope = await self.config.guild(guild).scope()
+        guild_scope: bool = scope["guild"]
+        if guild_scope:
+            scope_em.description = "Guild"
+        else:
+            category_scope: list[int] = scope["category"]
+            channel_scope: list[int] = scope["channel"]
+            scope_em.description = (
+                ", ".join([str(guild.get_channel(cat).mention) for cat in category_scope])
+                + "\n"
+                + ", ".join([str(guild.get_channel(chan).mention) for chan in channel_scope])
+            )
+        embeds = [embed, scope_em]
+        await ctx.send(embeds=embeds)
 
     @dps.command(name="per")
     async def per(self, ctx: commands.Context, *, time: TimedeltaConverter) -> None:
@@ -396,6 +414,49 @@ class DontPingStaff(commands.Cog):
         await ctx.send(f"I will need {amount} pings to trigger an action")
         await self.gen_cache()
 
+    @dps.command(name="scope")
+    @commands.admin_or_permissions(manage_guild=True)
+    @commands.bot_has_permissions(embed_links=True)
+    async def scope(
+        self, ctx: commands.Context, *, scope: ChannelCategoryConverter
+    ) -> None:
+        """
+        Set the scope of the module.
+        """
+        guild = ctx.guild
+        await self.config.guild(guild).scope.set(scope)
+        guild_scope: bool = scope["guild"]
+        if guild_scope:
+            await ctx.send("I will check all messages in the guild")
+        else:
+            cat_em = discord.Embed(
+                title="Categories", color=await self.bot.get_embed_color(ctx)
+            )
+            chan_em = discord.Embed(
+                title="Channels", color=await self.bot.get_embed_color(ctx)
+            )
+            category_scope: list[int] = scope["category"]
+            cat_em.description = "\n".join(ctx.guild.get_channel(cat).mention for cat in category_scope)
+            channel_scope: list[int] = scope["channel"]
+            chan_em.description = "\n".join(ctx.guild.get_channel(chan).mention for chan in channel_scope)
+            embeds = [cat_em, chan_em]
+            await ctx.send(
+                embeds=embeds,
+                content="I will check messages in these categories and channels",
+            )
+
+    async def allowed_in_channel(self, ctx: commands.Context):
+        scope: dict = await self.config.guild(ctx.guild).scope()
+        if scope["guild"]:
+            return True
+        channels: list[int] = scope.get("channel", [])
+        categories: list[int] = scope.get("category", [])
+        channel = ctx.channel
+        if channel.id in channels:
+            return True
+        if channel.category.id in categories:
+            return True
+
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message) -> None:
         """
@@ -406,15 +467,17 @@ class DontPingStaff(commands.Cog):
             return
         if message.author.bot:
             return
+        if await self.config.guild(guild).enabled() is False:
+            return
         if message.channel.id in await self.config.guild(guild).ignored_channels():
             return
         if message.author.id in await self.config.guild(guild).ignored_users():
             return
+        if not await self.allowed_in_channel(message):
+            return
         for roles in message.author.roles:
             if roles.id in await self.config.guild(guild).ignored_roles():
                 return
-        if await self.config.guild(guild).enabled() is False:
-            return
         await self.check_ping(message)
 
     async def red_delete_data_for_user(

@@ -1,0 +1,12 @@
+{
+    "author": ["PhenoM4n4n"],
+    "install_msg": "Thanks for installing AltDentifier!\nGet started with `[p]help AltDentifier`.",
+    "name": "AltDentifier",
+    "disabled": false,
+    "short": "Check users with AltDentifier API",
+    "description": "Check users with AltDentifier API",
+    "tags": [],
+    "requirements": ["unidecode", "rapidfuzz"],
+    "hidden": false,
+    "end_user_data_statement": "This cog does not store any End User Data."
+}

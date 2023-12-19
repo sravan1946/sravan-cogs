@@ -84,7 +84,7 @@ async def add_footer(
     target = kwargs.get("target")
     word2 = kwargs.get("word2")
     user = kwargs.get("user")
-    if target and word2 and user:
+    if (target is not None) and (word2 is not None) and (user is not None):
         embed.set_footer(
             text=f"{ctx.author.display_name}'s total {word1}: {used + 1} | {ctx.author.display_name} has {word2} {user.display_name} {target + 1} times"
         )

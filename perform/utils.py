@@ -81,11 +81,10 @@ async def add_footer(
 ):
     if not await self.config.footer():
         return
-    if (
-        (target := kwargs.get("target", None))
-        and (word2 := kwargs.get("word2", None))
-        and (user := kwargs.get("user", None))
-    ):
+    target = kwargs.get("target")
+    word2 = kwargs.get("word2")
+    user = kwargs.get("user")
+    if target and word2 and user:
         embed.set_footer(
             text=f"{ctx.author.display_name}'s total {word1}: {used + 1} | {ctx.author.display_name} has {word2} {user.display_name} {target + 1} times"
         )

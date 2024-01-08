@@ -42,12 +42,14 @@ class DontPingStaff(commands.Cog):
             "staff_role": [],
             "per": 30,
             "amount": 10,
+            "add_roles": [],
+            "remove_roles": [],
         }
         self.config.register_guild(**default_guild)
         self.cache = {}
 
     __author__ = ["sravan"]
-    __version__ = "1.2.0"
+    __version__ = "1.3.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -60,7 +62,7 @@ class DontPingStaff(commands.Cog):
         self.config_cache = await self.config.all_guilds()
 
     @commands.group()
-    @commands.admin_or_permissions(manage_guild=True)
+    @commands.admin_or_permissions(administrator=True)
     async def dps(self, ctx: commands.Context) -> None:
         """
         Dont ping staff.
@@ -254,6 +256,104 @@ class DontPingStaff(commands.Cog):
             await self.config.guild(guild).muted_role.set(role_id)
             await ctx.send("Role set for muting")
 
+    @dps.group(name="addroles")
+    async def add_roles(self, ctx: commands.Context) -> None:
+        """
+        Manage roles to be added to the user.
+        """
+
+    @add_roles.command(name="add")
+    async def add_roles_add(self, ctx: commands.Context, role: discord.Role) -> None:
+        """
+        Add a role to be added to the user.
+        """
+        guild = ctx.guild
+        role_id = role.id
+        add_roles = await self.config.guild(guild).add_roles()
+        if role_id in add_roles:
+            await ctx.send("Role is already used for adding")
+        else:
+            async with self.config.guild(guild).add_roles() as add_roles:
+                add_roles.append(role_id)
+            await ctx.send("Role added for adding")
+
+    @add_roles.command(name="remove")
+    async def add_roles_remove(self, ctx: commands.Context, role: discord.Role) -> None:
+        """
+        Remove a role from being added to the user.
+        """
+        guild = ctx.guild
+        role_id = role.id
+        add_roles = await self.config.guild(guild).add_roles()
+        if role_id not in add_roles:
+            await ctx.send("Role is not used for adding")
+        else:
+            async with self.config.guild(guild).add_roles() as add_roles:
+                add_roles.remove(role_id)
+            await ctx.send("Role removed for adding")
+
+    @add_roles.command(name="list")
+    async def add_roles_list(self, ctx: commands.Context) -> None:
+        """
+        List the roles to be added to the user.
+        """
+        guild = ctx.guild
+        add_roles = await self.config.guild(guild).add_roles()
+        if not add_roles:
+            await ctx.send("No roles set")
+        else:
+            await ctx.send(", ".join(str(f"<@&{role}>") for role in add_roles))
+
+    @dps.group(name="removeroles")
+    async def remove_roles(self, ctx: commands.Context) -> None:
+        """
+        Manage roles to be removed from the user.
+        """
+
+    @remove_roles.command(name="add")
+    async def remove_roles_add(self, ctx: commands.Context, role: discord.Role) -> None:
+        """
+        Add a role to be removed from the user.
+        """
+        guild = ctx.guild
+        role_id = role.id
+        remove_roles = await self.config.guild(guild).remove_roles()
+        if role_id in remove_roles:
+            await ctx.send("Role is already used for removing")
+        else:
+            async with self.config.guild(guild).remove_roles() as remove_roles:
+                remove_roles.append(role_id)
+            await ctx.send("Role added for removing")
+
+    @remove_roles.command(name="remove")
+    async def remove_roles_remove(
+        self, ctx: commands.Context, role: discord.Role
+    ) -> None:
+        """
+        Remove a role from being removed from the user.
+        """
+        guild = ctx.guild
+        role_id = role.id
+        remove_roles = await self.config.guild(guild).remove_roles()
+        if role_id not in remove_roles:
+            await ctx.send("Role is not used for removing")
+        else:
+            async with self.config.guild(guild).remove_roles() as remove_roles:
+                remove_roles.remove(role_id)
+            await ctx.send("Role removed for removing")
+
+    @remove_roles.command(name="list")
+    async def remove_roles_list(self, ctx: commands.Context) -> None:
+        """
+        List the roles to be removed from the user.
+        """
+        guild = ctx.guild
+        remove_roles = await self.config.guild(guild).remove_roles()
+        if not remove_roles:
+            await ctx.send("No roles set")
+        else:
+            await ctx.send(", ".join(str(f"<@&{role}>") for role in remove_roles))
+
     @dps.command(name="message")
     async def set_message(self, ctx: commands.Context, *, message: str) -> None:
         """
@@ -272,12 +372,14 @@ class DontPingStaff(commands.Cog):
         action: str,
     ) -> None:
         """
-        Choose nothing, kick, ban or mute as the action.
+        Choose none, kick, ban, mute, addroles, removeroles as the action.
         """
         guild = ctx.guild
         action = action.lower()
-        if action not in ["kick", "ban", "mute", "none"]:
-            await ctx.send("Invalid action. pick `none`, `kick`, `ban` or `mute`")
+        if action not in ["kick", "ban", "mute", "addroles", "removeroles", "none"]:
+            await ctx.send(
+                "Invalid action. pick `none`, `kick`, `ban`, `mute`, `addroles` or `removeroles`"
+            )
             return
         await self.config.guild(guild).action.set(action)
         await ctx.send(f"Action set to `{action}`")
@@ -319,6 +421,18 @@ class DontPingStaff(commands.Cog):
             async with self.config.guild(guild).staff_role() as staff_role:
                 staff_role.remove(role_id)
             await ctx.send("Role removed as staff role")
+
+    @staff_role.command(name="list")
+    async def staff_role_list(self, ctx: commands.Context) -> None:
+        """
+        List the staff roles.
+        """
+        guild = ctx.guild
+        staff_role = await self.config.guild(guild).staff_role()
+        if not staff_role:
+            await ctx.send("No staff roles set")
+        else:
+            await ctx.send(", ".join(str(f"<@&{role}>") for role in staff_role))
 
     # TODO: the embed stuff is messed up.
     @dps.command(name="settings")
@@ -553,6 +667,10 @@ class DontPingStaff(commands.Cog):
                                     await self.kick(message)
                                 elif action == "ban":
                                     await self.ban(message)
+                                elif action == "addroles":
+                                    await self.addrole(message)
+                                elif action == "removeroles":
+                                    await self.removerole(message)
                         break
             break
 
@@ -589,3 +707,49 @@ class DontPingStaff(commands.Cog):
             await message.channel.send(f"{message.author.mention} has been banned")
         except discord.Forbidden:
             return await message.reply("I don't have permission to ban this user")
+
+    async def addrole(self, message: discord.Message):
+        """
+        Add a role to a member.
+        """
+        guild = message.guild
+        roles: list[int] = await self.config.guild(guild).add_roles()
+        if not roles:
+            return await message.send("No roles set")
+        failed = 0
+        for role in roles:
+            try:
+                await message.author.add_roles(guild.get_role(role))
+            except discord.Forbidden:
+                failed += 1
+        if failed:
+            await message.reply(
+                f"{len(roles) - failed} roles have been added to {message.author.mention}, but I don't have permission to add {failed} roles to them"
+            )
+        else:
+            await message.reply(
+                f"{len(roles)} roles have been added to {message.author.mention}"
+            )
+
+    async def removerole(self, message: discord.Message):
+        """
+        Remove a role from a member.
+        """
+        guild = message.guild
+        roles = await self.config.guild(guild).remove_roles()
+        if not roles:
+            return await message.send("No roles set")
+        failed = 0
+        for role in roles:
+            try:
+                await message.author.remove_roles(guild.get_role(role))
+            except discord.Forbidden:
+                failed += 1
+        if failed:
+            await message.reply(
+                f"{len(roles) - failed} roles have been removed from {message.author.mention}, but I don't have permission to remove {failed} roles from them"
+            )
+        else:
+            await message.reply(
+                f"{len(roles)} roles have been removed from {message.author.mention}"
+            )

@@ -158,7 +158,7 @@ class Perform(commands.Cog):
         self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.7.4"
+    __version__ = "5.7.5"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -166,15 +166,6 @@ class Perform(commands.Cog):
         """
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
-
-    def cog_unload(self):
-        global hug
-        if hug:
-            try:
-                self.bot.remove_command("hug")
-            except Exception as e:
-                log.info(e)
-            self.bot.add_command(hug)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command()
@@ -495,6 +486,7 @@ class Perform(commands.Cog):
             self, ctx, embed, used, "punches", target=target, word2="punched", user=user
         )
         await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).punch_s.set(used + 1)
         await self.config.custom("Target", ctx.author.id, user.id).punch_r.set(
             target + 1
         )
@@ -1066,6 +1058,15 @@ class Perform(commands.Cog):
             await ctx.send("Footers will no longer be shown")
         else:
             await ctx.send("Footers will now be shown")
+
+    def cog_unload(self):
+        global hug
+        if hug:
+            try:
+                self.bot.remove_command("hug")
+            except Exception as e:
+                log.info(e)
+            self.bot.add_command(hug)
 
 
 async def setup(bot):

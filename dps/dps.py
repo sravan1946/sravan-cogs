@@ -49,7 +49,7 @@ class DontPingStaff(commands.Cog):
         self.cache = {}
 
     __author__ = ["sravan"]
-    __version__ = "1.3.0"
+    __version__ = "1.3.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """

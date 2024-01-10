@@ -681,7 +681,7 @@ class DontPingStaff(commands.Cog):
         guild = message.guild
         muted_role = await self.config.guild(guild).muted_role()
         if muted_role is None:
-            return await message.send("No muted role set")
+            return await message.channel.send("No muted role set")
         try:
             await message.author.add_roles(guild.get_role(muted_role))
             await message.reply(f"{message.author.mention} has been muted")
@@ -715,7 +715,7 @@ class DontPingStaff(commands.Cog):
         guild = message.guild
         roles: list[int] = await self.config.guild(guild).add_roles()
         if not roles:
-            return await message.send("No roles set")
+            return await message.channel.send("No roles set")
         failed = 0
         for role in roles:
             try:
@@ -738,7 +738,7 @@ class DontPingStaff(commands.Cog):
         guild = message.guild
         roles = await self.config.guild(guild).remove_roles()
         if not roles:
-            return await message.send("No roles set")
+            return await message.channel.send("No roles set")
         failed = 0
         for role in roles:
             try:

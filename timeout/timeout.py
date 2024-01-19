@@ -26,7 +26,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.4.2"
+    __version__ = "1.4.3"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -134,7 +134,7 @@ class Timeout(commands.Cog):
             minimum=datetime.timedelta(minutes=1),
             maximum=datetime.timedelta(days=28),
             default_unit="minutes",
-            allowed_units=["minutes", "seconds", "hours", "days"],
+            allowed_units=["minutes", "seconds", "hours", "days", "weeks"],
         ) = None,
         *,
         reason: Optional[str] = None,

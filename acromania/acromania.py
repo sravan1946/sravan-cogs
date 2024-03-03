@@ -8,6 +8,7 @@ from discord.utils import format_dt
 from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.config import Config
+from redbot.core.utils.chat_formatting import pagify
 
 from .utils import (
     TimeConverter,
@@ -59,7 +60,7 @@ class Acromania(commands.Cog):
         """
         An Acromania Game.
 
-        You can now `play` the fun acronym game with all your friends directly from your Discord server.
+        You can now play the fun acronym game with all your friends directly from your Discord server.
         """
 
     @acromania.group(name="set")
@@ -86,7 +87,7 @@ class Acromania(commands.Cog):
             if role.id in m:
                 await ctx.reply(f"{role.mention} is already set as manager role.")
                 return
-        m.append(role.id)
+            m.append(role.id)
         await ctx.send(f"Successfully added {role.mention} as manager.")
 
     @manager.command(name="remove")
@@ -97,8 +98,19 @@ class Acromania(commands.Cog):
             if role.id not in m:
                 await ctx.reply(f"{role.mention} is not a manager role.")
                 return
-        m.remove(role.id)
+            m.remove(role.id)
         await ctx.send(f"Successfully removed {role.mention} as manager.")
+
+    @manager.command(name="list")
+    async def list_manager(self, ctx: commands.Context) -> None:
+        """
+        Lists the manager roles."""
+        m = await self.config.guild(ctx.guild).manager()
+        if not m:
+            return await ctx.send("No manager roles are set.")
+        roles = [ctx.guild.get_role(role).mention for role in m]
+        for page in pagify(", ".join(roles), delims=",", shorten_by=0):
+            await ctx.send(page)
 
     @_set.command()
     async def guessingtime(self, ctx: commands.Context, time: TimeConverter) -> None:

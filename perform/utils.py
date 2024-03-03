@@ -24,11 +24,13 @@ async def has_webhook_perms(ctx: commands.Context) -> bool:
     perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
     return perm is True
 
+
 async def has_embed_perms(ctx: commands.Context) -> bool:
     if isinstance(ctx.channel, discord.DMChannel):
         return False
     perm = ctx.channel.permissions_for(ctx.channel.guild.me).embed_links
     return perm is True
+
 
 async def send_embed(
     self,

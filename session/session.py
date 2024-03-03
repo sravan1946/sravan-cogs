@@ -1,6 +1,5 @@
 import asyncio
 import logging
-import re
 
 import discord
 from redbot.core import Config, commands

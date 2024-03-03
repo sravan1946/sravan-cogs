@@ -1013,7 +1013,6 @@ class Perform(commands.Cog):
     @commands.is_owner()
     @commands.command()
     @commands.bot_has_permissions(embed_links=True)
-
     async def performapi(self, ctx: commands.Context):
         """
         Steps to get the API token needed for few commands.

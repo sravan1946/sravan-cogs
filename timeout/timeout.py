@@ -26,7 +26,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.4.3"
+    __version__ = "1.5.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """

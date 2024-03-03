@@ -36,7 +36,7 @@ class ForceMention(commands.Cog):
     Mention the unmentionables
     """
 
-    __version__ = "1.0.0"
+    __version__ = "1.0.1"
 
     def __init__(self, bot: Red):
         self.bot = bot

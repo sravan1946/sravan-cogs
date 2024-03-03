@@ -33,7 +33,7 @@ class Acromania(commands.Cog):
     """
 
     __author__ = ["sravan"]
-    __version__ = "1.1.0"
+    __version__ = "1.2.0"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot

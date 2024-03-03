@@ -37,7 +37,7 @@ class Session(commands.Cog):
         self.config.register_global(**default_global)
 
     __author__ = ["aikaterna", "sravan"]
-    __version__ = "1.0.6"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """

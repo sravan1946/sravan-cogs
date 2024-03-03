@@ -25,7 +25,7 @@ class GuessTheNumber(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.2.0"
+    __version__ = "1.3.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """

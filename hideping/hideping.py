@@ -11,7 +11,7 @@ class HidePing(commands.Cog):
     """
 
     __author__ = ["sravan"]
-    __version__ = "1.0.7"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """

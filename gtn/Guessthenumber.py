@@ -34,7 +34,6 @@ class GuessTheNumber(commands.Cog):
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
-
     async def get_values(
         self, ctx: commands.Context, user: discord.User
     ) -> Optional[List[str]]:
@@ -62,10 +61,14 @@ class GuessTheNumber(commands.Cog):
                 await ctx.channel.send("Could not start the gtn event")
                 return
             _range = _range.content.split("-")
-            try: # for checking if the range is a number
+            try:  # for checking if the range is a number
                 if int(_range[0]) < int(_range[1]):
                     return _range
-                await user.send("The first number is higher than the second number" if _range[0] != _range[1] else "Both numbers are the same")
+                await user.send(
+                    "The first number is higher than the second number"
+                    if _range[0] != _range[1]
+                    else "Both numbers are the same"
+                )
                 await ctx.channel.send("Could not start the gtn event")
                 return
             except ValueError:

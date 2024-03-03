@@ -79,9 +79,11 @@ class Timeout(commands.Cog):
             with contextlib.suppress(discord.HTTPException):
                 embed = discord.Embed(
                     title="Server timeout" if time else "Server untimeout",
-                    description=f"**Reason:** {reason}"
-                    if reason
-                    else "**Reason:** No reason given.",
+                    description=(
+                        f"**Reason:** {reason}"
+                        if reason
+                        else "**Reason:** No reason given."
+                    ),
                     timestamp=utcnow(),
                     colour=await ctx.embed_colour(),
                 )

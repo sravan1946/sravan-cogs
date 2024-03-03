@@ -37,6 +37,7 @@ class Poll(commands.Cog):
 
     @commands.command(name="quickpoll")
     @commands.guild_only()
+    @commands.bot_has_permissions(add_reactions=True, embed_links=True)
     @commands.cooldown(1, 5, commands.BucketType.member)
     async def quickpoll(self, ctx: commands.Context, *, question: str):
         """
@@ -44,6 +45,8 @@ class Poll(commands.Cog):
         """
         with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
+        if len(question) > 256:
+            return await ctx.send("The question is too long.")
         embed = discord.Embed(
             title=f"**{question}**",
         )
@@ -55,8 +58,9 @@ class Poll(commands.Cog):
         await e.add_reaction("⬆")
         await e.add_reaction("⬇")
 
-    @commands.command(name="poll")
+    @commands.command(name="poll", usage="<question> | <option1> | <option2> | ...")
     @commands.guild_only()
+    @commands.bot_has_permissions(add_reactions=True, embed_links=True)
     @commands.cooldown(1, 5, commands.BucketType.member)
     async def poll(self, ctx: commands.Context, *, question: str):
         """
@@ -69,12 +73,14 @@ class Poll(commands.Cog):
         with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
         questions = question.split("|")
-        questions = list(zip(EMOJIS, questions))
         num = len(questions)
         if num > 11:
             return await ctx.send("You can only have 10 options in a poll")
         if num < 3:
             return await ctx.send("You need at least 2 options to make a poll")
+        questions = list(zip(EMOJIS, questions))
+        if len(questions[0][1]) > 256:
+            return await ctx.send("The question is too long.")
         embed = discord.Embed(
             title=f"**{questions[0][1]}**",
         )

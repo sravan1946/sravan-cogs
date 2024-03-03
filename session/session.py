@@ -143,7 +143,6 @@ class Session(commands.Cog):
             status = discord.Status.offline
 
         if botstats:
-
             s = sum(map(lambda a: a["count"], self.commands.values()))
             botstatus = f"{s} commands used in this session"
             await self.bot.change_presence(

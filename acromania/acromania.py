@@ -135,6 +135,22 @@ class Acromania(commands.Cog):
         await ctx.send(f"Time is set to {time}s")
         return
 
+    @_set.command(aliases=["ss"])
+    @commands.bot_has_permissions(embed_links=True)
+    async def showsettings(self, ctx: commands.Context) -> None:
+        """
+        Shows the current settings for acromania."""
+        guessing_time = await self.config.guild(ctx.guild).guessing_time()
+        voting_time = await self.config.guild(ctx.guild).voting_time()
+        manager = await self.config.guild(ctx.guild).manager()
+        manager = [ctx.guild.get_role(role).mention for role in manager]
+        em = discord.Embed(
+            title="Acromania Settings",
+            color=await ctx.embed_color(),
+            description=f"**Guessing Time**: {guessing_time}s\n**Voting Time**: {voting_time}s"
+        )
+        await ctx.send(embed=em)
+
     @acromania.command()
     @commands.bot_has_permissions(add_reactions=True, embed_links=True)
     @commands.max_concurrency(1, commands.BucketType.channel)
@@ -175,7 +191,7 @@ class Acromania(commands.Cog):
                     await guess.delete()
                 except discord.HTTPException:
                     await guess.add_reaction("✅")
-        await ctx.send("Time's up! \n All guesses have been collected.")
+        await ctx.send("Time's up! \nAll guesses have been collected.")
 
         try:
             data: dict = self.cache[ctx.channel.id][acronym]
@@ -217,7 +233,7 @@ class Acromania(commands.Cog):
                 await add_vote(self, ctx, vote, acronym)
                 voted.add(vote.author.id)
                 await vote.add_reaction("✅")
-        await ctx.send("Voting Time's up! \n All votes have been collected.")
+        await ctx.send("Voting Time's up! \nAll votes have been collected.")
         result = await gen_results(self, ctx, acronym)
         await send_embed(ctx, result)
 

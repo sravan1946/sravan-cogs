@@ -454,34 +454,42 @@ class DontPingStaff(commands.Cog):
         amount = await self.config.guild(guild).amount()
         action = await self.config.guild(guild).action() or "Not set"
         message = await self.config.guild(guild).message() or "Not set"
-        embed = discord.Embed(
-            title="Settings", color=await ctx.embed_color()
-        )
+        embed = discord.Embed(title="Settings", color=await ctx.embed_color())
         embed.add_field(
             name="Muted Role", value=f"<@&{muted_role}>" if muted_role else "Not set"
         )
         embed.add_field(
             name="Ignored Users",
-            value=", ".join(str(f"<@!{user}>") for user in ignored_users)
-            if ignored_users
-            else "None",
+            value=(
+                ", ".join(str(f"<@!{user}>") for user in ignored_users)
+                if ignored_users
+                else "None"
+            ),
         )
         embed.add_field(
             name="Ignored Roles",
-            value=", ".join(str(f"<@&{role}>") for role in ignored_roles)
-            if ignored_roles
-            else "None",
+            value=(
+                ", ".join(str(f"<@&{role}>") for role in ignored_roles)
+                if ignored_roles
+                else "None"
+            ),
         )
         embed.add_field(
             name="Ignored Channels",
-            value=", ".join(str(f"<#{channel}>") for channel in ignored_channels)
-            if ignored_channels
-            else "None",
+            value=(
+                ", ".join(str(f"<#{channel}>") for channel in ignored_channels)
+                if ignored_channels
+                else "None"
+            ),
         )
-        embed.add_field(
-            name="Staff Role",
-            value=", ".join(str(f"<@&{role}>") for role in staff_role),
-        ) if staff_role else "None"
+        (
+            embed.add_field(
+                name="Staff Role",
+                value=", ".join(str(f"<@&{role}>") for role in staff_role),
+            )
+            if staff_role
+            else "None"
+        )
         embed.add_field(name="Action", value=action)
         embed.add_field(name="Message", value=message)
         embed.add_field(name="Per", value=per)
@@ -489,9 +497,7 @@ class DontPingStaff(commands.Cog):
         embed.add_field(
             name="Enabled", value=str(await self.config.guild(guild).enabled())
         )
-        scope_em = discord.Embed(
-            title="Scope", color=await ctx.embed_color()
-        )
+        scope_em = discord.Embed(title="Scope", color=await ctx.embed_color())
         scope = await self.config.guild(guild).scope()
         guild_scope: bool = scope["guild"]
         if guild_scope:
@@ -563,12 +569,8 @@ class DontPingStaff(commands.Cog):
         if guild_scope:
             await ctx.send("I will check all messages in the guild")
         else:
-            cat_em = discord.Embed(
-                title="Categories", color=await ctx.embed_color()
-            )
-            chan_em = discord.Embed(
-                title="Channels", color=await ctx.embed_color()
-            )
+            cat_em = discord.Embed(title="Categories", color=await ctx.embed_color())
+            chan_em = discord.Embed(title="Channels", color=await ctx.embed_color())
             category_scope: list[int] = scope["category"]
             cat_em.description = "\n".join(
                 ctx.guild.get_channel(cat).mention for cat in category_scope

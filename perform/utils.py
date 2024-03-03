@@ -171,18 +171,22 @@ async def rstats_embed(
     sent = sorted(sent.items(), key=lambda x: x[1], reverse=True)
     rsent = sum(v for _, v in sent)
     sent = [
-        [await self.bot.get_or_fetch_user(int(k)), v]
-        if (await self.bot.get_or_fetch_user(int(k)))
-        else ["Deleted User", v]
+        (
+            [await self.bot.get_or_fetch_user(int(k)), v]
+            if (await self.bot.get_or_fetch_user(int(k)))
+            else ["Deleted User", v]
+        )
         for k, v in sent[:10]
     ]
     sent = tabulate(sent, tablefmt="fancy", headers=["User", "Amount"])
 
     em.add_field(
         name=f"Sent {action}s: {rsent}",
-        value=box(sent, lang="sml")
-        if rsent != 0
-        else f"You haven't sent any {action} yet.",
+        value=(
+            box(sent, lang="sml")
+            if rsent != 0
+            else f"You haven't sent any {action} yet."
+        ),
         inline=False,
     )
 
@@ -200,18 +204,22 @@ async def rstats_embed(
     received = sorted(received.items(), key=lambda x: x[1], reverse=True)
     rcount = sum(v for _, v in received)
     received = [
-        [self.bot.get_user(int(k)), v]
-        if self.bot.get_user(int(k))
-        else ["Deleted User", v]
+        (
+            [self.bot.get_user(int(k)), v]
+            if self.bot.get_user(int(k))
+            else ["Deleted User", v]
+        )
         for k, v in received[:10]
     ]
     received = tabulate(received, tablefmt="fancy", headers=["User", "Amount"])
 
     em.add_field(
         name=f"Received {action}s: {rcount}",
-        value=box(received, lang="sml")
-        if rcount != 0
-        else f"You haven't received any {action} yet.",
+        value=(
+            box(received, lang="sml")
+            if rcount != 0
+            else f"You haven't received any {action} yet."
+        ),
         inline=False,
     )
 

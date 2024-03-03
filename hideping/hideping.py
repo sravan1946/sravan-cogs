@@ -40,7 +40,7 @@ class HidePing(commands.Cog):
             await ctx.message.delete()
         except discord.Forbidden:
             await ctx.tick()
-        except discord.NotFound: # when used with mock
+        except discord.NotFound:  # when used with mock
             pass
         await ctx.send(msg)
 

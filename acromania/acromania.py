@@ -136,6 +136,7 @@ class Acromania(commands.Cog):
         return
 
     @acromania.command()
+    @commands.bot_has_permissions(add_reactions=True, embed_links=True)
     @commands.max_concurrency(1, commands.BucketType.channel)
     async def start(self, ctx: commands.Context) -> None:
         """
@@ -153,13 +154,8 @@ class Acromania(commands.Cog):
         startem.set_footer(text=f"You have {guessing_time}s to guess.")
         await ctx.send(embed=startem)
         endtime = time.time() + guessing_time
-        is_guessing = True
         guessed = set()
-        while is_guessing:
-            if time.time() >= endtime:
-                await ctx.send("Time's up!")
-                is_guessing = False
-                break
+        while not time.time() >= endtime:
             try:
                 guess: discord.Message = await self.bot.wait_for(
                     "message",
@@ -179,39 +175,33 @@ class Acromania(commands.Cog):
                     await guess.delete()
                 except discord.HTTPException:
                     await guess.add_reaction("✅")
-        await ctx.send("All guesses have been collected.")
+        await ctx.send("Time's up! \n All guesses have been collected.")
 
         try:
             data: dict = self.cache[ctx.channel.id][acronym]
         except KeyError:
             return await ctx.send("No guesses were made.")
-        embed = discord.Embed(
+        guesses_em = discord.Embed(
             title=f"Guesses for {acronym}", color=await ctx.embed_color()
         )
         data = {k: v for k, v in data.items() if k != "votes"}
         desc = "".join(
             f"{i}. {guess} \n" for i, (user, guess) in enumerate(data.items(), 1)
         )
-        embed.description = desc
-        await ctx.send(embed=embed)
+        guesses_em.description = desc
 
         voting_time = await self.config.guild(ctx.guild).voting_time()
         timestamp = datetime.datetime.now() + datetime.timedelta(seconds=voting_time)
         endtime = time.time() + voting_time
-        em = discord.Embed(
+        vote_em = discord.Embed(
             title="Vote for the best guess.",
             description=f"Use the number to vote for the guess. \nVoting time ends in {format_dt(timestamp, style='R')} \n :warning: You can only vote once.",
             color=await ctx.embed_color(),
         )
-        await ctx.send(embed=em)
+        await ctx.send(embeds=[guesses_em, vote_em])
 
-        is_voting = True
         voted = set()
-        while is_voting:
-            if time.time() >= endtime:
-                await ctx.send("voting Time's up!")
-                is_voting = False
-                break
+        while not time.time() >= endtime:
             try:
                 vote = await self.bot.wait_for(
                     "message",
@@ -227,7 +217,7 @@ class Acromania(commands.Cog):
                 await add_vote(self, ctx, vote, acronym)
                 voted.add(vote.author.id)
                 await vote.add_reaction("✅")
-        await ctx.send("All votes have been collected.")
+        await ctx.send("Voting Time's up! \n All votes have been collected.")
         result = await gen_results(self, ctx, acronym)
         await send_embed(ctx, result)
 

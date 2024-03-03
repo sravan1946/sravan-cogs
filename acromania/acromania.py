@@ -147,7 +147,7 @@ class Acromania(commands.Cog):
         em = discord.Embed(
             title="Acromania Settings",
             color=await ctx.embed_color(),
-            description=f"**Guessing Time**: {guessing_time}s\n**Voting Time**: {voting_time}s"
+            description=f"**Guessing Time**: {guessing_time}s\n**Voting Time**: {voting_time}s",
         )
         await ctx.send(embed=em)
 

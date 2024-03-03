@@ -225,7 +225,7 @@ class Acromania(commands.Cog):
         endtime = time.time() + voting_time
         vote_em = discord.Embed(
             title="Vote For The Best Guess",
-            description=f"Type the corresponding __**number**__ to vote for the best representation of the **given acronym**. \n- Voting time ends {format_dt(timestamp, style='R')} \n\n"
+            description=f"Type the corresponding __**number**__ to vote for the best representation of the **given acronym**. \n- Voting time ends {format_dt(timestamp, style='R')}. \n\n"
             "⚠️ `NOTE`: You can only vote **once** and you **cannot** vote for yourself.",
             color=await ctx.embed_color(),
         )

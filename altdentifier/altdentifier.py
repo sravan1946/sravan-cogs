@@ -24,12 +24,12 @@ SOFTWARE.
 
 import asyncio
 import logging
-from datetime import timedelta
 from typing import Dict, Optional, Tuple, Union
 
 import aiohttp
 import discord
 from redbot.core import Config, commands
+from redbot.core.bot import Red
 from redbot.core.utils.chat_formatting import box, humanize_list
 
 from .converters import ActionConverter, LevelConverter, StrictRole
@@ -76,9 +76,9 @@ class AltDentifier(commands.Cog):
         3: discord.Color.dark_green(),
     }
 
-    def __init__(self, bot):
+    def __init__(self, bot: Red):
         self.bot = bot
-        # self.session = aiohttp.ClientSession()
+        self.session = aiohttp.ClientSession()
         self.config = Config.get_conf(
             self,
             identifier=60124753086205362,
@@ -96,11 +96,12 @@ class AltDentifier(commands.Cog):
         self.guild_data_cache = await self.config.all_guilds()
 
     async def cog_unload(self):
-        # self.bot.loop.create_task(self.session.close())
+        self.bot.loop.create_task(self.session.close())
         self.task.cancel()
 
     @commands.mod_or_permissions(manage_guild=True)
     @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
     @commands.command()
     async def altcheck(self, ctx, *, member: discord.Member = None):
         """Check a user on AltDentifier."""
@@ -123,27 +124,26 @@ class AltDentifier(commands.Cog):
         """Manage AltDentifier Settings."""
 
     @altset.command()
+    @commands.bot_has_permissions(embed_links=True)
     async def settings(self, ctx: commands.Context):
         """View AltDentifier Settings."""
         data = await self.config.guild(ctx.guild).all()
-        description = []
-
         channel = f"<#{data['channel']}>" if data["channel"] else "None"
-        description.append(f"AltDentifier Check Channel: {channel}")
-        description = "\n".join(description)
+        description = f"AltDentifier Check Channel: {channel}"
         actions = [f"{key}: {value}" for key, value in data["actions"].items()]
         actions = box("\n".join(actions))
 
         color = await self.bot.get_embed_colour(ctx)
         e = discord.Embed(
-            color=color, title=f"AltDentifier Settings", description=description
+            color=color, title="AltDentifier Settings", description=description
         )
         e.add_field(name="Actions", value=actions, inline=False)
         if data["whitelist"]:
             e.add_field(
                 name="Whitelist", value=humanize_list(data["whitelist"]), inline=False
             )
-        e.set_author(name=ctx.guild, icon_url=ctx.guild.icon.url)
+        if ctx.guild.icon:
+            e.set_author(name=ctx.guild, icon_url=ctx.guild.icon.url)
         await ctx.send(embed=e)
 
     @altset.command()
@@ -158,7 +158,7 @@ class AltDentifier(commands.Cog):
             await ctx.send("Disabled AltDentifier join checks in this server.")
         elif not (
             channel.permissions_for(ctx.me).send_messages
-            and channel.permissions_for(ctx.me).send_messages
+            and channel.permissions_for(ctx.me).embed_links
         ):
             await ctx.send(
                 "I do not have permission to talk/send embeds in that channel."
@@ -208,6 +208,8 @@ class AltDentifier(commands.Cog):
     async def whitelist(self, ctx, user_id: int):
         """Whitelist a user from AltDentifier actions."""
         async with self.config.guild(ctx.guild).whitelist() as w:
+            if user_id in w:
+                return await ctx.send("This user is already whitelisted.")
             w.append(user_id)
         await self.build_cache()
         await ctx.tick()
@@ -234,27 +236,27 @@ class AltDentifier(commands.Cog):
         # and count members with similar names while also taking server member count into consideration
         # add calculation based on default avatar
         # check if "alt" is in username
-        age = discord.utils.utcnow() - member.created_at
-        if age < timedelta(days=2):
-            trust_factor = 0
-        elif age < timedelta(weeks=2):
-            trust_factor = 1
-        elif age < timedelta(weeks=6 * 4):
-            trust_factor = 2
-        else:
-            trust_factor = 3
-        return trust_factor, formatted_trust_factors[trust_factor]
+        # age = discord.utils.utcnow() - member.created_at
+        # if age < timedelta(days=2):
+        #     trust_factor = 0
+        # elif age < timedelta(weeks=2):
+        #     trust_factor = 1
+        # elif age < timedelta(weeks=6 * 4):
+        #     trust_factor = 2
+        # else:
+        #     trust_factor = 3
+        # return trust_factor, formatted_trust_factors[trust_factor]
 
-        # async with self.session.get(
-        #     f"https://altdentifier.com/api/v2/user/{member.id}/trustfactor"
-        # ) as response:
-        #     if response.status != 200:
-        #         raise APIError
-        #     try:
-        #         response = await response.json()
-        #     except aiohttp.client_exceptions.ContentTypeError:
-        #         raise APIError
-        # return response["trustfactor"], response["formatted_trustfactor"]
+        async with self.session.get(
+            f"https://altdentifier.com/api/v2/user/{member.id}/trustfactor"
+        ) as response:
+            if response.status != 200:
+                raise APIError
+            try:
+                response = await response.json()
+            except aiohttp.client_exceptions.ContentTypeError:
+                raise APIError
+        return response["trustfactor"], response["formatted_trustfactor"]
 
     @classmethod
     def pick_color(cls, trustfactor: int):
@@ -280,7 +282,7 @@ class AltDentifier(commands.Cog):
         e = discord.Embed(
             color=discord.Color.orange(),
             title="AltDentifier Check Fail",
-            description=f"The API encountered an error. Check back later.",
+            description="The API encountered an error. Check back later.",
             timestamp=member.created_at,
         )
         e.set_footer(text="Account created at")
@@ -339,7 +341,7 @@ class AltDentifier(commands.Cog):
                     await self.clear_action(member.guild, trust)
                     result = "Adding the role was skipped as the role was deleted."
         except discord.NotFound as e:
-            result = f"The member left before an action could be taken."
+            result = "The member left before an action could be taken."
         return result
 
     async def clear_action(self, guild: discord.Guild, action: int):
@@ -350,6 +352,8 @@ class AltDentifier(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
         if member.bot:
+            return
+        if not member.guild.me.guild_permissions.embed_links:
             return
         guild: discord.Guild = member.guild
         if not (data := self.guild_data_cache.get(guild.id)):

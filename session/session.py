@@ -89,7 +89,7 @@ class Session(commands.Cog):
             await ctx.send(f"Session activity type set to {rnd_type[status_type]}.")
         else:
             await ctx.send(
-                f"Status activity type must be between 0 or 1 or 3 or 5. "
+                f"Status activity type must be between 0 or 2 or 3 or 5. "
                 f"See `{ctx.prefix}help session type` for more information."
             )
 
@@ -145,18 +145,7 @@ class Session(commands.Cog):
 
         if botstats:
 
-            def find_sum(s):
-                return sum(map(int, re.findall("\d+", s)))
-
-            message = "\n".join(
-                "{count}".format(count=d[1]["count"])
-                for d in sorted(
-                    self.commands.items(),
-                    key=lambda infos: infos[1]["count"],
-                    reverse=True,
-                )
-            )
-            s = find_sum(message)
+            s = sum(map(lambda a: a["count"], self.commands.values()))
             botstatus = f"{s} commands used in this session"
             await self.bot.change_presence(
                 activity=discord.Activity(name=botstatus, type=_type), status=status

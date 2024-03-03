@@ -127,6 +127,7 @@ class Timeout(commands.Cog):
     @commands.command(aliases=["tt"])
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.bot_has_permissions(moderate_members=True)
     @commands.admin_or_permissions(moderate_members=True)
     async def timeout(
         self,
@@ -183,6 +184,7 @@ class Timeout(commands.Cog):
     @commands.command(aliases=["utt"])
     @commands.guild_only()
     @commands.cooldown(1, 1, commands.BucketType.user)
+    @commands.bot_has_permissions(moderate_members=True)
     @commands.admin_or_permissions(moderate_members=True)
     async def untimeout(
         self,

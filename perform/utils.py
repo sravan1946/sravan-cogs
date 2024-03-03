@@ -18,12 +18,17 @@ async def api_call(call_uri: str, returnObj: Optional[bool] = False):
     await session.close()
 
 
-async def check_perm(ctx: commands.Context):
+async def has_webhook_perms(ctx: commands.Context) -> bool:
     if isinstance(ctx.channel, discord.DMChannel):
         return False
     perm = ctx.channel.permissions_for(ctx.channel.guild.me).manage_webhooks
     return perm is True
 
+async def has_embed_perms(ctx: commands.Context) -> bool:
+    if isinstance(ctx.channel, discord.DMChannel):
+        return False
+    perm = ctx.channel.permissions_for(ctx.channel.guild.me).embed_links
+    return perm is True
 
 async def send_embed(
     self,
@@ -31,17 +36,25 @@ async def send_embed(
     embed: discord.Embed,
     user: Optional[discord.Member] = None,
 ):
-    if await check_perm(ctx) is True:
+    if await has_webhook_perms(ctx):
         try:
             if user:
                 await print_it(self, ctx, embed, user)
             else:
                 await print_it(self, ctx, embed)
         except discord.Forbidden:
+            if not await has_embed_perms(ctx):
+                return await ctx.send(
+                    "I need the `Embed Links` permission to send embeds in this channel."
+                )
             if user:
                 await ctx.reply(embed=embed, content=user.mention, mention_author=False)
             else:
                 await ctx.reply(embed=embed, mention_author=False)
+    elif not await has_embed_perms(ctx):
+        return await ctx.send(
+            "I need the `Embed Links` permission to send embeds in this channel."
+        )
     elif user:
         await ctx.reply(embed=embed, content=user.mention, mention_author=False)
     else:

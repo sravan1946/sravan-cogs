@@ -361,6 +361,8 @@ class DontPingStaff(commands.Cog):
         """
         guild = ctx.guild
         message = message.replace("@", "@\u200b")
+        if len(message) > 1000:
+            return await ctx.send("Message is too long")
         await self.config.guild(guild).message.set(message)
         await ctx.send("Message set")
 
@@ -398,7 +400,7 @@ class DontPingStaff(commands.Cog):
         guild = ctx.guild
         role_id = role.id
         staff_role = await self.config.guild(guild).staff_role()
-        if role_id == staff_role:
+        if role_id in staff_role:
             await ctx.send("Role is already used as a staff role")
         else:
             async with self.config.guild(guild).staff_role() as staff_role:
@@ -453,7 +455,7 @@ class DontPingStaff(commands.Cog):
         action = await self.config.guild(guild).action() or "Not set"
         message = await self.config.guild(guild).message() or "Not set"
         embed = discord.Embed(
-            title="Settings", color=await ctx.bot.get_embed_color(ctx)
+            title="Settings", color=await ctx.embed_color()
         )
         embed.add_field(
             name="Muted Role", value=f"<@&{muted_role}>" if muted_role else "Not set"
@@ -488,7 +490,7 @@ class DontPingStaff(commands.Cog):
             name="Enabled", value=str(await self.config.guild(guild).enabled())
         )
         scope_em = discord.Embed(
-            title="Scope", color=await ctx.bot.get_embed_color(ctx)
+            title="Scope", color=await ctx.embed_color()
         )
         scope = await self.config.guild(guild).scope()
         guild_scope: bool = scope["guild"]
@@ -562,10 +564,10 @@ class DontPingStaff(commands.Cog):
             await ctx.send("I will check all messages in the guild")
         else:
             cat_em = discord.Embed(
-                title="Categories", color=await self.bot.get_embed_color(ctx)
+                title="Categories", color=await ctx.embed_color()
             )
             chan_em = discord.Embed(
-                title="Channels", color=await self.bot.get_embed_color(ctx)
+                title="Channels", color=await ctx.embed_color()
             )
             category_scope: list[int] = scope["category"]
             cat_em.description = "\n".join(
@@ -581,16 +583,16 @@ class DontPingStaff(commands.Cog):
                 content="I will check messages in these categories and channels",
             )
 
-    async def allowed_in_channel(self, ctx: commands.Context):
-        scope: dict = await self.config.guild(ctx.guild).scope()
+    async def allowed_in_channel(self, message: discord.Message):
+        scope: dict = await self.config.guild(message.guild).scope()
         if scope["guild"]:
             return True
         channels: list[int] = scope.get("channel", [])
         categories: list[int] = scope.get("category", [])
-        channel = ctx.channel
+        channel = message.channel
         if channel.id in channels:
             return True
-        if channel.category.id in categories:
+        if channel.category and channel.category.id in categories:
             return True
 
     @commands.Cog.listener()
@@ -638,7 +640,7 @@ class DontPingStaff(commands.Cog):
             for ping in pings:
                 member = guild.get_member(int(ping))
                 if member.id == message.author.id:
-                    return
+                    continue
                 for role in member.roles:
                     if role.id in staff_role:
                         if author.id not in self.cache:

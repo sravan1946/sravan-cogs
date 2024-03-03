@@ -34,8 +34,6 @@ class GuessTheNumber(commands.Cog):
         pre_processed = super().format_help_for_context(ctx)
         return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
 
-    def check(self, m, ctx, user):
-        return m.author == ctx.author and m.channel == user.dm_channel
 
     async def get_values(
         self, ctx: commands.Context, user: discord.User
@@ -59,20 +57,19 @@ class GuessTheNumber(commands.Cog):
             _range: discord.Message = await self.bot.wait_for(
                 "message", check=check, timeout=60
             )
-            if _range.content.count("-") == 1:
-                _range = _range.content.split("-")
-                if _range[0].isdigit() and _range[1].isdigit():
-                    if int(_range[0]) < int(_range[1]):
-                        return _range
-                    await user.send("The first number is higher than the second number")
-                    await ctx.channel.send("Could not start the gtn event")
-                    return
-                else:
-                    await user.send("The range is not a number")
-                    await ctx.channel.send("Could not start the gtn event")
-                    return
-            else:
+            if _range.content.count("-") != 1:
                 await user.send("The range is not in the correct format")
+                await ctx.channel.send("Could not start the gtn event")
+                return
+            _range = _range.content.split("-")
+            try: # for checking if the range is a number
+                if int(_range[0]) < int(_range[1]):
+                    return _range
+                await user.send("The first number is higher than the second number" if _range[0] != _range[1] else "Both numbers are the same")
+                await ctx.channel.send("Could not start the gtn event")
+                return
+            except ValueError:
+                await user.send("The range is not a number")
                 await ctx.channel.send("Could not start the gtn event")
                 return
         except asyncio.TimeoutError:
@@ -82,6 +79,7 @@ class GuessTheNumber(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
     @commands.max_concurrency(1, commands.BucketType.channel)
     async def gtn(self, ctx: commands.Context):
         """

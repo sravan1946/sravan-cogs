@@ -33,7 +33,7 @@ class HidePing(commands.Cog):
         """
         if message is None:
             message = "ㅤ"
-        msg = f"{message} " + "||\u200d" * 598 + "<@!{member.id}>"
+        msg = f"{message} " + "||\u200d" * 598 + f"<@{member.id}>"
         if len(msg) > 2000:
             return await ctx.send("Your message is too long.")
         try:

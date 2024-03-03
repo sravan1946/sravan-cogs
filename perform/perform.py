@@ -1012,6 +1012,8 @@ class Perform(commands.Cog):
 
     @commands.is_owner()
     @commands.command()
+    @commands.bot_has_permissions(embed_links=True)
+
     async def performapi(self, ctx: commands.Context):
         """
         Steps to get the API token needed for few commands.
@@ -1031,6 +1033,7 @@ class Perform(commands.Cog):
 
     @commands.command(aliases=["rstats", "pstats", "roleplaystats"])
     @commands.guild_only()
+    @commands.bot_has_permissions(embed_links=True)
     async def performstats(
         self, ctx: commands.Context, action: str, user: Optional[discord.User]
     ):

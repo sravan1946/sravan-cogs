@@ -3,7 +3,7 @@ import logging
 import re
 
 import discord
-from redbot.core import Config, checks, commands
+from redbot.core import Config, commands
 from redbot.core.bot import Red
 
 log = logging.getLogger("red.sravan.session")
@@ -52,7 +52,7 @@ class Session(commands.Cog):
 
     @commands.group(autohelp=True)
     @commands.guild_only()
-    @checks.is_owner()
+    @commands.is_owner()
     async def session(self, ctx: commands.Context):
         """
         Session group commands.

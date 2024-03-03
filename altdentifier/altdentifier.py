@@ -29,7 +29,7 @@ from typing import Dict, Optional, Tuple, Union
 
 import aiohttp
 import discord
-from redbot.core import Config, checks, commands
+from redbot.core import Config, commands
 from redbot.core.utils.chat_formatting import box, humanize_list
 
 from .converters import ActionConverter, LevelConverter, StrictRole
@@ -99,7 +99,7 @@ class AltDentifier(commands.Cog):
         # self.bot.loop.create_task(self.session.close())
         self.task.cancel()
 
-    @checks.mod_or_permissions(manage_guild=True)
+    @commands.mod_or_permissions(manage_guild=True)
     @commands.guild_only()
     @commands.command()
     async def altcheck(self, ctx, *, member: discord.Member = None):
@@ -116,7 +116,7 @@ class AltDentifier(commands.Cog):
             e = self.gen_alt_embed(trust, member)
         await ctx.send(embed=e)
 
-    @checks.admin_or_permissions(manage_guild=True)
+    @commands.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @commands.group()
     async def altset(self, ctx):

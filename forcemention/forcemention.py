@@ -27,7 +27,7 @@ SOFTWARE.
 # this is also a fork of phenom4n4n's forcemention cog
 
 import discord
-from redbot.core import checks, commands
+from redbot.core import commands
 from redbot.core.bot import Red
 
 
@@ -44,8 +44,8 @@ class ForceMention(commands.Cog):
     async def red_delete_data_for_user(self, **kwargs):
         return
 
-    @checks.bot_has_permissions(manage_roles=True)
-    @checks.admin_or_permissions(mention_everyone=True)
+    @commands.bot_has_permissions(manage_roles=True)
+    @commands.admin_or_permissions(mention_everyone=True)
     @commands.command("forcemention")
     async def cmd_forcemention(
         self, ctx: commands.Context, role: discord.Role, *, message: str = None

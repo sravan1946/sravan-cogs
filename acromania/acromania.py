@@ -115,7 +115,7 @@ class Acromania(commands.Cog):
     @_set.command()
     async def guessingtime(self, ctx: commands.Context, time: TimeConverter) -> None:
         """
-        This sets the time for how long the bot should wait to collect the answers. 
+        This sets the time for how long the bot should wait to collect the answers.
 
         Set the amount of time the bot will wait for users to send their answers before it stops accepting responses.
 
@@ -139,7 +139,7 @@ class Acromania(commands.Cog):
         **Examples**
         - `[p]acromania set votingtime 1m` - This will set the voting window to 1 minute.
         - `[p]acromania set votingtime 30s` - This will set the voting window to 30 seconds.
-        
+
         """
         if time is None:
             return await ctx.send("Invalid time provided.")

@@ -49,7 +49,7 @@ class DontPingStaff(commands.Cog):
         self.cache = {}
 
     __author__ = ["sravan"]
-    __version__ = "1.4.0"
+    __version__ = "2.0.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -637,46 +637,52 @@ class DontPingStaff(commands.Cog):
         staff_role = await self.config.guild(guild).staff_role()
         mes = await self.config.guild(guild).message()
         action = await self.config.guild(guild).action()
-        for mentions in message.mentions:
-            pings = [mentions.id]
-            for ping in pings:
-                member = guild.get_member(int(ping))
-                if member.id == message.author.id:
-                    continue
-                for role in member.roles:
-                    if role.id in staff_role:
-                        if author.id not in self.cache:
+        for member in message.mentions:
+            if member.id == message.author.id:
+                continue
+            for role in member.roles:
+                if role.id in staff_role:
+                    if self.config_cache[guild.id]["amount"] == 1:
+                        if action is None:
+                            return
+                        return await self.take_action(action, message)
+                    if author.id not in self.cache:
+                        self.cache[author.id] = {"count": 1, "time": now}
+                        await message.reply(mes)
+                    else:
+                        if now - self.cache[author.id]["time"] > timedelta(
+                            seconds=self.config_cache[guild.id]["per"]
+                        ):
                             self.cache[author.id] = {"count": 1, "time": now}
                             await message.reply(mes)
+                            return
+                        self.cache[author.id]["count"] += 1
+                        if (
+                            self.cache[author.id]["count"]
+                            < self.config_cache[guild.id]["amount"]
+                        ):
+                            await message.reply(mes)
                         else:
-                            if now - self.cache[author.id]["time"] > timedelta(
-                                seconds=self.config_cache[guild.id]["per"]
-                            ):
-                                self.cache[author.id] = {"count": 1, "time": now}
-                                await message.reply(mes)
+                            self.cache[author.id]["count"] = 0
+                            if action is None:
                                 return
-                            self.cache[author.id]["count"] += 1
-                            if (
-                                self.cache[author.id]["count"]
-                                < self.config_cache[guild.id]["amount"]
-                            ):
-                                await message.reply(mes)
-                            else:
-                                self.cache[author.id]["count"] = 0
-                                if action is None:
-                                    return
-                                elif action == "mute":
-                                    await self.mute(message)
-                                elif action == "kick":
-                                    await self.kick(message)
-                                elif action == "ban":
-                                    await self.ban(message)
-                                elif action == "addroles":
-                                    await self.addrole(message)
-                                elif action == "removeroles":
-                                    await self.removerole(message)
-                        break
-            break
+                            await self.take_action(action, message)
+                    break
+
+    async def take_action(self, action: str, message: discord.Message):
+        """
+        Take action on a member.
+        """
+        if action == "mute":
+            await self.mute(message)
+        elif action == "kick":
+            await self.kick(message)
+        elif action == "ban":
+            await self.ban(message)
+        elif action == "addroles":
+            await self.addrole(message)
+        elif action == "removeroles":
+            await self.removerole(message)
 
     async def mute(self, message: discord.Message):
         """

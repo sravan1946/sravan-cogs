@@ -115,9 +115,13 @@ class Acromania(commands.Cog):
     @_set.command()
     async def guessingtime(self, ctx: commands.Context, time: TimeConverter) -> None:
         """
-        Sets the time on how long the bot should wait to collect the answers.
+        This sets the time for how long the bot should wait to collect the answers.
 
-        This sets the amount of time the bot will wait for users to send their answers.
+        Set the amount of time the bot will wait for users to send their answers before it stops accepting responses.
+
+        **Examples**
+        - `[p]acromania set guessingtime 1m` - This will set the guessing time to 1 minute.
+        - `[p]acromania set guessingtime 30s` - This will set the guessing time to 30 seconds.
         """
         if time is None:
             return await ctx.send("Invalid time provided.")
@@ -128,7 +132,15 @@ class Acromania(commands.Cog):
     @_set.command()
     async def votingtime(self, ctx: commands.Context, time: TimeConverter) -> None:
         """
-        Sets the time after which the voting window is closed & winner is declared."""
+        This allows you to specify the duration for the voting window.
+
+        Once the specified time elapses, the voting process will be closed, and the winner will be declared based on the highest number of votes received.
+
+        **Examples**
+        - `[p]acromania set votingtime 1m` - This will set the voting window to 1 minute.
+        - `[p]acromania set votingtime 30s` - This will set the voting window to 30 seconds.
+
+        """
         if time is None:
             return await ctx.send("Invalid time provided.")
         await self.config.guild(ctx.guild).voting_time.set(time)
@@ -157,6 +169,8 @@ class Acromania(commands.Cog):
     async def start(self, ctx: commands.Context) -> None:
         """
         Starts the acromania game.
+
+        This initiates the acromania game by throwing a message with an acronym, such as "E.P.R.R". Users will then be prompted to form a sentence using these letters.
         """
         if not await is_manager(ctx):
             return await ctx.send("You are not allowed to start an acromania game.")
@@ -210,8 +224,9 @@ class Acromania(commands.Cog):
         timestamp = datetime.datetime.now() + datetime.timedelta(seconds=voting_time)
         endtime = time.time() + voting_time
         vote_em = discord.Embed(
-            title="Vote for the best guess.",
-            description=f"Use the number to vote for the guess. \nVoting time ends in {format_dt(timestamp, style='R')} \n :warning: You can only vote once.",
+            title="Vote For The Best Guess",
+            description=f"Type the corresponding __**number**__ to vote for the best representation of the **given acronym**. \n- Voting time ends {format_dt(timestamp, style='R')}. \n\n"
+            "⚠️ `NOTE`: You can only vote **once** and you **cannot** vote for yourself.",
             color=await ctx.embed_color(),
         )
         await ctx.send(embeds=[guesses_em, vote_em])

@@ -251,11 +251,11 @@ class AltDentifier(commands.Cog):
             f"https://altdentifier.com/api/v2/user/{member.id}/trustfactor"
         ) as response:
             if response.status != 200:
-                raise APIError
+                raise APIError(response, "Failed to get data from AltDentifier.")
             try:
                 response = await response.json()
             except aiohttp.client_exceptions.ContentTypeError:
-                raise APIError
+                raise APIError(response, "Failed to get data from AltDentifier.")
         return response["trustfactor"], response["formatted_trustfactor"]
 
     @classmethod
@@ -361,7 +361,11 @@ class AltDentifier(commands.Cog):
         if not (channel_id := data.get("channel")):
             return
         channel = guild.get_channel(channel_id)
-        if not channel:
+        if (
+            not channel
+            or not channel.permissions_for(guild.me).send_messages
+            or not channel.permissions_for(guild.me).embed_links
+        ):
             return
         try:
             trust = await self.alt_request(member)

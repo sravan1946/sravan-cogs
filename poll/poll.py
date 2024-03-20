@@ -5,6 +5,7 @@ from typing import Literal
 import discord
 from redbot.core import commands
 from redbot.core.bot import Red
+from redbot.core.utils.chat_formatting import bold
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
@@ -45,10 +46,10 @@ class Poll(commands.Cog):
         """
         with contextlib.suppress(discord.Forbidden):
             await ctx.message.delete()
-        if len(question) > 256:
+        if len(bold(question)) > 256:
             return await ctx.send("The question is too long.")
         embed = discord.Embed(
-            title=f"**{question}**",
+            title=bold(question),
         )
         embed.set_author(
             name=ctx.author.display_name, icon_url=ctx.author.display_avatar
@@ -79,10 +80,10 @@ class Poll(commands.Cog):
         if num < 3:
             return await ctx.send("You need at least 2 options to make a poll")
         questions = list(zip(EMOJIS, questions))
-        if len(questions[0][1]) > 256:
+        if len(bold(questions[0][1])) > 256:
             return await ctx.send("The question is too long.")
         embed = discord.Embed(
-            title=f"**{questions[0][1]}**",
+            title=bold(questions[0][1]),
         )
         embed.set_author(
             name=ctx.author.display_name, icon_url=ctx.author.display_avatar

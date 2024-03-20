@@ -21,7 +21,7 @@ class Poll(commands.Cog):
         self.bot = bot
 
     __author__ = ["sravan"]
-    __version__ = "1.1.0"
+    __version__ = "1.1.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """

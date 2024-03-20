@@ -56,7 +56,7 @@ class AltDentifier(commands.Cog):
     Check new users with AltDentifier API
     """
 
-    __version__ = "2.0.0"
+    __version__ = "2.0.1"
 
     def format_help_for_context(self, ctx):
         pre_processed = super().format_help_for_context(ctx)

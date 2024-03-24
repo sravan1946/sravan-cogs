@@ -77,7 +77,6 @@ class ForceMention(commands.Cog):
         """
         Settings for forcemention
         """
-        pass
 
     @forcementionset.command("editrole")
     async def forcementionset_editrole(self, ctx: commands.Context, toggle: bool):

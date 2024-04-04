@@ -24,7 +24,7 @@ from redbot.core.bot import Red
 
 from .utils import add_footer, kawaiiembed, rstats_embed, send_embed
 
-log = logging.getLogger("red.onii.perform")
+log = logging.getLogger("red.sravan.perform")
 
 
 class Perform(commands.Cog):
@@ -158,7 +158,7 @@ class Perform(commands.Cog):
         self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.8.0"
+    __version__ = "5.8.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -1071,7 +1071,7 @@ class Perform(commands.Cog):
             self.bot.add_command(hug)
 
 
-async def setup(bot):
+async def setup(bot: Red):
     global hug
     hug = bot.remove_command("hug")
     await bot.add_cog(Perform(bot))

@@ -1,5 +1,6 @@
 import contextlib
 import datetime
+import logging
 from typing import List, Literal, Optional, Union
 
 import discord
@@ -12,6 +13,8 @@ from redbot.core.commands.converter import TimedeltaConverter
 from .exceptions import TimeoutException
 
 RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
+
+log = logging.getLogger("red.sravan.timeout")
 
 
 class Timeout(commands.Cog):
@@ -26,7 +29,7 @@ class Timeout(commands.Cog):
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.5.0"
+    __version__ = "1.6.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -250,6 +253,15 @@ class Timeout(commands.Cog):
         w = "Will not" if current else "Will"
         await ctx.send(f"I {w} timeout role.")
 
+    async def cog_unload(self) -> None:
+        global timeout
+        if timeout:
+            try:
+                self.bot.remove_command("timeout")
+            except Exception as e:
+                log.info(e)
+            self.bot.add_command(timeout)
+
 
 # https://github.com/phenom4n4n/phen-cogs/blob/8727d6ee74b40709c7eb9300713dc22b88a17915/roleutils/utils.py#L34
 async def is_allowed_by_hierarchy(
@@ -260,3 +272,11 @@ async def is_allowed_by_hierarchy(
         or user.top_role > member.top_role
         or await bot.is_owner(user)
     )
+
+
+async def setup(bot: Red) -> None:
+    global timeout
+    timeout = bot.remove_command("timeout")
+    cog = Timeout(bot)
+    await cog.pre_load()
+    await bot.add_cog(cog)

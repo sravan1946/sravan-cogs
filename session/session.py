@@ -23,13 +23,11 @@ class Session(commands.Cog):
         self.bot = bot
         self.last_change = None
         self.config = Config.get_conf(self, 25298865439862, force_registration=True)
-        self.commands = {}
-        super(Session, self).__init__()
+        self.count = 0
 
         self.presence_task = asyncio.create_task(self.maybe_update_presence())
 
         default_global = {
-            "botstats": True,
             "delay": 60,
             "type": 0,
             "status": 0,
@@ -37,7 +35,7 @@ class Session(commands.Cog):
         self.config.register_global(**default_global)
 
     __author__ = ["aikaterna", "sravan"]
-    __version__ = "1.1.0"
+    __version__ = "1.1.1"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -129,7 +127,6 @@ class Session(commands.Cog):
     async def presence_updater(self):
         cog_settings = await self.config.all()
 
-        botstats = cog_settings["botstats"]
         _type = cog_settings["type"]
         _status = cog_settings["status"]
 
@@ -142,19 +139,14 @@ class Session(commands.Cog):
         elif _status == 3:
             status = discord.Status.offline
 
-        if botstats:
-            s = sum(map(lambda a: a["count"], self.commands.values()))
-            botstatus = f"{s} commands used in this session"
-            await self.bot.change_presence(
-                activity=discord.Activity(name=botstatus, type=_type), status=status
-            )
+        botstatus = f"{self.count} commands used in this session"
+        await self.bot.change_presence(
+            activity=discord.Activity(name=botstatus, type=_type), status=status
+        )
 
     @commands.Cog.listener()
     async def on_command(self, ctx: commands.Context):
         if ctx.message.author.bot is False:
             command = str(ctx.command)
             if command != "None":
-                if command not in self.commands:
-                    self.commands[command] = {"count": 1}
-                    return
-                self.commands[command]["count"] += 1
+                self.count += 1

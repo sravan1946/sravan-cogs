@@ -35,7 +35,7 @@ from .converters import PrefixConverter
 class Prefix(commands.Cog):
     """Prefix management."""
 
-    __version__ = "1.0.3"
+    __version__ = "1.0.4"
 
     def format_help_for_context(self, ctx):
         pre_processed = super().format_help_for_context(ctx)
@@ -183,7 +183,7 @@ class Prefix(commands.Cog):
         embed.set_footer(
             text=f"set the prefixes with {self.format_command(ctx, 'prefix set')}"
         )
-        await self.reply(ctx, f"Reset this server's prefixes.", embed=embed)
+        await self.reply(ctx, "Reset this server's prefixes.", embed=embed)
 
     async def get_prefixes(self, guild: discord.Guild = None) -> List[str]:
         prefixes = await self.bot.get_valid_prefixes(guild)

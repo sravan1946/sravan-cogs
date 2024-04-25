@@ -26,9 +26,10 @@ SOFTWARE.
 from redbot.core import commands
 
 try:
-    from redbot.core.core_commands import MAX_PREFIX_LENGTH
+    from redbot.core.core_commands import MAX_PREFIX_LENGTH, MINIMUM_PREFIX_LENGTH
 except ImportError:
-    MAX_PREFIX_LENGTH = 20
+    MAX_PREFIX_LENGTH = 25
+    MINIMUM_PREFIX_LENGTH = 1
 
 
 class PrefixConverter(commands.Converter):
@@ -36,5 +37,11 @@ class PrefixConverter(commands.Converter):
         if len(argument) > MAX_PREFIX_LENGTH and not await ctx.bot.is_owner(ctx.author):
             raise commands.BadArgument(
                 f"Prefixes cannot be above {MAX_PREFIX_LENGTH} in length."
+            )
+        if len(argument) < MINIMUM_PREFIX_LENGTH and not await ctx.bot.is_owner(
+            ctx.author
+        ):
+            raise commands.BadArgument(
+                f"Prefixes cannot be below {MINIMUM_PREFIX_LENGTH} in length."
             )
         return argument

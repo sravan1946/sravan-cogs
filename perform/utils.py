@@ -109,24 +109,26 @@ async def add_footer(
 
 # Thanks epic
 async def get_hook(self, ctx: commands.Context):
+    if isinstance(ctx.channel, discord.Thread):
+        channel = ctx.channel.parent
+    else:
+        channel = ctx.channel
     try:
-        if ctx.channel.id not in self.cache:
-            for i in await ctx.channel.webhooks():
+        if channel.id not in self.cache:
+            for i in await channel.webhooks():
                 if i.user.id == self.bot.user.id:
                     hook = i
-                    self.cache[ctx.channel.id] = hook
+                    self.cache[channel.id] = hook
                     break
             else:
-                hook = await ctx.channel.create_webhook(
-                    name=f"red_bot_hook_{str(ctx.channel.id)}"
+                hook = await channel.create_webhook(
+                    name=f"red_bot_hook_{str(channel.id)}"
                 )
 
         else:
-            hook = self.cache[ctx.channel.id]
+            hook = self.cache[channel.id]
     except discord.NotFound:  # Probably user deleted the hook
-        hook = await ctx.channel.create_webhook(
-            name=f"red_bot_hook_{str(ctx.channel.id)}"
-        )
+        hook = await channel.create_webhook(name=f"red_bot_hook_{str(channel.id)}")
     return hook
 
 
@@ -145,17 +147,31 @@ async def print_it(
                 avatar_url=ctx.message.author.display_avatar,
                 embed=embed,
                 content=user.mention,
+                thread=(
+                    ctx.channel
+                    if isinstance(ctx.channel, discord.Thread)
+                    else discord.utils.MISSING
+                ),
             )
         else:
             await hook.send(
                 username=ctx.message.author.display_name,
                 avatar_url=ctx.message.author.display_avatar,
                 embed=embed,
+                thread=(
+                    ctx.channel
+                    if isinstance(ctx.channel, discord.Thread)
+                    else discord.utils.MISSING
+                ),
             )
     except discord.NotFound:
         if retried:  # This is an edge case, just a hack to prevent infinite loops
             return await ctx.send("I can't find the webhook, sorry.")
-        self.cache.pop(ctx.channel.id)
+        self.cache.pop(
+            ctx.channel.parent.id
+            if isinstance(ctx.channel, discord.Thread)
+            else ctx.channel.id
+        )
         await print_it(self, ctx, embed, retried=True)
 
 

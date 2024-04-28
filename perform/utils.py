@@ -1,7 +1,9 @@
+import contextlib
 from typing import Optional, Union
 
 import aiohttp
 import discord
+from aiohttp.client_exceptions import ContentTypeError
 from redbot.core import commands
 from redbot.core.utils.chat_formatting import box
 from tabulate import tabulate
@@ -84,7 +86,7 @@ async def kawaiiembed(
     )
     try:
         url = await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
-    except aiohttp.client_exceptions.ContentTypeError:
+    except ContentTypeError:
         return "The API is currently down, please try again later."
     embed.set_image(url=url)
 
@@ -188,23 +190,27 @@ async def rstats_embed(
     em.set_author(name=user, icon_url=user.display_avatar)
     em.set_footer(text=f"Requested by {ctx.author}")
 
+    user_cache = {}
     sent = {}
     for who, to_who_d in custom.items():
         for to_who, _ in to_who_d.items():
-            if int(who) != user.id:
-                continue
-            if (
-                custom.get(who)
-                and custom[who].get(to_who)
-                and custom[who][to_who].get(f"{action}_r")
-            ):
-                sent[to_who] = custom[who][to_who][f"{action}_r"]
+            who_id = int(who)
+            to_who_id = int(to_who)
+            with contextlib.suppress(KeyError, discord.NotFound):
+                if who_id != user.id:
+                    continue
+                if (
+                    custom_value := custom.get(who, {})
+                    .get(to_who, {})
+                    .get(f"{action}_r")
+                ):
+                    sent[to_who] = custom_value
     sent = sorted(sent.items(), key=lambda x: x[1], reverse=True)
     rsent = sum(v for _, v in sent)
     sent = [
         (
-            [await self.bot.get_or_fetch_user(int(k)), v]
-            if (await self.bot.get_or_fetch_user(int(k)))
+            [user_cache.get(int(k), await self.bot.get_or_fetch_user(int(k))), v]
+            if (user_cache.get(int(k), await self.bot.get_or_fetch_user(int(k))))
             else ["Deleted User", v]
         )
         for k, v in sent[:10]
@@ -224,20 +230,23 @@ async def rstats_embed(
     received = {}
     for who, to_who_d in custom.items():
         for to_who, _ in to_who_d.items():
-            if int(to_who) != user.id:
-                continue
-            if (
-                custom.get(who)
-                and custom[who].get(to_who)
-                and custom[who][to_who].get(f"{action}_r")
-            ):
-                received[who] = custom[who][to_who][f"{action}_r"]
+            who_id = int(who)
+            to_who_id = int(to_who)
+            with contextlib.suppress(KeyError, discord.NotFound):
+                if to_who_id != user.id:
+                    continue
+                if (
+                    custom_value := custom.get(who, {})
+                    .get(to_who, {})
+                    .get(f"{action}_r")
+                ):
+                    received[who] = custom_value
     received = sorted(received.items(), key=lambda x: x[1], reverse=True)
     rcount = sum(v for _, v in received)
     received = [
         (
-            [self.bot.get_user(int(k)), v]
-            if self.bot.get_user(int(k))
+            [user_cache.get(int(k), await self.bot.get_or_fetch_user(int(k))), v]
+            if (user_cache.get(int(k), await self.bot.get_or_fetch_user(int(k))))
             else ["Deleted User", v]
         )
         for k, v in received[:10]

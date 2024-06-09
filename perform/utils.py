@@ -86,8 +86,8 @@ async def kawaiiembed(
     )
     try:
         url = await api_call(f"https://kawaii.red/api/gif/{endpoint}/token={api_key}")
-    except ContentTypeError:
-        return "The API is currently down, please try again later."
+    except (ContentTypeError, KeyError):
+        return "The API returned an error. Please try again later."
     embed.set_image(url=url)
 
     return embed

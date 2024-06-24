@@ -7,7 +7,7 @@ from redbot.core import commands
 from redbot.core.bot import Red
 from redbot.core.commands.converter import TimedeltaConverter
 from redbot.core.config import Config
-from redbot.core.utils.chat_formatting import humanize_timedelta
+from redbot.core.utils.chat_formatting import humanize_timedelta, humanize_list
 
 from .converters import ChannelCategoryConverter
 
@@ -56,7 +56,11 @@ class DontPingStaff(commands.Cog):
         Thanks Sinbad!
         """
         pre_processed = super().format_help_for_context(ctx)
-        return f"{pre_processed}\n\nAuthors: {', '.join(self.__author__)}\nCog Version: {self.__version__}"
+        return (
+            f"{pre_processed}\n\n"
+            f"`Cog Authors:` {humanize_list(self.__author__)}\n"
+            f"`Cog Version:` {self.__version__}\n"
+        )
 
     async def gen_cache(self):
         self.config_cache = await self.config.all_guilds()
@@ -454,68 +458,65 @@ class DontPingStaff(commands.Cog):
         amount = await self.config.guild(guild).amount()
         action = await self.config.guild(guild).action() or "Not set"
         message = await self.config.guild(guild).message() or "Not set"
-        embed = discord.Embed(title="Settings", color=await ctx.embed_color())
-        embed.add_field(
-            name="Muted Role", value=f"<@&{muted_role}>" if muted_role else "Not set"
+        scope = await self.config.guild(guild).scope()
+
+        guild_scope: bool = scope["guild"]
+        category_scope: list[int] = scope["category"]
+        channel_scope: list[int] = scope["channel"]
+
+        if guild_scope:
+            scope_value = "Guild"
+        else:
+            scope_value = ""
+            if category_scope:
+                scope_value += ", ".join(
+                    [str(guild.get_channel(cat).mention) for cat in category_scope])
+            if channel_scope:
+                if category_scope:  # Separation between categories and channels if categories are there
+                    scope_value += ", "
+                scope_value += ", ".join(
+                    [str(guild.get_channel(chan).mention) for chan in channel_scope])
+
+        embed = discord.Embed(
+            title=f"{ctx.guild} Settings",
+            description=f"**Scope:** {scope_value}",
+            color=await ctx.embed_color(),
+            timestamp=discord.utils.utcnow()
         )
-        embed.add_field(
-            name="Ignored Users",
-            value=(
-                ", ".join(str(f"<@!{user}>") for user in ignored_users)
-                if ignored_users
-                else "None"
-            ),
-        )
-        embed.add_field(
-            name="Ignored Roles",
-            value=(
-                ", ".join(str(f"<@&{role}>") for role in ignored_roles)
-                if ignored_roles
-                else "None"
-            ),
-        )
-        embed.add_field(
-            name="Ignored Channels",
-            value=(
-                ", ".join(str(f"<#{channel}>") for channel in ignored_channels)
-                if ignored_channels
-                else "None"
-            ),
-        )
-        (
-            embed.add_field(
-                name="Staff Role",
-                value=", ".join(str(f"<@&{role}>") for role in staff_role),
-            )
-            if staff_role
-            else "None"
-        )
-        embed.add_field(name="Action", value=action)
-        embed.add_field(name="Message", value=message)
-        embed.add_field(name="Per", value=per)
-        embed.add_field(name="Amount", value=amount)
+
+        embed.set_footer(text=f"Requested by {ctx.author}")
+
         embed.add_field(
             name="Enabled", value=str(await self.config.guild(guild).enabled())
         )
-        scope_em = discord.Embed(title="Scope", color=await ctx.embed_color())
-        scope = await self.config.guild(guild).scope()
-        guild_scope: bool = scope["guild"]
-        if guild_scope:
-            scope_em.description = "Guild"
-        else:
-            category_scope: list[int] = scope["category"]
-            channel_scope: list[int] = scope["channel"]
-            scope_em.description = (
-                ", ".join(
-                    [str(guild.get_channel(cat).mention) for cat in category_scope]
-                )
-                + "\n"
-                + ", ".join(
-                    [str(guild.get_channel(chan).mention) for chan in channel_scope]
-                )
-            )
-        embeds = [embed, scope_em]
-        await ctx.send(embeds=embeds)
+        embed.add_field(
+            name="Staff Role",
+            value=", ".join(str(f"<@&{role}>") for role in staff_role) if staff_role else "None"
+        )
+        embed.add_field(
+            name="Muted Role", value=f"<@&{muted_role}>" if muted_role else "Not set"
+        )
+
+        embed.add_field(name="Action", value=action)
+        embed.add_field(name="Amount", value=amount)
+        embed.add_field(name="Per", value=per)
+
+        embed.add_field(
+            name="Ignored Users",
+            value=(", ".join(str(f"<@!{user}>") for user in ignored_users) if ignored_users else "None")
+        )
+        embed.add_field(
+            name="Ignored Roles",
+            value=(", ".join(str(f"<@&{role}>") for role in ignored_roles) if ignored_roles else "None")
+        )
+        embed.add_field(
+            name="Ignored Channels",
+            value=(", ".join(str(f"<#{channel}>") for channel in ignored_channels) if ignored_channels else "None")
+        )
+
+        embed.add_field(name="Message", value=message, inline=False)
+
+        await ctx.send(embed=embed)
 
     @dps.command(name="per")
     async def per(self, ctx: commands.Context, *, time: TimedeltaConverter) -> None:
@@ -644,6 +645,8 @@ class DontPingStaff(commands.Cog):
                 if role.id in staff_role:
                     if self.config_cache[guild.id]["amount"] == 1:
                         if action is None:
+                            if mes:
+                                await message.reply(mes)
                             return
                         return await self.take_action(action, message)
                     if author.id not in self.cache:

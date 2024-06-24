@@ -644,7 +644,7 @@ class DontPingStaff(commands.Cog):
             for role in member.roles:
                 if role.id in staff_role:
                     if self.config_cache[guild.id]["amount"] == 1:
-                        if action is None:
+                        if action is None or "none":
                             if mes:
                                 await message.reply(mes)
                             return

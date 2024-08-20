@@ -35,7 +35,7 @@ from .converters import PrefixConverter
 class Prefix(commands.Cog):
     """Prefix management."""
 
-    __version__ = "1.0.4"
+    __version__ = "1.0.5"
 
     def format_help_for_context(self, ctx):
         pre_processed = super().format_help_for_context(ctx)

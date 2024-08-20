@@ -44,4 +44,8 @@ class PrefixConverter(commands.Converter):
             raise commands.BadArgument(
                 f"Prefixes cannot be below {MINIMUM_PREFIX_LENGTH} in length."
             )
+        if argument.startswith("/"):
+            raise commands.BadArgument(
+                "Prefixes cannot start with a slash (`/`) because it conflicts with Discord's slash commands."
+            )
         return argument

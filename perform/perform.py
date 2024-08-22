@@ -158,7 +158,7 @@ class Perform(commands.Cog):
         self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.8.3"
+    __version__ = "5.8.4"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -550,11 +550,11 @@ class Perform(commands.Cog):
         )
 
     @commands.cooldown(1, 10, commands.BucketType.user)
-    @commands.command(name="plead", aliases=["ask"])
+    @commands.command(name="plead")
     @commands.guild_only()
     async def plead(self, ctx: commands.Context, user: discord.Member):
         """
-        Asks a user!
+        Plead to a user!
         """
         embed = await kawaiiembed(self, ctx, "is pleading", "ask", user)
         if not isinstance(embed, discord.Embed):

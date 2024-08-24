@@ -158,7 +158,7 @@ class Perform(commands.Cog):
         self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.8.4"
+    __version__ = "5.8.5"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -953,7 +953,7 @@ class Perform(commands.Cog):
         await self.config.user(ctx.author).stare.set(used + 1)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
-    @commands.command(aliases=["welcome"])
+    @commands.command()
     @commands.guild_only()
     async def wave(self, ctx: commands.Context, user: discord.Member):
         """

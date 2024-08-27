@@ -2,6 +2,7 @@ import datetime
 import random
 import re
 import string
+from typing import List
 
 import discord
 from redbot.core import commands
@@ -45,7 +46,7 @@ class TimeConverter(commands.Converter):
         return seconds or None
 
 
-async def is_manager(ctx) -> bool:
+async def is_manager(self, ctx: commands.Context) -> bool:
     if not ctx.guild:
         return False
     if await ctx.bot.is_owner(ctx.author):
@@ -56,9 +57,10 @@ async def is_manager(ctx) -> bool:
     ):
         return True
     else:
-        cog = ctx.bot.get_cog("Acromania")
-        manager = await cog.config.guild(ctx.guild).manager()
-        return manager in [r.id for r in ctx.author.roles] if manager else False
+        manager: List[discord.Role] = await self.config.guild(ctx.guild).manager()
+        if not manager:
+            return False
+        return any(role.id in manager for role in ctx.author.roles)
 
 
 async def generate_acronym() -> str:

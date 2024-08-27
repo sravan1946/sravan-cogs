@@ -33,7 +33,7 @@ class Acromania(commands.Cog):
     """
 
     __author__ = ["sravan"]
-    __version__ = "1.2.0"
+    __version__ = "1.3.0"
 
     def __init__(self, bot: Red) -> None:
         self.bot = bot
@@ -161,6 +161,7 @@ class Acromania(commands.Cog):
             color=await ctx.embed_color(),
             description=f"**Guessing Time**: {guessing_time}s\n**Voting Time**: {voting_time}s",
         )
+        em.add_field(name="Manager Roles", value=", ".join(manager) or "None")
         await ctx.send(embed=em)
 
     @acromania.command()
@@ -172,7 +173,7 @@ class Acromania(commands.Cog):
 
         This initiates the acromania game by throwing a message with an acronym, such as "E.P.R.R". Users will then be prompted to form a sentence using these letters.
         """
-        if not await is_manager(ctx):
+        if not await is_manager(self, ctx):
             return await ctx.send("You are not allowed to start an acromania game.")
         acronym = await generate_acronym()
         guessing_time: int = await self.config.guild(ctx.guild).guessing_time()

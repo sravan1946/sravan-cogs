@@ -1,7 +1,7 @@
 import random
 import urllib.parse
 from io import BytesIO
-from typing import List, Literal, Optional, Union
+from typing import Literal, Optional, Union
 
 import aiohttp
 import discord

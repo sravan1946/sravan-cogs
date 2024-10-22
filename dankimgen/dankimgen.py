@@ -25,7 +25,7 @@ class DankImgen(commands.Cog):
     DankImgen commands for Red.
     """
 
-    __version__ = "1.0.0"
+    __version__ = "1.0.1"
     __author__ = ["sravan", "flare"]
 
     def __init__(self, bot: Red) -> None:

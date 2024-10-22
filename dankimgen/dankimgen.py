@@ -16,10 +16,7 @@ RequestType = Literal["discord_deleted_user", "owner", "user", "user_strict"]
 
 async def tokencheck(ctx: commands.Context) -> bool:
     token = await ctx.bot.get_shared_api_tokens("imgen")
-    if token.get("token") is None:
-        await ctx.send("The Imgen API token has not been set.")
-        return False
-    return True
+    return token.get("token") is not None
 
 
 # thanks to flare for the base dankmemer cog

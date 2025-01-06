@@ -478,8 +478,8 @@ class Perform(commands.Cog):
         Punch a user!
         """
         embed = await kawaiiembed(self, ctx, "just punched", "punch", user)
-        if embed is False:
-            return await ctx.send("api is down")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
         target = await self.config.custom("Target", ctx.author.id, user.id).punch_r()
         used = await self.config.user(ctx.author).punch_s()
         await add_footer(

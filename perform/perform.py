@@ -944,7 +944,7 @@ class Perform(commands.Cog):
         """
         Stare someone!
         """
-        embed = await kawaiiembed(self, ctx, "is stareing!", "stare")
+        embed = await kawaiiembed(self, ctx, "is staring!", "stare")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
         used = await self.config.user(ctx.author).stare()

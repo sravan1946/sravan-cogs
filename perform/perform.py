@@ -158,7 +158,7 @@ class Perform(commands.Cog):
         self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.8.6"
+    __version__ = "5.8.7"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """

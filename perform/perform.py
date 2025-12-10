@@ -133,6 +133,12 @@ class Perform(commands.Cog):
             "stare": 0,
             "wave_s": 0,
             "nut_s": 0,
+            "fight_s": 0,
+            "boop_s": 0,
+            "wink_s": 0,
+            "sip": 0,
+            "stomp_s": 0,
+            "puke": 0,
         }
         default_target = {
             "cuddle_r": 0,
@@ -156,6 +162,10 @@ class Perform(commands.Cog):
             "protect_r": 0,
             "wave_r": 0,
             "nut_r": 0,
+            "fight_r": 0,
+            "boop_r": 0,
+            "wink_r": 0,
+            "stomp_r": 0,
         }
         self.config.register_global(**default_global)
         self.config.register_user(**default_member)
@@ -166,7 +176,7 @@ class Perform(commands.Cog):
         self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.8.7"
+    __version__ = "5.8.8"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -498,6 +508,108 @@ class Perform(commands.Cog):
         await self.config.custom("Target", ctx.author.id, user.id).punch_r.set(
             target + 1
         )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="fight")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def fight(self, ctx: commands.Context, user: discord.Member):
+        embed = await kawaiiembed(self, ctx, "just fought", "fight", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).fight_r()
+        used = await self.config.user(ctx.author).fight_s()
+        await add_footer(
+            self, ctx, embed, used, "fights", target=target, word2="fought", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).fight_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).fight_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="boop")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def boop(self, ctx: commands.Context, user: discord.Member):
+        embed = await kawaiiembed(self, ctx, "just booped", "boop", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).boop_r()
+        used = await self.config.user(ctx.author).boop_s()
+        await add_footer(
+            self, ctx, embed, used, "boops", target=target, word2="booped", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).boop_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).boop_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="wink")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def wink(self, ctx: commands.Context, user: discord.Member):
+        embed = await kawaiiembed(self, ctx, "just winked", "wink", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).wink_r()
+        used = await self.config.user(ctx.author).wink_s()
+        await add_footer(
+            self, ctx, embed, used, "winks", target=target, word2="winked", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).wink_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).wink_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="sip")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def sip(self, ctx: commands.Context):
+        embed = await kawaiiembed(self, ctx, "is sipping!", "sip")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).sip()
+        await add_footer(self, ctx, embed, used, "sips")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).sip.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="stomp")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def stomp(self, ctx: commands.Context, user: discord.Member):
+        embed = await kawaiiembed(self, ctx, "just stomped", "stomp", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).stomp_r()
+        used = await self.config.user(ctx.author).stomp_s()
+        await add_footer(
+            self, ctx, embed, used, "stomps", target=target, word2="stomped", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).stomp_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).stomp_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="puke")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def puke(self, ctx: commands.Context):
+        embed = await kawaiiembed(self, ctx, "is puking!", "puke")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).puke()
+        await add_footer(self, ctx, embed, used, "pukes")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).puke.set(used + 1)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="confuse", aliases=["confused"])

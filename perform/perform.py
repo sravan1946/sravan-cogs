@@ -85,6 +85,18 @@ class Perform(commands.Cog):
                 "https://c.tenor.com/NpMUvPFLwCEAAAAC/ow-balls-kick.gif",
                 "https://c.tenor.com/pbyIf8fSIJsAAAAC/kick-balls-kick-in-the-balls.gif",
             ],
+            "bully": [
+                "https://c.tenor.com/1e120JMrQoYAAAAj/bubu-dudu-sseeyall.gif",
+                "https://c.tenor.com/AgLRHh_JIPoAAAAd/bully-maguire-cry.gif",
+                "https://c.tenor.com/kxmhnMXKaRkAAAAC/meanie-cat-cat-meanie.gif",
+                "https://c.tenor.com/Yv3P2LUfeLsAAAAC/nelson-simpsons.gif",
+                "https://c.tenor.com/T_dGBOUNVVMAAAAj/peach-goma-peach-and-goma.gif",
+                "https://c.tenor.com/zAbPcvcMGGwAAAAd/bully-surprise.gif",
+                "https://c.tenor.com/dRt_TK4slXAAAAAC/balls-293.gif",
+                "https://c.tenor.com/nFHxwVUqNZYAAAAC/taiga-toradora.gif",
+                "https://c.tenor.com/6sOSSkpI2OQAAAAd/pig-smack.gif",
+                "https://c.tenor.com/HuIASYb4WO8AAAAi/peach-goma-peach-and-goma.gif",
+            ],
             "footer": True,
         }
         default_member = {
@@ -166,6 +178,7 @@ class Perform(commands.Cog):
             "uwu": 0,
             "wasted_s": 0,
             "wiggle": 0,
+            "bully_s": 0,
         }
         default_target = {
             "cuddle_r": 0,
@@ -201,6 +214,7 @@ class Perform(commands.Cog):
             "purr_r": 0,
             "spin_r": 0,
             "wasted_r": 0,
+            "bully_r": 0,
         }
         self.config.register_global(**default_global)
         self.config.register_user(**default_member)
@@ -1182,6 +1196,43 @@ class Perform(commands.Cog):
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).nut_s.set(used + 1)
         await self.config.custom("Target", ctx.author.id, user.id).nut_r.set(target + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="bully")
+    @commands.bot_has_permissions(embed_links=True)
+    async def bully(self, ctx: commands.Context, user: discord.Member):
+        """
+        Bully a user!
+        """
+
+        images = await self.config.bully()
+
+        mn = len(images)
+        i = randint(0, mn - 1)
+
+        embed = discord.Embed(
+            colour=discord.Colour.random(),
+            description=f"**{ctx.author.mention}** bullied {f'**{str(user.mention)}**' if user else 'themselves'}!",
+        )
+        embed.set_author(
+            name=self.bot.user.display_name, icon_url=self.bot.user.display_avatar
+        )
+        embed.set_image(url=images[i])
+        target = await self.config.custom("Target", ctx.author.id, user.id).bully_r()
+        used = await self.config.user(ctx.author).bully_s()
+        await add_footer(
+            self,
+            ctx,
+            embed,
+            used,
+            "bullies",
+            target=target,
+            word2="bullied",
+            user=user,
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).bully_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).bully_r.set(target + 1)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="ask")

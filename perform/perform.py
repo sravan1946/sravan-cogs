@@ -208,7 +208,7 @@ class Perform(commands.Cog):
         self.config.register_custom("Target", **default_target)
         self.cache = {}
 
-        self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
+        self.COMMANDS = [i[:-2] for i in default_target if i.endswith("_r")]
 
     __author__ = ["Onii-chan", "sravan"]
     __version__ = "5.8.8"

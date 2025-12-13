@@ -1,4 +1,5 @@
 import contextlib
+import re
 from typing import Optional, Union
 
 import aiohttp
@@ -142,10 +143,14 @@ async def print_it(
     retried: bool = False,
 ):
     hook = await get_hook(self, ctx)
+    username = ctx.message.author.display_name
+    username = re.sub("discord", "diskord", username, flags=re.IGNORECASE)
+    username = re.sub("clyde", "clyd3", username, flags=re.IGNORECASE)
+
     try:
         if user:
             await hook.send(
-                username=ctx.message.author.display_name,
+                username=username,
                 avatar_url=ctx.message.author.display_avatar,
                 embed=embed,
                 content=user.mention,
@@ -157,7 +162,7 @@ async def print_it(
             )
         else:
             await hook.send(
-                username=ctx.message.author.display_name,
+                username=username,
                 avatar_url=ctx.message.author.display_avatar,
                 embed=embed,
                 thread=(

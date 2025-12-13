@@ -514,6 +514,9 @@ class Perform(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def fight(self, ctx: commands.Context, user: discord.Member):
+        """
+        Fight a user!
+        """
         embed = await kawaiiembed(self, ctx, "just fought", "fight", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -533,6 +536,9 @@ class Perform(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def boop(self, ctx: commands.Context, user: discord.Member):
+        """
+        Boop a user!
+        """
         embed = await kawaiiembed(self, ctx, "just booped", "boop", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -552,6 +558,9 @@ class Perform(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def wink(self, ctx: commands.Context, user: discord.Member):
+        """
+        Wink at a user!
+        """
         embed = await kawaiiembed(self, ctx, "just winked", "wink", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -571,6 +580,9 @@ class Perform(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def sip(self, ctx: commands.Context):
+        """
+        Sip on a user!
+        """
         embed = await kawaiiembed(self, ctx, "is sipping!", "sip")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -584,6 +596,9 @@ class Perform(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def stomp(self, ctx: commands.Context, user: discord.Member):
+        """
+        Stomp on a user!
+        """
         embed = await kawaiiembed(self, ctx, "just stomped", "stomp", user)
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)
@@ -603,6 +618,9 @@ class Perform(commands.Cog):
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def puke(self, ctx: commands.Context):
+        """
+        Act puking!
+        """
         embed = await kawaiiembed(self, ctx, "is puking!", "puke")
         if not isinstance(embed, discord.Embed):
             return await ctx.send(embed)

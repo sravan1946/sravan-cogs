@@ -39,17 +39,25 @@ class Perform(commands.Cog):
         )
         default_global = {
             "feed": [
-                "https://media1.tenor.com/images/93c4833dbcfd5be9401afbda220066ee/tenor.gif?itemid=11223742",
-                "https://media1.tenor.com/images/33cfd292d4ef5e2dc533ff73a102c2e6/tenor.gif?itemid=12165913",
-                "https://media1.tenor.com/images/72268391ffde3cd976a456ee2a033f46/tenor.gif?itemid=7589062",
-                "https://media1.tenor.com/images/4b48975ec500f8326c5db6b178a91a3a/tenor.gif?itemid=12593977",
-                "https://media1.tenor.com/images/187ff5bc3a5628b6906935232898c200/tenor.gif?itemid=9340097",
-                "https://media1.tenor.com/images/15e7d9e1eb0aad2852fabda1210aee95/tenor.gif?itemid=12005286",
-                "https://media1.tenor.com/images/d08d0825019c321f21293c35df8ed6a9/tenor.gif?itemid=9032297",
-                "https://media1.tenor.com/images/571da4da1ad526afe744423f7581a452/tenor.gif?itemid=11658244",
-                "https://media1.tenor.com/images/6bde17caa5743a22686e5f7b6e3e23b4/tenor.gif?itemid=13726430",
-                "https://media1.tenor.com/images/fd3616d34ade61e1ac5cd0975c25a917/tenor.gif?itemid=13653906",
-                "https://imgur.com/v7jsPrv",
+                "https://c.tenor.com/ElNeJpOxlbwAAAAd/cat-cute.gif",
+                "https://c.tenor.com/bLYH7iHAwVMAAAAd/food-eat.gif",
+                "https://c.tenor.com/pK1b4j6p48oAAAAd/feeding-viralhog.gif",
+                "https://c.tenor.com/6ug-53SkT58AAAAd/peach-and-goma-peach-loves-goma.gif",
+                "https://c.tenor.com/3NUf0oM6g6YAAAAd/couplegoals-peachmad.gif",
+                "https://c.tenor.com/mRzd9so9oXYAAAAd/yaomei-kowloon.gif",
+                "https://c.tenor.com/sydLlIaisUYAAAAj/tkthao219-bunny.gif",
+                "https://media.tenor.com/V_hsuJ1Tfl8AAAAj/bubu-dudu-sseeyall.gif",
+                "https://media.tenor.com/k4ErRWys-BYAAAAj/love-teddy.gif",
+                "https://c.tenor.com/CHTk5L8ls8cAAAAd/eat-food.gif",
+                "https://c.tenor.com/AvmJQd6xjLMAAAAd/kasumi-anime.gif",
+                "https://c.tenor.com/chcVVr4RMDAAAAAd/sumi-rent-a-girlfriemd.gif",
+                "https://c.tenor.com/DAIktxe14-sAAAAd/can-a-boy-girl-friendship-survive-danjo.gif",
+                "https://c.tenor.com/W88fpJ7X9D4AAAAd/rotte-no-omocha-anime-girl-eating.gif",
+                "https://c.tenor.com/G8SdAGQ7EtsAAAAd/anime-eating.gif",
+                "https://c.tenor.com/NRCCvND3mWgAAAAd/dandidave-anime.gif",
+                "https://c.tenor.com/lRhU7bsRgYYAAAAd/acchi-kocchi-eats.gif",
+                "https://c.tenor.com/h5mRD9EQU6QAAAAd/anime-feeding.gif",
+                "https://c.tenor.com/h2NRWgapCUEAAAAd/100-girlfriends-hakari-hanazono.gif",
             ],
             "spank": [
                 "https://media4.giphy.com/media/pRotk2UQTsozm/giphy.gif",
@@ -76,6 +84,18 @@ class Perform(commands.Cog):
                 "https://c.tenor.com/6qtGbz6_894AAAAC/kick.gif",
                 "https://c.tenor.com/NpMUvPFLwCEAAAAC/ow-balls-kick.gif",
                 "https://c.tenor.com/pbyIf8fSIJsAAAAC/kick-balls-kick-in-the-balls.gif",
+            ],
+            "bully": [
+                "https://c.tenor.com/1e120JMrQoYAAAAj/bubu-dudu-sseeyall.gif",
+                "https://c.tenor.com/AgLRHh_JIPoAAAAd/bully-maguire-cry.gif",
+                "https://c.tenor.com/kxmhnMXKaRkAAAAC/meanie-cat-cat-meanie.gif",
+                "https://c.tenor.com/Yv3P2LUfeLsAAAAC/nelson-simpsons.gif",
+                "https://c.tenor.com/T_dGBOUNVVMAAAAj/peach-goma-peach-and-goma.gif",
+                "https://c.tenor.com/zAbPcvcMGGwAAAAd/bully-surprise.gif",
+                "https://c.tenor.com/dRt_TK4slXAAAAAC/balls-293.gif",
+                "https://c.tenor.com/nFHxwVUqNZYAAAAC/taiga-toradora.gif",
+                "https://c.tenor.com/6sOSSkpI2OQAAAAd/pig-smack.gif",
+                "https://c.tenor.com/HuIASYb4WO8AAAAi/peach-goma-peach-and-goma.gif",
             ],
             "footer": True,
         }
@@ -125,6 +145,40 @@ class Perform(commands.Cog):
             "stare": 0,
             "wave_s": 0,
             "nut_s": 0,
+            "fight_s": 0,
+            "boop_s": 0,
+            "wink_s": 0,
+            "sip": 0,
+            "stomp_s": 0,
+            "puke": 0,
+            "ask_s": 0,
+            "baka_s": 0,
+            "destroy_s": 0,
+            "nom": 0,
+            "salute_s": 0,
+            "shoot_s": 0,
+            "alarm": 0,
+            "coffee": 0,
+            "blyat": 0,
+            "die": 0,
+            "disappear": 0,
+            "error": 0,
+            "money": 0,
+            "ok": 0,
+            "party": 0,
+            "purr_s": 0,
+            "pusheen": 0,
+            "shocked": 0,
+            "shame": 0,
+            "sit": 0,
+            "sleepy": 0,
+            "smoke": 0,
+            "spin_s": 0,
+            "triggered": 0,
+            "uwu": 0,
+            "wasted_s": 0,
+            "wiggle": 0,
+            "bully_s": 0,
         }
         default_target = {
             "cuddle_r": 0,
@@ -148,6 +202,19 @@ class Perform(commands.Cog):
             "protect_r": 0,
             "wave_r": 0,
             "nut_r": 0,
+            "fight_r": 0,
+            "boop_r": 0,
+            "wink_r": 0,
+            "stomp_r": 0,
+            "ask_r": 0,
+            "baka_r": 0,
+            "destroy_r": 0,
+            "salute_r": 0,
+            "shoot_r": 0,
+            "purr_r": 0,
+            "spin_r": 0,
+            "wasted_r": 0,
+            "bully_r": 0,
         }
         self.config.register_global(**default_global)
         self.config.register_user(**default_member)
@@ -155,10 +222,10 @@ class Perform(commands.Cog):
         self.config.register_custom("Target", **default_target)
         self.cache = {}
 
-        self.COMMANDS = [i.rstrip("_r") for i in default_target if i.endswith("_r")]
+        self.COMMANDS = [i[:-2] for i in default_target if i.endswith("_r")]
 
     __author__ = ["Onii-chan", "sravan"]
-    __version__ = "5.8.7"
+    __version__ = "5.8.8"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         """
@@ -490,6 +557,126 @@ class Perform(commands.Cog):
         await self.config.custom("Target", ctx.author.id, user.id).punch_r.set(
             target + 1
         )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="fight")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def fight(self, ctx: commands.Context, user: discord.Member):
+        """
+        Fight a user!
+        """
+        embed = await kawaiiembed(self, ctx, "just fought", "fight", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).fight_r()
+        used = await self.config.user(ctx.author).fight_s()
+        await add_footer(
+            self, ctx, embed, used, "fights", target=target, word2="fought", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).fight_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).fight_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="boop")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def boop(self, ctx: commands.Context, user: discord.Member):
+        """
+        Boop a user!
+        """
+        embed = await kawaiiembed(self, ctx, "just booped", "boop", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).boop_r()
+        used = await self.config.user(ctx.author).boop_s()
+        await add_footer(
+            self, ctx, embed, used, "boops", target=target, word2="booped", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).boop_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).boop_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="wink")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def wink(self, ctx: commands.Context, user: discord.Member):
+        """
+        Wink at a user!
+        """
+        embed = await kawaiiembed(self, ctx, "just winked", "wink", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).wink_r()
+        used = await self.config.user(ctx.author).wink_s()
+        await add_footer(
+            self, ctx, embed, used, "winks", target=target, word2="winked", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).wink_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).wink_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="sip")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def sip(self, ctx: commands.Context):
+        """
+        Sip on a user!
+        """
+        embed = await kawaiiembed(self, ctx, "is sipping!", "sip")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).sip()
+        await add_footer(self, ctx, embed, used, "sips")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).sip.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="stomp")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def stomp(self, ctx: commands.Context, user: discord.Member):
+        """
+        Stomp on a user!
+        """
+        embed = await kawaiiembed(self, ctx, "just stomped", "stomp", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).stomp_r()
+        used = await self.config.user(ctx.author).stomp_s()
+        await add_footer(
+            self, ctx, embed, used, "stomps", target=target, word2="stomped", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).stomp_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).stomp_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="puke")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def puke(self, ctx: commands.Context):
+        """
+        Act puking!
+        """
+        embed = await kawaiiembed(self, ctx, "is puking!", "puke")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).puke()
+        await add_footer(self, ctx, embed, used, "pukes")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).puke.set(used + 1)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="confuse", aliases=["confused"])
@@ -1009,6 +1196,491 @@ class Perform(commands.Cog):
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).nut_s.set(used + 1)
         await self.config.custom("Target", ctx.author.id, user.id).nut_r.set(target + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="bully")
+    @commands.bot_has_permissions(embed_links=True)
+    async def bully(self, ctx: commands.Context, user: discord.Member):
+        """
+        Bully a user!
+        """
+
+        images = await self.config.bully()
+
+        mn = len(images)
+        i = randint(0, mn - 1)
+
+        embed = discord.Embed(
+            colour=discord.Colour.random(),
+            description=f"**{ctx.author.mention}** bullied {f'**{str(user.mention)}**' if user else 'themselves'}!",
+        )
+        embed.set_author(
+            name=self.bot.user.display_name, icon_url=self.bot.user.display_avatar
+        )
+        embed.set_image(url=images[i])
+        target = await self.config.custom("Target", ctx.author.id, user.id).bully_r()
+        used = await self.config.user(ctx.author).bully_s()
+        await add_footer(
+            self,
+            ctx,
+            embed,
+            used,
+            "bullies",
+            target=target,
+            word2="bullied",
+            user=user,
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).bully_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).bully_r.set(target + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="ask")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def ask(self, ctx: commands.Context, user: discord.Member):
+        """
+        Ask a user!
+        """
+        embed = await kawaiiembed(self, ctx, "just asked", "ask", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).ask_r()
+        used = await self.config.user(ctx.author).ask_s()
+        await add_footer(
+            self, ctx, embed, used, "asks", target=target, word2="asked", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).ask_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).ask_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="baka")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def baka(self, ctx: commands.Context, user: discord.Member):
+        """
+        Call a user baka!
+        """
+        embed = await kawaiiembed(self, ctx, "just called baka", "baka", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).baka_r()
+        used = await self.config.user(ctx.author).baka_s()
+        await add_footer(
+            self, ctx, embed, used, "bakas", target=target, word2="called baka", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).baka_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).baka_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="destroy")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def destroy(self, ctx: commands.Context, user: discord.Member):
+        """
+        Destroy a user!
+        """
+        embed = await kawaiiembed(self, ctx, "just destroyed", "destroy", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).destroy_r()
+        used = await self.config.user(ctx.author).destroy_s()
+        await add_footer(
+            self, ctx, embed, used, "destroys", target=target, word2="destroyed", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).destroy_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).destroy_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="nom")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def nom(self, ctx: commands.Context):
+        """
+        Nom!
+        """
+        embed = await kawaiiembed(self, ctx, "is nomming!", "nom")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).nom()
+        await add_footer(self, ctx, embed, used, "noms")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).nom.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="salute")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def salute(self, ctx: commands.Context, user: discord.Member):
+        """
+        Salute a user!
+        """
+        embed = await kawaiiembed(self, ctx, "just saluted", "salute", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).salute_r()
+        used = await self.config.user(ctx.author).salute_s()
+        await add_footer(
+            self, ctx, embed, used, "salutes", target=target, word2="saluted", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).salute_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).salute_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="shoot")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def shoot(self, ctx: commands.Context, user: discord.Member):
+        """
+        Shoot a user!
+        """
+        embed = await kawaiiembed(self, ctx, "just shot", "shoot", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).shoot_r()
+        used = await self.config.user(ctx.author).shoot_s()
+        await add_footer(
+            self, ctx, embed, used, "shoots", target=target, word2="shot", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).shoot_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).shoot_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="alarm")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def alarm(self, ctx: commands.Context):
+        """
+        Act alarm!
+        """
+        embed = await kawaiiembed(self, ctx, "is alarming!", "alarm")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).alarm()
+        await add_footer(self, ctx, embed, used, "alarms")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).alarm.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="coffee")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def coffee(self, ctx: commands.Context):
+        """
+        Drink coffee!
+        """
+        embed = await kawaiiembed(self, ctx, "is drinking coffee!", "coffee")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).coffee()
+        await add_footer(self, ctx, embed, used, "coffees")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).coffee.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="die")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def die(self, ctx: commands.Context):
+        """
+        Act die!
+        """
+        embed = await kawaiiembed(self, ctx, "just died!", "die")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).die()
+        await add_footer(self, ctx, embed, used, "dies")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).die.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="disappear")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def disappear(self, ctx: commands.Context):
+        """
+        Act disappear!
+        """
+        embed = await kawaiiembed(self, ctx, "disappeared!", "disappear")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).disappear()
+        await add_footer(self, ctx, embed, used, "disappears")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).disappear.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="error")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def error(self, ctx: commands.Context):
+        """
+        Act error!
+        """
+        embed = await kawaiiembed(self, ctx, "errored!", "error")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).error()
+        await add_footer(self, ctx, embed, used, "errors")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).error.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="money")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def money(self, ctx: commands.Context):
+        """
+        Act money!
+        """
+        embed = await kawaiiembed(self, ctx, "is rich!", "money")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).money()
+        await add_footer(self, ctx, embed, used, "moneys")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).money.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="ok")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def ok(self, ctx: commands.Context):
+        """
+        Act ok!
+        """
+        embed = await kawaiiembed(self, ctx, "said ok!", "ok")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).ok()
+        await add_footer(self, ctx, embed, used, "oks")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).ok.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="party")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def party(self, ctx: commands.Context):
+        """
+        Act party!
+        """
+        embed = await kawaiiembed(self, ctx, "is partying!", "party")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).party()
+        await add_footer(self, ctx, embed, used, "parties")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).party.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="purr")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def purr(self, ctx: commands.Context, user: discord.Member):
+        """
+        Purr a user!
+        """
+        embed = await kawaiiembed(self, ctx, "is purring!", "purr", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).purr_r()
+        used = await self.config.user(ctx.author).purr_s()
+        await add_footer(
+            self, ctx, embed, used, "purrs", target=target, word2="purred", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).purr_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).purr_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="pusheen")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def pusheen(self, ctx: commands.Context):
+        """
+        Act pusheen!
+        """
+        embed = await kawaiiembed(self, ctx, "is pusheen!", "pusheen")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).pusheen()
+        await add_footer(self, ctx, embed, used, "pusheens")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).pusheen.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="shocked")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def shocked(self, ctx: commands.Context):
+        """
+        Act shocked!
+        """
+        embed = await kawaiiembed(self, ctx, "is shocked!", "shocked")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).shocked()
+        await add_footer(self, ctx, embed, used, "shocks")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).shocked.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="shame")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def shame(self, ctx: commands.Context):
+        """
+        Act shame!
+        """
+        embed = await kawaiiembed(self, ctx, "is ashamed!", "shame")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).shame()
+        await add_footer(self, ctx, embed, used, "shames")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).shame.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="sleepy")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def sleepy(self, ctx: commands.Context):
+        """
+        Act sleepy!
+        """
+        embed = await kawaiiembed(self, ctx, "is sleepy!", "sleepy")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).sleepy()
+        await add_footer(self, ctx, embed, used, "sleepies")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).sleepy.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="smoke")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def smoke(self, ctx: commands.Context):
+        """
+        Act smoke!
+        """
+        embed = await kawaiiembed(self, ctx, "is smoking!", "smoke")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).smoke()
+        await add_footer(self, ctx, embed, used, "smokes")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).smoke.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="spin")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def spin(self, ctx: commands.Context, user: discord.Member):
+        """
+        Spin a user!
+        """
+        embed = await kawaiiembed(self, ctx, "is spinning!", "spin", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).spin_r()
+        used = await self.config.user(ctx.author).spin_s()
+        await add_footer(
+            self, ctx, embed, used, "spins", target=target, word2="spinned", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).spin_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).spin_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="triggered")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def triggered(self, ctx: commands.Context):
+        """
+        Act triggered!
+        """
+        embed = await kawaiiembed(self, ctx, "is triggered!", "triggered")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).triggered()
+        await add_footer(self, ctx, embed, used, "triggereds")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).triggered.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="uwu")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def uwu(self, ctx: commands.Context):
+        """
+        Act uwu!
+        """
+        embed = await kawaiiembed(self, ctx, "is uwuing!", "uwu")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).uwu()
+        await add_footer(self, ctx, embed, used, "uwus")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).uwu.set(used + 1)
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="wasted")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def wasted(self, ctx: commands.Context, user: discord.Member):
+        """
+        Wasted a user!
+        """
+        embed = await kawaiiembed(self, ctx, "wasted", "wasted", user)
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        target = await self.config.custom("Target", ctx.author.id, user.id).wasted_r()
+        used = await self.config.user(ctx.author).wasted_s()
+        await add_footer(
+            self, ctx, embed, used, "wasteds", target=target, word2="wasted", user=user
+        )
+        await send_embed(self, ctx, embed, user)
+        await self.config.user(ctx.author).wasted_s.set(used + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).wasted_r.set(
+            target + 1
+        )
+
+    @commands.cooldown(1, 10, commands.BucketType.user)
+    @commands.command(name="wiggle")
+    @commands.bot_has_permissions(embed_links=True)
+    @commands.guild_only()
+    async def wiggle(self, ctx: commands.Context):
+        """
+        Act wiggle!
+        """
+        embed = await kawaiiembed(self, ctx, "is wiggling!", "wiggle")
+        if not isinstance(embed, discord.Embed):
+            return await ctx.send(embed)
+        used = await self.config.user(ctx.author).wiggle()
+        await add_footer(self, ctx, embed, used, "wiggles")
+        await send_embed(self, ctx, embed)
+        await self.config.user(ctx.author).wiggle.set(used + 1)
 
     @commands.is_owner()
     @commands.command()

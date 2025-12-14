@@ -1232,7 +1232,9 @@ class Perform(commands.Cog):
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).bully_s.set(used + 1)
-        await self.config.custom("Target", ctx.author.id, user.id).bully_r.set(target + 1)
+        await self.config.custom("Target", ctx.author.id, user.id).bully_r.set(
+            target + 1
+        )
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="ask")
@@ -1252,9 +1254,7 @@ class Perform(commands.Cog):
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).ask_s.set(used + 1)
-        await self.config.custom("Target", ctx.author.id, user.id).ask_r.set(
-            target + 1
-        )
+        await self.config.custom("Target", ctx.author.id, user.id).ask_r.set(target + 1)
 
     @commands.cooldown(1, 10, commands.BucketType.user)
     @commands.command(name="baka")
@@ -1270,7 +1270,14 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).baka_r()
         used = await self.config.user(ctx.author).baka_s()
         await add_footer(
-            self, ctx, embed, used, "bakas", target=target, word2="called baka", user=user
+            self,
+            ctx,
+            embed,
+            used,
+            "bakas",
+            target=target,
+            word2="called baka",
+            user=user,
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).baka_s.set(used + 1)
@@ -1292,7 +1299,14 @@ class Perform(commands.Cog):
         target = await self.config.custom("Target", ctx.author.id, user.id).destroy_r()
         used = await self.config.user(ctx.author).destroy_s()
         await add_footer(
-            self, ctx, embed, used, "destroys", target=target, word2="destroyed", user=user
+            self,
+            ctx,
+            embed,
+            used,
+            "destroys",
+            target=target,
+            word2="destroyed",
+            user=user,
         )
         await send_embed(self, ctx, embed, user)
         await self.config.user(ctx.author).destroy_s.set(used + 1)

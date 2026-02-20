@@ -1705,14 +1705,12 @@ class Perform(commands.Cog):
         """
         embed = discord.Embed(
             title="How to set API for perform cog",
-            description=(
-                """
+            description=("""
                 1. Go to https://kawaii.red/\n
                 2. Login using your discord account\n
                 3. Click on dashboard and copy your token\n
                 4. Use `[p]set api perform api_key <token>`,
-            """
-            ),
+            """),
         )
         await ctx.send(embed=embed)
 

@@ -12,7 +12,9 @@ from tabulate import tabulate
 
 async def api_call(call_uri: str, returnObj: Optional[bool] = False):
     async with aiohttp.ClientSession() as session:
-        async with session.get(f"{call_uri}") as response:
+        async with session.get(
+            f"{call_uri}", headers={"accept-encoding": "gzip"}
+        ) as response:
             response = await response.json()
             if returnObj is False:
                 return response["response"]

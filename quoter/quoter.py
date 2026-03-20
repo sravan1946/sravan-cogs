@@ -63,9 +63,13 @@ class Quoter(commands.Cog):
                 if channel:
                     await ctx.send(f"Quotes are currently sent to {channel.mention}.")
                 else:
-                    await ctx.send("The quote channel no longer exists. Please set a new one using `[p]quoteset channel #channel`.")
+                    await ctx.send(
+                        "The quote channel no longer exists. Please set a new one using `[p]quoteset channel #channel`."
+                    )
             else:
-                await ctx.send("No quote channel set. Use `[p]quoteset channel #channel` to set one.")
+                await ctx.send(
+                    "No quote channel set. Use `[p]quoteset channel #channel` to set one."
+                )
                 return
 
     @commands.command(name="quote")
@@ -96,7 +100,9 @@ class Quoter(commands.Cog):
             )
             return
         if not isinstance(channel, discord.TextChannel):
-            await ctx.send("The configured quote channel is not a text channel. Please set a new one.")
+            await ctx.send(
+                "The configured quote channel is not a text channel. Please set a new one."
+            )
             return
 
         perms = channel.permissions_for(ctx.guild.me)

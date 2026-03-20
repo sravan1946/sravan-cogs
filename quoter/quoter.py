@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, Optional
 
 import discord
 from redbot.core import Config, commands
@@ -46,7 +46,7 @@ class Quoter(commands.Cog):
 
     @quoteset.command(name="channel")
     async def quoteset_channel(
-        self, ctx: commands.Context, channel: discord.TextChannel = None
+        self, ctx: commands.Context, channel: Optional[discord.TextChannel]
     ) -> None:
         """
         Set the channel where quotes will be sent.
@@ -76,12 +76,12 @@ class Quoter(commands.Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
     async def quote(
-        self, ctx: commands.Context, user: discord.Member = None, *, text: str = ""
+        self, ctx: commands.Context, user: Optional[discord.Member], *, text: str = ""
     ) -> None:
         """
         Send a quote to the configured channel.
 
-        Usage: `[p]quote [user] <text>`
+        Usage: `[p]quote [user] [text]`
 
         If `user` is not provided, the quote will be sent as a general quote.
         """

@@ -254,9 +254,7 @@ class QuoteView(discord.ui.View):
             except discord.HTTPException:
                 pass
             if self.autodelete_prompt:
-                asyncio.create_task(
-                    self._delete_prompt_after_delay(self.message)
-                )
+                asyncio.create_task(self._delete_prompt_after_delay(self.message))
         self.stop()
 
     @discord.ui.button(label="Cancel", style=discord.ButtonStyle.gray)
@@ -264,9 +262,7 @@ class QuoteView(discord.ui.View):
         self, interaction: discord.Interaction, button: discord.ui.Button
     ) -> None:
         await interaction.message.edit(content="Cancelled.", embed=None, view=None)
-        asyncio.create_task(
-            self._delete_prompt_after_delay(interaction.message)
-        )
+        asyncio.create_task(self._delete_prompt_after_delay(interaction.message))
         self.stop()
 
     @discord.ui.button(label="Send", style=discord.ButtonStyle.green)
@@ -299,7 +295,5 @@ class QuoteView(discord.ui.View):
             return
 
         await interaction.message.edit(content="Quote sent.", embed=None, view=None)
-        asyncio.create_task(
-            self._delete_prompt_after_delay(interaction.message)
-        )
+        asyncio.create_task(self._delete_prompt_after_delay(interaction.message))
         self.stop()

@@ -1,0 +1,21 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Cog-Creators/Red-DiscordBot/V3/develop/schema/red_cog.schema.json",
+    "name": "Quoter",
+    "short": "Send quote embeds with optional author",
+    "description": "Sends quote embeds to a configured guild channel. Use `quoteset` to set the destination channel and optionally enable auto-deletion for the interactive prompt; `quote` posts the quote and lets the user optionally pick an author.",
+    "end_user_data_statement": "This cog stores guild settings (quote channel and auto-delete preference) but does not persistently store any personal user data.",
+    "install_msg": "Thanks for installing! Run `[p]quoteset channel #channel` to configure where quotes are posted, then use `[p]quote <text>`.",
+    "author": [
+        "sravan"
+    ],
+    "required_cogs": {},
+    "requirements": [],
+    "tags": [
+        "quote",
+        "fun"
+    ],
+    "min_bot_version": "3.5.0",
+    "hidden": false,
+    "disabled": false,
+    "type": "COG"
+}

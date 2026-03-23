@@ -76,14 +76,15 @@ class Quoter(commands.Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
     async def quote(
-        self, ctx: commands.Context, user: Optional[discord.Member], *, text: str = ""
+        self, ctx: commands.Context, *, text: str = ""
     ) -> None:
         """
         Send a quote to the configured channel.
 
-        Usage: `[p]quote [user] [text]`
+        Usage: `[p]quote <text>`
 
-        If `user` is not provided, the quote will be sent as a general quote.
+        You will be prompted to optionally choose a user as the quote author.
+        If no user is selected, the quote author will be `Anonymous`.
         """
         channel_id = await self.config.guild(ctx.guild).channel()
 
@@ -117,21 +118,127 @@ class Quoter(commands.Cog):
             )
             return
 
-        color = await ctx.embed_color()
-        embed = discord.Embed(color=color)
+        if not text:
+            await ctx.send("Please provide the quote text.")
+            return
 
-        if user:
-            if not text:
-                await ctx.send("Please provide the quote text.")
-                return
-            embed.description = f'"{text}"'
-            embed.set_author(name=user.display_name, icon_url=user.display_avatar)
+        color = await ctx.embed_color()
+        view = QuoteView(
+            author_id=ctx.author.id,
+            quote_text=text,
+            quote_channel=channel,
+            color=color,
+        )
+        message = await ctx.send(embed=view.preview_embed, view=view)
+        view.message = message
+        await ctx.tick()
+
+
+class QuoteUserSelect(discord.ui.UserSelect):
+    """Optional user picker for the quote author."""
+
+    def __init__(self, view: "QuoteView"):
+        super().__init__(
+            placeholder="Select quote author (optional)",
+            min_values=0,
+            max_values=1,
+        )
+        self.view = view
+
+    async def callback(self, interaction: discord.Interaction) -> None:
+        self.view.selected_user = self.values[0] if self.values else None
+        self.view.update_preview_author()
+        await interaction.message.edit(embed=self.view.preview_embed)
+
+
+class QuoteView(discord.ui.View):
+    def __init__(
+        self,
+        *,
+        author_id: int,
+        quote_text: str,
+        quote_channel: discord.TextChannel,
+        color: discord.Color,
+        timeout: int = 60,
+    ):
+        super().__init__(timeout=timeout)
+        self.author_id = author_id
+        self.quote_text = quote_text
+        self.quote_channel = quote_channel
+        self.color = color
+
+        self.selected_user: Optional[discord.User] = None
+
+        # Message the user interacts with (filled in by the command).
+        self.message: Optional[discord.Message] = None
+
+        self.preview_embed = discord.Embed(color=self.color)
+        self.preview_embed.description = f'"{self.quote_text}"'
+        self.preview_embed.set_author(name="Anonymous")
+
+        self.user_select = QuoteUserSelect(self)
+        self.add_item(self.user_select)
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if interaction.user.id != self.author_id:
+            await interaction.response.send_message(
+                "This isn't your quote prompt.", ephemeral=True
+            )
+            return False
+        # We will only edit the original message in callbacks.
+        await interaction.response.defer()
+        return True
+
+    def update_preview_author(self) -> None:
+        if self.selected_user:
+            # `UserSelect` returns `discord.User` for both guild users and strangers.
+            self.preview_embed.set_author(
+                name=self.selected_user.display_name,
+                icon_url=self.selected_user.display_avatar,
+            )
         else:
-            if not text:
-                await ctx.send("Please provide the quote text.")
-                return
-            embed.description = f'"{text}"'
+            self.preview_embed.set_author(name="Anonymous")
+
+    async def on_timeout(self) -> None:
+        if self.message:
+            try:
+                await self.message.edit(view=None)
+            except discord.HTTPException:
+                pass
+        self.stop()
+
+    @discord.ui.button(label="Cancel", style=discord.ButtonStyle.gray)
+    async def cancel(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ) -> None:
+        await interaction.message.edit(content="Cancelled.", embed=None, view=None)
+        self.stop()
+
+    @discord.ui.button(label="Send", style=discord.ButtonStyle.green)
+    async def send(
+        self, interaction: discord.Interaction, button: discord.ui.Button
+    ) -> None:
+        embed = discord.Embed(color=self.color)
+        embed.description = f'"{self.quote_text}"'
+
+        if self.selected_user:
+            embed.set_author(
+                name=self.selected_user.display_name,
+                icon_url=self.selected_user.display_avatar,
+            )
+        else:
             embed.set_author(name="Anonymous")
 
-        await channel.send(embed=embed)
-        await ctx.tick()
+        try:
+            await self.quote_channel.send(embed=embed)
+        except discord.HTTPException:
+            await interaction.message.edit(
+                content="Failed to send the quote (missing permissions?).",
+                embed=None,
+                view=None,
+            )
+            self.stop()
+            return
+
+        await interaction.message.edit(content="Quote sent.", embed=None, view=None)
+        self.stop()

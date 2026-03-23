@@ -141,12 +141,12 @@ class QuoteUserSelect(discord.ui.UserSelect):
             min_values=0,
             max_values=1,
         )
-        self.view = view
+        self.quote_view = view
 
     async def callback(self, interaction: discord.Interaction) -> None:
-        self.view.selected_user = self.values[0] if self.values else None
-        self.view.update_preview_author()
-        await interaction.message.edit(embed=self.view.preview_embed)
+        self.quote_view.selected_user = self.values[0] if self.values else None
+        self.quote_view.update_preview_author()
+        await interaction.message.edit(embed=self.quote_view.preview_embed)
 
 
 class QuoteView(discord.ui.View):
@@ -190,9 +190,12 @@ class QuoteView(discord.ui.View):
     def update_preview_author(self) -> None:
         if self.selected_user:
             # `UserSelect` returns `discord.User` for both guild users and strangers.
+            icon_url = getattr(
+                getattr(self.selected_user, "display_avatar", None), "url", None
+            )
             self.preview_embed.set_author(
                 name=self.selected_user.display_name,
-                icon_url=self.selected_user.display_avatar,
+                icon_url=icon_url,
             )
         else:
             self.preview_embed.set_author(name="Anonymous")
@@ -220,9 +223,12 @@ class QuoteView(discord.ui.View):
         embed.description = f'"{self.quote_text}"'
 
         if self.selected_user:
+            icon_url = getattr(
+                getattr(self.selected_user, "display_avatar", None), "url", None
+            )
             embed.set_author(
                 name=self.selected_user.display_name,
-                icon_url=self.selected_user.display_avatar,
+                icon_url=icon_url,
             )
         else:
             embed.set_author(name="Anonymous")

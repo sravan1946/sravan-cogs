@@ -75,9 +75,7 @@ class Quoter(commands.Cog):
     @commands.command(name="quote")
     @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
-    async def quote(
-        self, ctx: commands.Context, *, text: str = ""
-    ) -> None:
+    async def quote(self, ctx: commands.Context, *, text: str = "") -> None:
         """
         Send a quote to the configured channel.
 

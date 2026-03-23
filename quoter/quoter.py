@@ -1,3 +1,4 @@
+import asyncio
 from typing import Literal, Optional
 
 import discord
@@ -21,6 +22,7 @@ class Quoter(commands.Cog):
         )
         default_guild = {
             "channel": None,
+            "autodelete": False,
         }
         self.config.register_guild(**default_guild)
 
@@ -72,6 +74,29 @@ class Quoter(commands.Cog):
                 )
                 return
 
+    @quoteset.command(name="autodelete")
+    async def quoteset_autodelete(
+        self, ctx: commands.Context, enabled: Optional[bool] = None
+    ) -> None:
+        """
+        Toggle auto-deletion for the `quote` command.
+
+        When enabled:
+        - The command message (the user's `[p]quote ...`) is deleted.
+        - After the user presses `Send` or `Cancel`, the prompt message is deleted after ~3 seconds.
+        """
+        if enabled is None:
+            current = await self.config.guild(ctx.guild).autodelete()
+            await ctx.send(
+                f"Auto-delete is currently {'enabled' if current else 'disabled'}."
+            )
+            return
+
+        await self.config.guild(ctx.guild).autodelete.set(enabled)
+        await ctx.send(
+            f"Auto-delete has been {'enabled' if enabled else 'disabled'} for quotes."
+        )
+
     @commands.command(name="quote")
     @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
@@ -120,15 +145,25 @@ class Quoter(commands.Cog):
             await ctx.send("Please provide the quote text.")
             return
 
+        autodelete = await self.config.guild(ctx.guild).autodelete()
+
         color = await ctx.embed_color()
         view = QuoteView(
             author_id=ctx.author.id,
             quote_text=text,
             quote_channel=channel,
             color=color,
+            autodelete_prompt=autodelete,
         )
         message = await ctx.send(embed=view.preview_embed, view=view)
         view.message = message
+
+        if autodelete:
+            try:
+                await ctx.message.delete()
+            except (discord.Forbidden, discord.NotFound):
+                pass
+
         await ctx.tick()
 
 
@@ -157,6 +192,7 @@ class QuoteView(discord.ui.View):
         quote_text: str,
         quote_channel: discord.TextChannel,
         color: discord.Color,
+        autodelete_prompt: bool = False,
         timeout: int = 60,
     ):
         super().__init__(timeout=timeout)
@@ -164,6 +200,7 @@ class QuoteView(discord.ui.View):
         self.quote_text = quote_text
         self.quote_channel = quote_channel
         self.color = color
+        self.autodelete_prompt = autodelete_prompt
 
         self.selected_user: Optional[discord.User] = None
 
@@ -176,6 +213,16 @@ class QuoteView(discord.ui.View):
 
         self.user_select = QuoteUserSelect(self)
         self.add_item(self.user_select)
+
+    async def _delete_prompt_after_delay(self, message: discord.Message) -> None:
+        """Delete the prompt message after a short delay (best-effort)."""
+        if not self.autodelete_prompt:
+            return
+        await asyncio.sleep(3)
+        try:
+            await message.delete()
+        except (discord.Forbidden, discord.NotFound):
+            pass
 
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
         if interaction.user.id != self.author_id:
@@ -206,6 +253,10 @@ class QuoteView(discord.ui.View):
                 await self.message.edit(view=None)
             except discord.HTTPException:
                 pass
+            if self.autodelete_prompt:
+                asyncio.create_task(
+                    self._delete_prompt_after_delay(self.message)
+                )
         self.stop()
 
     @discord.ui.button(label="Cancel", style=discord.ButtonStyle.gray)
@@ -213,6 +264,9 @@ class QuoteView(discord.ui.View):
         self, interaction: discord.Interaction, button: discord.ui.Button
     ) -> None:
         await interaction.message.edit(content="Cancelled.", embed=None, view=None)
+        asyncio.create_task(
+            self._delete_prompt_after_delay(interaction.message)
+        )
         self.stop()
 
     @discord.ui.button(label="Send", style=discord.ButtonStyle.green)
@@ -245,4 +299,7 @@ class QuoteView(discord.ui.View):
             return
 
         await interaction.message.edit(content="Quote sent.", embed=None, view=None)
+        asyncio.create_task(
+            self._delete_prompt_after_delay(interaction.message)
+        )
         self.stop()

@@ -23,11 +23,12 @@ class Quoter(commands.Cog):
         default_guild = {
             "channel": None,
             "autodelete": False,
+            "autothread": False,
         }
         self.config.register_guild(**default_guild)
 
     __author__ = ["sravan"]
-    __version__ = "1.0.0"
+    __version__ = "1.1.0"
 
     def format_help_for_context(self, ctx: commands.Context) -> str:
         pre_processed = super().format_help_for_context(ctx)
@@ -97,6 +98,28 @@ class Quoter(commands.Cog):
             f"Auto-delete has been {'enabled' if enabled else 'disabled'} for quotes."
         )
 
+    @quoteset.command(name="autothread")
+    async def quoteset_autothread(
+        self, ctx: commands.Context, enabled: Optional[bool] = None
+    ) -> None:
+        """
+        Toggle automatic thread creation for posted quotes.
+
+        When enabled, after the quote is posted as an embed, the bot creates a
+        message thread using that posted message as the thread starter.
+        """
+        if enabled is None:
+            current = await self.config.guild(ctx.guild).autothread()
+            await ctx.send(
+                f"Auto-thread is currently {'enabled' if current else 'disabled'}."
+            )
+            return
+
+        await self.config.guild(ctx.guild).autothread.set(enabled)
+        await ctx.send(
+            f"Auto-thread has been {'enabled' if enabled else 'disabled'} for quotes."
+        )
+
     @commands.command(name="quote")
     @commands.guild_only()
     @commands.bot_has_permissions(embed_links=True)
@@ -146,6 +169,7 @@ class Quoter(commands.Cog):
             return
 
         autodelete = await self.config.guild(ctx.guild).autodelete()
+        autothread = await self.config.guild(ctx.guild).autothread()
 
         color = await ctx.embed_color()
         view = QuoteView(
@@ -154,6 +178,7 @@ class Quoter(commands.Cog):
             quote_channel=channel,
             color=color,
             autodelete_prompt=autodelete,
+            autothread=autothread,
         )
         message = await ctx.send(embed=view.preview_embed, view=view)
         view.message = message
@@ -193,6 +218,7 @@ class QuoteView(discord.ui.View):
         quote_channel: discord.TextChannel,
         color: discord.Color,
         autodelete_prompt: bool = False,
+        autothread: bool = False,
         timeout: int = 60,
     ):
         super().__init__(timeout=timeout)
@@ -201,6 +227,7 @@ class QuoteView(discord.ui.View):
         self.quote_channel = quote_channel
         self.color = color
         self.autodelete_prompt = autodelete_prompt
+        self.autothread = autothread
 
         self.selected_user: Optional[discord.User] = None
 
@@ -283,8 +310,9 @@ class QuoteView(discord.ui.View):
         else:
             embed.set_author(name="Anonymous")
 
+        quote_message: Optional[discord.Message] = None
         try:
-            await self.quote_channel.send(embed=embed)
+            quote_message = await self.quote_channel.send(embed=embed)
         except discord.HTTPException:
             await interaction.message.edit(
                 content="Failed to send the quote (missing permissions?).",
@@ -294,6 +322,29 @@ class QuoteView(discord.ui.View):
             self.stop()
             return
 
-        await interaction.message.edit(content="Quote sent.", embed=None, view=None)
+        thread_created = False
+        if self.autothread and quote_message:
+            try:
+                author_name = (
+                    self.selected_user.display_name
+                    if self.selected_user is not None
+                    else "Anonymous"
+                )
+                snippet = self.quote_text.strip().replace("\n", " ")
+                name = f"Quote by {author_name}: {snippet}"
+                if len(name) > 100:
+                    name = name[:97].rstrip() + "..."
+
+                await quote_message.create_thread(
+                    name=name,
+                )
+                thread_created = True
+            except (discord.Forbidden, discord.HTTPException, discord.NotFound):
+                thread_created = False
+
+        success_text = (
+            "Quote sent (thread created)." if thread_created else "Quote sent."
+        )
+        await interaction.message.edit(content=success_text, embed=None, view=None)
         asyncio.create_task(self._delete_prompt_after_delay(interaction.message))
         self.stop()
